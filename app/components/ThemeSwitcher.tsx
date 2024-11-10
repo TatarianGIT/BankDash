@@ -3,25 +3,32 @@ import {
   useMantineColorScheme,
   useComputedColorScheme,
 } from "@mantine/core";
-import { Moon, Sun } from "lucide-react";
+import { SunMoon } from "lucide-react";
 
-function ThemeSwticher() {
-  const { setColorScheme } = useMantineColorScheme();
+type ThemeSwitcherProps = {
+  className?: string;
+};
+
+function ThemeSwticher({ className }: ThemeSwitcherProps) {
+  const { setColorScheme } = useMantineColorScheme({ keepTransitions: true });
+
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
   });
 
+  const handleColorSchemeChange = () => {
+    setColorScheme(computedColorScheme === "light" ? "dark" : "light");
+  };
+
   return (
     <ActionIcon
-      onClick={() =>
-        setColorScheme(computedColorScheme === "light" ? "dark" : "light")
-      }
+      onClick={handleColorSchemeChange}
       variant="default"
       size="lg"
       aria-label="Toggle color scheme"
-      className="w-10 h-10"
+      className={className}
     >
-      {computedColorScheme === "light" ? <Sun /> : <Moon />}
+      <SunMoon />
     </ActionIcon>
   );
 }
