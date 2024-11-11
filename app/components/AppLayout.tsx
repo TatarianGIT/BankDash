@@ -1,6 +1,6 @@
 import "@mantine/core/styles.css";
 
-import { AppShell, Burger, Group, Text } from "@mantine/core";
+import { AppShell, Burger, Container, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import ThemeSwticher from "./ThemeSwitcher.js";
 import { ReactNode } from "react";
@@ -42,7 +42,9 @@ function AppLayout({ children }: AppLayoutProps) {
         </Group>
         <NavBar />
       </AppShell.Navbar>
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main>
+        <Container className="px-2 py-0">{children}</Container>
+      </AppShell.Main>
     </AppShell>
   );
 }
