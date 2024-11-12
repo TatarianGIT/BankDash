@@ -4,6 +4,8 @@ import { useLoaderData } from "@remix-run/react";
 import CreditCard from "~/components/CreditCard";
 import ExpenseRoundChart from "~/components/ExpenseRoundChart";
 import ItemGrid from "~/components/ItemCard";
+import QuickTransfer from "~/components/QuickTransfer";
+import RecentTransaction from "~/components/RecentTransaction";
 import RecentTransChart from "~/components/RecentTransChart";
 import {
   getExpenseStatistics,
@@ -28,6 +30,22 @@ export default function Index() {
 
   return (
     <Container className="p-0 m-0 grid grid-cols-3 gap-7">
+      <ItemGrid
+        leftHeading="My Cards"
+        variant="alt"
+        rightHeading="See All"
+        className="col-span-2 h-full"
+      >
+        <CreditCard
+          upperColor="bg-gradient-to-bl from-[#0A06F4] from-50% to-[#4C49ED]"
+          bottomColor="bg-gradient-to-b from-[#4C49ED] from-15% to-[#0A06F4] "
+        />
+        <CreditCard upperColor="bg-gray-100" bottomColor="bg-gray-100" />
+      </ItemGrid>
+
+      <ItemGrid leftHeading="Recent Transaction" className="col-span-1">
+        <RecentTransaction />
+      </ItemGrid>
 
       <ItemGrid leftHeading="Recent Transaction" className="col-span-2">
         <RecentTransChart data={transactionData} />
@@ -35,6 +53,14 @@ export default function Index() {
 
       <ItemGrid leftHeading="Expense Statistics" className="col-span-1">
         <ExpenseRoundChart data={expenseStatistics} />
+      </ItemGrid>
+
+      <ItemGrid leftHeading="Quick Transfer" className="col-span-1">
+        <QuickTransfer />
+      </ItemGrid>
+
+      <ItemGrid leftHeading="Recent Transaction" className="col-span-2">
+        <RecentTransChart data={transactionData} />
       </ItemGrid>
     </Container>
   );
