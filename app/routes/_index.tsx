@@ -1,3 +1,4 @@
+import { Container } from "@mantine/core";
 import { json, type MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import CreditCard from "~/components/CreditCard";
@@ -26,6 +27,7 @@ export default function Index() {
   const { transactionData, expenseStatistics } = useLoaderData<typeof loader>();
 
   return (
+    <Container className="p-0 m-0 grid grid-cols-3 gap-7">
 
       <ItemGrid leftHeading="Recent Transaction" className="col-span-2">
         <RecentTransChart data={transactionData} />
@@ -34,5 +36,6 @@ export default function Index() {
       <ItemGrid leftHeading="Expense Statistics" className="col-span-1">
         <ExpenseRoundChart data={expenseStatistics} />
       </ItemGrid>
+    </Container>
   );
 }
