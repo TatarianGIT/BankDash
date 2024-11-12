@@ -1,6 +1,19 @@
-import type { MetaFunction } from "@remix-run/node";
+import { json, type MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import CreditCard from "~/components/CreditCard";
+import ExpenseRoundChart from "~/components/ExpenseRoundChart";
 import ItemGrid from "~/components/ItemCard";
+import RecentTransChart from "~/components/RecentTransChart";
+import {
+  getExpenseStatistics,
+  getRecentTransactions,
+} from "~/data/mockedData.js";
+
+export const loader = async () => {
+  const transactionData = await getRecentTransactions();
+  const expenseStatistics = await getExpenseStatistics();
+  return json({ transactionData, expenseStatistics });
+};
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,13 +23,16 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const { transactionData, expenseStatistics } = useLoaderData<typeof loader>();
+
   return (
-    <ItemGrid leftHeading="My Cards" variant="alt" rightHeading="See All">
-      <CreditCard
-        upperColor="bg-gradient-to-bl from-[#0A06F4] from-50% to-[#4C49ED]"
-        bottomColor="bg-gradient-to-b from-[#4C49ED] from-15% to-[#0A06F4] "
-      />
-      <CreditCard upperColor="bg-gray-100" bottomColor="bg-gray-100" />
-    </ItemGrid>
+
+      <ItemGrid leftHeading="Recent Transaction" className="col-span-2">
+        <RecentTransChart data={transactionData} />
+      </ItemGrid>
+
+      <ItemGrid leftHeading="Expense Statistics" className="col-span-1">
+        <ExpenseRoundChart data={expenseStatistics} />
+      </ItemGrid>
   );
 }
