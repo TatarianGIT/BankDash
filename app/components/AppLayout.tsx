@@ -4,10 +4,9 @@ import { AppShell, Burger, Container, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import ThemeSwticher from "./ThemeSwitcher.js";
 import { ReactNode } from "react";
-import NavBar from "./NavBar.js";
+import NavBar, { navList } from "./NavBar.js";
 import AppLogo from "./AppLogo.js";
 import { useLocation } from "@remix-run/react";
-import { navList } from "~/data/NavList";
 
 type AppLayoutProps = {
   children: ReactNode;
