@@ -1,0 +1,31 @@
+import { BarChart } from "@mantine/charts";
+import { Card } from "@mantine/core";
+
+type RecentTransChartProps = {
+  data: {
+    day: string;
+    Deposit: number;
+    Withdraw: number;
+  }[];
+};
+
+const RecentTransChart = ({ data }: RecentTransChartProps) => {
+  return (
+    <Card shadow="md" radius={"lg"} withBorder className="p-6">
+      <BarChart
+        h={300}
+        data={data}
+        dataKey="day"
+        barProps={{ isAnimationActive: true, radius: 100, maxBarSize: 15 }}
+        series={[
+          { name: "Deposit", color: "violet.6" },
+          { name: "Withdraw", color: "blue.6" },
+        ]}
+        tickLine="y"
+        withLegend
+      />
+    </Card>
+  );
+};
+
+export default RecentTransChart;
