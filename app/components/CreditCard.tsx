@@ -16,7 +16,7 @@ const CreditCard = ({ bottomColor, upperColor }: CreditCardProps) => {
           {/* Upper container */}
           <div className={cn(upperColor, "flex flex-col")}>
             {/* Balance and Icon */}
-            <div className="flex justify-between items-center p-6">
+            <div className="flex justify-between items-center px-6 py-3">
               <div className="flex flex-col">
                 <CardDetail type="balance" header="Balance">
                   $ 7,121
@@ -25,8 +25,7 @@ const CreditCard = ({ bottomColor, upperColor }: CreditCardProps) => {
               <CreditCardIcon className="w-8 h-8 text-gray-300" />
             </div>
 
-            {/* Card details */}
-            <div className="grid grid-cols-2 p-6">
+            <div className="grid grid-cols-2 px-6 py-3">
               <div>
                 <CardDetail header="CARD HOLDER">Some Dude</CardDetail>
               </div>
@@ -39,7 +38,7 @@ const CreditCard = ({ bottomColor, upperColor }: CreditCardProps) => {
             <div
               className={cn(
                 bottomColor,
-                "flex justify-between items-center p-6 "
+                "flex justify-between items-center px-6 py-3 "
               )}
             >
               <Text className="text-gray-300 text-2xl">
@@ -78,8 +77,10 @@ const CardDetail = ({ header, children, type = "other" }: CardDetailProps) => {
 
 const BottomIcon = () => {
   return (
-    <div className="bg-gray-200/50 w-[30px] h-[30px] rounded-full relative">
-      <div className="bg-gray-200/50 w-[30px] h-[30px] rounded-full absolute right-[15px]" />
+    <div className="w-12 relative">
+      <div className="bg-gray-200/50 w-[30px] h-[30px] rounded-full">
+        <div className="bg-gray-200/50 w-[30px] h-[30px] rounded-full absolute left-[15px]" />
+      </div>
     </div>
   );
 };
