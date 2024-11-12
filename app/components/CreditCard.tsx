@@ -8,6 +8,13 @@ type CreditCardProps = {
   bottomColor: string;
 };
 
+const data = {
+  balance: 7421,
+  cardHolder: "Some Dude",
+  validThru: "12/24",
+  cardNumber: "4123 **** **** 5124",
+};
+
 const CreditCard = ({ bottomColor, upperColor }: CreditCardProps) => {
   return (
     <Container className="p-0 m-0">
@@ -19,7 +26,7 @@ const CreditCard = ({ bottomColor, upperColor }: CreditCardProps) => {
             <div className="flex justify-between items-center px-6 py-3">
               <div className="flex flex-col">
                 <CardDetail type="balance" header="Balance">
-                  $ 7,121
+                  {data.balance}
                 </CardDetail>
               </div>
               <CreditCardIcon className="w-8 h-8 text-gray-300" />
@@ -27,10 +34,10 @@ const CreditCard = ({ bottomColor, upperColor }: CreditCardProps) => {
 
             <div className="grid grid-cols-2 px-6 py-3">
               <div>
-                <CardDetail header="CARD HOLDER">Some Dude</CardDetail>
+                <CardDetail header="CARD HOLDER">{data.cardHolder}</CardDetail>
               </div>
               <div>
-                <CardDetail header="VALID THRU">12/22</CardDetail>
+                <CardDetail header="VALID THRU">{data.validThru}</CardDetail>
               </div>
             </div>
 
@@ -41,9 +48,7 @@ const CreditCard = ({ bottomColor, upperColor }: CreditCardProps) => {
                 "flex justify-between items-center px-6 py-3 "
               )}
             >
-              <Text className="text-gray-300 text-2xl">
-                4123 **** **** 5124
-              </Text>
+              <Text className="text-2xl text-gray-300">{data.cardNumber}</Text>
               <BottomIcon />
             </div>
           </div>
