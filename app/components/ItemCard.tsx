@@ -5,6 +5,7 @@ import { cn } from "~/utils/cn.js";
 type ItemCardProps = {
   children: ReactNode | ReactNode[];
   leftHeading: string;
+  className?: string;
 } & (
   | { variant?: "default"; rightHeading?: string }
   | { variant: "alt"; rightHeading: string | undefined }
@@ -15,6 +16,7 @@ const ItemGrid = ({
   leftHeading,
   rightHeading,
   variant = "default",
+  className,
 }: ItemCardProps) => {
   const isChildrenArray = Array.isArray(children);
   const isOdd = isChildrenArray && children.length % 2 !== 0;
@@ -23,6 +25,7 @@ const ItemGrid = ({
   if (isChildrenArray)
     return (
       <ItemCardContent
+        className={className}
         leftHeading={leftHeading}
         isChildrenArray={isChildrenArray}
         variant={variant}
@@ -33,7 +36,7 @@ const ItemGrid = ({
             key={index}
             className={cn(
               lastIndex === index + 1 ? "col-span-2" : "",
-              "p-0 m-0"
+              "p-0 m-0 w-full h-full"
             )}
           >
             {element}
@@ -44,6 +47,7 @@ const ItemGrid = ({
 
   return (
     <ItemCardContent
+      className={className}
       leftHeading={leftHeading}
       rightHeading={rightHeading}
       isChildrenArray={isChildrenArray}
@@ -55,10 +59,12 @@ const ItemGrid = ({
 };
 
 type ItemCardContentProps = {
+  className?: string;
   isChildrenArray: boolean;
 } & ItemCardProps;
 
 const ItemCardContent = ({
+  className,
   isChildrenArray,
   children,
   variant,
@@ -66,9 +72,9 @@ const ItemCardContent = ({
   rightHeading,
 }: ItemCardContentProps) => {
   return (
-    <div>
+    <div className={cn(className, "w-full h-full")}>
       <div className="flex justify-between items-center p-1">
-        <Text>{leftHeading}</Text>
+        <Text className="text-2xl">{leftHeading}</Text>
 
         {variant === "alt" && <Text>{variant === "alt" && rightHeading}</Text>}
       </div>
