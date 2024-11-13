@@ -1,4 +1,4 @@
-import { Card, Container } from "@mantine/core";
+import { Card } from "@mantine/core";
 import { BsCashCoin } from "react-icons/bs";
 import { SlPaypal } from "react-icons/sl";
 import { TbCreditCardPay } from "react-icons/tb";
@@ -6,25 +6,23 @@ import { cn } from "~/utils/cn.js";
 
 const RecentTransaction = () => {
   return (
-    <Container className="p-0 m-0">
-      <Card shadow="md" radius={"lg"} withBorder>
-        {RecentTransactionData.length ? (
-          RecentTransactionData.map((transaction: TransactionType) => (
-            <Transaction
-              key={transaction.id}
-              icon={transaction.icon}
-              title={transaction.title}
-              date={transaction.date}
-              operation={transaction.operation}
-              amount={transaction.amount}
-              accentColor={transaction.accentColor}
-            />
-          ))
-        ) : (
-          <p>No recent transaction</p>
-        )}
-      </Card>
-    </Container>
+    <Card shadow="md" radius={"lg"} withBorder>
+      {RecentTransactionData.length ? (
+        RecentTransactionData.map((transaction: TransactionType) => (
+          <Transaction
+            key={transaction.id}
+            icon={transaction.icon}
+            title={transaction.title}
+            date={transaction.date}
+            operation={transaction.operation}
+            amount={transaction.amount}
+            accentColor={transaction.accentColor}
+          />
+        ))
+      ) : (
+        <p>No recent transaction</p>
+      )}
+    </Card>
   );
 };
 
@@ -40,7 +38,7 @@ type TransactionProps = {
 
 const Transaction = ({ ...props }: TransactionProps) => {
   return (
-    <Container className="flex gap-4 p-0 m-0 justify-center items-center">
+    <div className="flex gap-4 p-0 m-0 justify-center items-center">
       <div className={cn(props.accentColor, "w-14 h-14 p-3 rounded-full")}>
         {props.icon}
       </div>
@@ -57,7 +55,7 @@ const Transaction = ({ ...props }: TransactionProps) => {
         <p>{props.operation === "add" ? "+" : "-"}</p>
         <p>{"$" + props.amount}</p>
       </div>
-    </Container>
+    </div>
   );
 };
 
