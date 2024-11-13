@@ -15,7 +15,7 @@ const ExpenseRoundChart = ({ data }: ExpenseRoundChartProps) => {
       shadow="md"
       withBorder
       radius={"lg"}
-      className="m-0 w-full h-full p-4"
+      className="p-4 flex justify-center items-center"
     >
       <PieChart
         withLabelsLine
@@ -24,7 +24,7 @@ const ExpenseRoundChart = ({ data }: ExpenseRoundChartProps) => {
         withLabels
         data={data}
         size={250}
-        strokeWidth={10}
+        strokeWidth={7}
         withTooltip
         tooltipDataSource="segment"
         pieProps={{ isAnimationActive: true }}
