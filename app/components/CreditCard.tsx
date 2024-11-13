@@ -1,11 +1,10 @@
-import { Card, Container, Text } from "@mantine/core";
+import { Card, Text } from "@mantine/core";
 import { CreditCard as CreditCardIcon } from "lucide-react";
 import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
 type CreditCardProps = {
-  upperColor: string;
-  bottomColor: string;
+  variant: "primary" | "alt";
 };
 
 const data = {
@@ -15,46 +14,66 @@ const data = {
   cardNumber: "4123 **** **** 5124",
 };
 
-const CreditCard = ({ bottomColor, upperColor }: CreditCardProps) => {
+const CreditCard = ({ variant }: CreditCardProps) => {
+  const textColor = variant === "primary" ? "text-gray-300" : "text-gray-700";
+
   return (
-    <Container className="p-0 m-0">
-      <Card shadow="sm" className="p-0 m-0" radius={"lg"}>
-        <div className="flex flex-col">
-          {/* Upper container */}
-          <div className={cn(upperColor, "flex flex-col")}>
-            {/* Balance and Icon */}
-            <div className="flex justify-between items-center px-6 py-3">
-              <div className="flex flex-col">
-                <CardDetail type="balance" header="Balance">
-                  {data.balance}
-                </CardDetail>
-              </div>
-              <CreditCardIcon className="w-8 h-8 text-gray-300" />
+    <Card shadow="sm" className="p-0 m-0 " radius={"lg"}>
+      <div className="flex flex-col">
+        {/* Upper container */}
+        <div
+          className={cn(
+            variant === "primary"
+              ? "bg-gradient-to-bl from-[#0A06F4] from-50% to-[#4C49ED]"
+              : "bg-gray-100",
+            "flex flex-col"
+          )}
+        >
+          {/* Balance and Icon */}
+          <div className="flex justify-between items-center px-6 py-3">
+            <div className="flex flex-col">
+              <CardDetail textColor={textColor} type="balance" header="Balance">
+                {data.balance}
+              </CardDetail>
             </div>
+            <CreditCardIcon className={cn(textColor, "w-8 h-8")} />
+          </div>
 
-            <div className="grid grid-cols-2 px-6 py-3">
-              <div>
-                <CardDetail header="CARD HOLDER">{data.cardHolder}</CardDetail>
-              </div>
-              <div>
-                <CardDetail header="VALID THRU">{data.validThru}</CardDetail>
-              </div>
+          <div className="grid grid-cols-2 px-6 py-3">
+            <div>
+              <CardDetail textColor={textColor} header="CARD HOLDER">
+                {data.cardHolder}
+              </CardDetail>
             </div>
-
-            {/* Bottom container / Number and Icon */}
-            <div
-              className={cn(
-                bottomColor,
-                "flex justify-between items-center px-6 py-3 "
-              )}
-            >
-              <Text className="text-2xl text-gray-300">{data.cardNumber}</Text>
-              <BottomIcon />
+            <div>
+              <CardDetail textColor={textColor} header="VALID THRU">
+                {data.validThru}
+              </CardDetail>
             </div>
           </div>
+
+          {/* Bottom container / Number and Icon */}
+          <div
+            className={cn(
+              variant === "primary"
+                ? "bg-gradient-to-b from-[#4C49ED] from-15% to-[#0A06F4]"
+                : "bg-gray-100 border-t",
+              "flex justify-between items-center px-6 py-3 "
+            )}
+          >
+            <Text
+              className={cn(
+                variant === "primary" ? "text-gray-300" : "text-gray-700",
+                "text-2xl"
+              )}
+            >
+              {data.cardNumber}
+            </Text>
+            <BottomIcon variant={variant} />
+          </div>
         </div>
-      </Card>
-    </Container>
+      </div>
+    </Card>
   );
 };
 
@@ -62,16 +81,23 @@ type CardDetailProps = {
   header: string;
   children: ReactNode;
   type?: "balance" | "other";
+  textColor: string;
 };
 
-const CardDetail = ({ header, children, type = "other" }: CardDetailProps) => {
+const CardDetail = ({
+  header,
+  children,
+  type = "other",
+  textColor,
+}: CardDetailProps) => {
   return (
     <div>
-      <Text className="text-gray-300 text-xs">{header}</Text>
+      <Text className={cn(textColor, " text-xs")}>{header}</Text>
       <Text
         className={cn(
-          "text-gray-300 font-semibold text-base",
-          type === "balance" ? " text-2xl " : " "
+          "font-semibold text-base",
+          type === "balance" ? "text-2xl" : "",
+          textColor
         )}
       >
         {children}
@@ -80,11 +106,16 @@ const CardDetail = ({ header, children, type = "other" }: CardDetailProps) => {
   );
 };
 
-const BottomIcon = () => {
+const BottomIcon = ({ variant }: { variant: "primary" | "alt" }) => {
+  const circleStyles = cn(
+    variant === "primary" ? "bg-gray-200/50" : "bg-gray-400/50",
+    " w-[30px] h-[30px] rounded-full"
+  );
+
   return (
     <div className="w-12 relative">
-      <div className="bg-gray-200/50 w-[30px] h-[30px] rounded-full">
-        <div className="bg-gray-200/50 w-[30px] h-[30px] rounded-full absolute left-[15px]" />
+      <div className={circleStyles}>
+        <div className={cn(circleStyles, "absolute left-[15px]")} />
       </div>
     </div>
   );
