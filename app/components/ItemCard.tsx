@@ -11,7 +11,7 @@ type ItemCardProps = {
   | { variant: "alt"; rightHeading: string | undefined }
 );
 
-const ItemGrid = ({
+const Item = ({
   children,
   leftHeading,
   rightHeading,
@@ -85,4 +85,4 @@ const ItemCardContent = ({
   );
 };
 
-export default ItemGrid;
+export default Item;
