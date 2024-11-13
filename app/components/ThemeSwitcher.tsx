@@ -3,7 +3,7 @@ import {
   useMantineColorScheme,
   useComputedColorScheme,
 } from "@mantine/core";
-import { SunMoon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 
 type ThemeSwitcherProps = {
   className?: string;
@@ -28,7 +28,8 @@ function ThemeSwticher({ className }: ThemeSwitcherProps) {
       aria-label="Toggle color scheme"
       className={className}
     >
-      <SunMoon />
+      <Sun className="dark:hidden inline-block" />
+      <Moon className="hidden dark:inline-block" />
     </ActionIcon>
   );
 }
