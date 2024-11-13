@@ -13,7 +13,7 @@ import {
 } from "@remix-run/react";
 
 import "./tailwind.css";
-import AppLayout from "./components/AppLayout.js";
+import AppLayout from "./components/layout/AppLayout.js";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
