@@ -1,7 +1,16 @@
+export const getRecentTransactions = async () => {
+  return transactionData;
+};
+
+export const getExpenseStatistics = async () => {
+  return expenseStatistics;
+};
 
 export const getBalanceHistory = async () => {
   return balanceHistory;
 };
+
+// DATA:
 
 const transactionData = [
   { day: "Sat", Deposit: 1200, Withdraw: 900 },
@@ -11,10 +20,6 @@ const transactionData = [
   { day: "Thu", Deposit: 800, Withdraw: 1400 },
   { day: "Fri", Deposit: 750, Withdraw: 600 },
 ];
-
-export const getRecentTransactions = async () => {
-  return transactionData;
-};
 
 export const expenseStatistics = [
   { name: "Investment", value: 30, color: "pink.6" },
