@@ -1,55 +1,76 @@
 import { Carousel, CarouselSlide } from "@mantine/carousel";
-import { Avatar, Button, Card, Container, NumberInput } from "@mantine/core";
+import {
+  Avatar,
+  Button,
+  Card,
+  Container,
+  NumberInput,
+  Text,
+} from "@mantine/core";
 import { Send } from "lucide-react";
 import { useState } from "react";
+import { UserData } from "~/data/contacts.js";
 
-const QuickTransfer = () => {
+type QuickTransferProps = {
+  data: UserData[];
+};
+
+const QuickTransfer = ({ data }: QuickTransferProps) => {
   return (
-    <Card shadow="md" radius={"lg"}>
-      <Carousel
-        loop
-        slideGap={"xs"}
-        align={"start"}
-        slideSize={"33.3%"}
-        previousControlProps={{ style: { display: "none" } }}
-        nextControlProps={{
-          style: {
-            position: "absolute",
-            right: "-40px",
-          },
-        }}
-        className="w-4/5"
-      >
-        <CarouselSlide>
-          <PersonCard />
-        </CarouselSlide>
-        <CarouselSlide>
-          <PersonCard />
-        </CarouselSlide>
-        <CarouselSlide>
-          <PersonCard />
-        </CarouselSlide>
-        <CarouselSlide>
-          <PersonCard />
-        </CarouselSlide>
-        <CarouselSlide>
-          <PersonCard />
-        </CarouselSlide>
-      </Carousel>
+    <Card shadow="md" radius={"lg"} withBorder className="p-0 flex-col">
+      {data.length ? (
+        <>
+          <Carousel
+            loop
+            slideGap={"sm"}
+            align={"center"}
+            withControls
+            className="my-4"
+            slideSize={"125px"}
+            styles={{
+              container: {
+                paddingTop: "0.2rem",
+                paddingBottom: "0.2rem",
+              },
+              root: { padding: "1rem" },
+            }}
+          >
+            {data.map((user: UserData) => (
+              <CarouselSlide key={user.id}>
+                <PersonCard data={user} />
+              </CarouselSlide>
+            ))}
+          </Carousel>
+        </>
+      ) : (
+        <Text>No contacts found</Text>
+      )}
+
       <AmountInput />
     </Card>
   );
 };
 
-const PersonCard = () => {
+type PersonCardProps = { data: UserData };
+
+const PersonCard = ({ data }: PersonCardProps) => {
+  const position = data.position?.split(" ");
+
   return (
-    <Container className="p-0 m-0 flex flex-col gap-3 w-24 justify-center items-center">
-      <div>
-        <Avatar className="w-16 h-16" />
+    <Container className="flex flex-col gap-3 w-full justify-between items-center  text-center p-2 shadow-md rounded-md h-full">
+      <div className="flex flex-col justify-center items-center gap-2">
+        <Avatar className="w-16 h-16" src={data.avatar} />
+        <div>
+          <Text className="font-bold w-full">{data.firstName}</Text>
+          <Text className="font-bold w-full">{data.lastName}</Text>
+        </div>
       </div>
-      <div className="flex flex-col items-center justify-center">
-        <p className="font-bold">Livia Bator</p>
-        <p className="font-bold text-cyan-500">CEO</p>
+      <div className="h-1/3">
+        {position?.map((word, index) => (
+          <Text key={index} className="font-bold text-cyan-500 w-full">
+            {word}
+          </Text>
+        ))}
       </div>
     </Container>
   );
@@ -68,22 +89,25 @@ const AmountInput = () => {
         event.preventDefault();
         handleSubmit();
       }}
-      className="relative mt-auto pt-16"
+      className="mt-auto w-full p-4"
     >
-      <NumberInput
-        placeholder="Amount..."
-        radius={"xl"}
-        className="absolute bottom-0"
-        value={value}
-        onChange={(newValue) => setValue(newValue)}
-      />
-      <Button
-        className="rounded-full flex justify-center items-center absolute bottom-0 right-0 z-10"
-        type="submit"
-      >
-        <p>Send</p>
-        <Send className="ml-1 w-5 h-5" />
-      </Button>
+      <div className="relative flex md:flex-col justify-center items-center gap-4">
+        <Text className="flex-shrink-0 md:w-full">Write Amount</Text>
+        <NumberInput
+          placeholder="Amount..."
+          radius={"xl"}
+          className="bottom-0 w-full"
+          value={value}
+          onChange={(newValue) => setValue(newValue)}
+        />
+        <Button
+          className="rounded-full flex justify-center items-center absolute bottom-0 right-0 z-10"
+          type="submit"
+        >
+          <Text>Send</Text>
+          <Send className="ml-1 w-5 h-5" />
+        </Button>
+      </div>
     </form>
   );
 };
