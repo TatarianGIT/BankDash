@@ -7,15 +7,20 @@ import ItemGrid from "~/components/ItemCard";
 import QuickTransfer from "~/components/QuickTransfer";
 import RecentTransaction from "~/components/RecentTransaction";
 import RecentTransChart from "~/components/RecentTransChart";
+import { getAllContacts } from "~/data/contacts.js";
 import {
+  getBalanceHistory,
   getExpenseStatistics,
   getRecentTransactions,
 } from "~/data/mockedData.js";
+import BalanceHistory from "~/components/BalanceHistory";
 
 export const loader = async () => {
   const transactionData = await getRecentTransactions();
   const expenseStatistics = await getExpenseStatistics();
-  return json({ transactionData, expenseStatistics });
+  const contacts = await getAllContacts();
+  const balanceHistory = await getBalanceHistory();
+  return json({ transactionData, expenseStatistics, contacts, balanceHistory });
 };
 
 export const meta: MetaFunction = () => {
