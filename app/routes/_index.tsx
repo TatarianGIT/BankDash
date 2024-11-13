@@ -26,7 +26,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { transactionData, expenseStatistics } = useLoaderData<typeof loader>();
+  const { ...data } = useLoaderData<typeof loader>();
 
   return (
     <Container className="p-0 m-0 grid grid-cols-3 gap-7">
@@ -48,19 +48,19 @@ export default function Index() {
       </ItemGrid>
 
       <ItemGrid leftHeading="Recent Transaction" className="col-span-2">
-        <RecentTransChart data={transactionData} />
+        <RecentTransChart data={data.transactionData} />
       </ItemGrid>
 
       <ItemGrid leftHeading="Expense Statistics" className="col-span-1">
-        <ExpenseRoundChart data={expenseStatistics} />
+        <ExpenseRoundChart data={data.expenseStatistics} />
       </ItemGrid>
 
       <ItemGrid leftHeading="Quick Transfer" className="col-span-1">
-        <QuickTransfer />
+        <QuickTransfer data={data.contacts} />
       </ItemGrid>
 
       <ItemGrid leftHeading="Recent Transaction" className="col-span-2">
-        <RecentTransChart data={transactionData} />
+        <BalanceHistory data={data.balanceHistory} />
       </ItemGrid>
     </Container>
   );
