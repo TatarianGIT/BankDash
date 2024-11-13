@@ -1,7 +1,7 @@
-const wait = (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
+
+export const getBalanceHistory = async () => {
+  return balanceHistory;
+};
 
 const transactionData = [
   { day: "Sat", Deposit: 1200, Withdraw: 900 },
@@ -23,6 +23,33 @@ export const expenseStatistics = [
   { name: "Others", value: 35, color: "blue.6" },
 ];
 
-export const getExpenseStatistics = async () => {
-  return expenseStatistics;
-};
+export const balanceHistory = [
+  {
+    date: "Jul",
+    Balance: 180,
+  },
+  {
+    date: "Aug",
+    Balance: 271,
+  },
+  {
+    date: "Sep",
+    Balance: 165,
+  },
+  {
+    date: "Oct",
+    Balance: 420,
+  },
+  {
+    date: "Nov",
+    Balance: 329,
+  },
+  {
+    date: "Dec",
+    Balance: 881,
+  },
+  {
+    date: "Jun",
+    Balance: 312,
+  },
+];
