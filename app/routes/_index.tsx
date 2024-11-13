@@ -1,19 +1,19 @@
 import { Container } from "@mantine/core";
 import { json, type MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import CreditCard from "~/components/CreditCard";
-import ExpenseRoundChart from "~/components/ExpenseRoundChart";
-import Item from "~/components/Item";
-import QuickTransfer from "~/components/QuickTransfer";
-import RecentTransaction from "~/components/RecentTransaction";
-import RecentTransChart from "~/components/RecentTransChart";
+import CreditCard from "~/components/dashboard/CreditCard";
+import ExpenseRoundChart from "~/components/dashboard/ExpenseRoundChart";
+import Item from "~/components/common/Item";
+import QuickTransfer from "~/components/dashboard/QuickTransfer";
+import RecentTransaction from "~/components/dashboard/RecentTransaction";
+import RecentTransChart from "~/components/dashboard/RecentTransChart";
 import { getAllContacts } from "~/data/contacts.js";
 import {
   getBalanceHistory,
   getExpenseStatistics,
   getRecentTransactions,
 } from "~/data/mockedData.js";
-import BalanceHistory from "~/components/BalanceHistory";
+import BalanceHistory from "~/components/dashboard/BalanceHistory";
 
 export const loader = async () => {
   const transactionData = await getRecentTransactions();
