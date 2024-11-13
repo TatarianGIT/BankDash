@@ -19,31 +19,6 @@ const Item = ({
   className,
 }: ItemCardProps) => {
   const isChildrenArray = Array.isArray(children);
-  const isOdd = isChildrenArray && children.length % 2 !== 0;
-  const lastIndex = isChildrenArray && isOdd ? children.length : undefined;
-
-  if (isChildrenArray)
-    return (
-      <ItemCardContent
-        className={className}
-        leftHeading={leftHeading}
-        isChildrenArray={isChildrenArray}
-        variant={variant}
-        rightHeading={rightHeading}
-      >
-        {children.map((element, index) => (
-          <Container
-            key={index}
-            className={cn(
-              lastIndex === index + 1 ? "col-span-2" : "",
-              "p-0 m-0 w-full h-full"
-            )}
-          >
-            {element}
-          </Container>
-        ))}
-      </ItemCardContent>
-    );
 
   return (
     <ItemCardContent
