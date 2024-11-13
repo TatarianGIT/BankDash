@@ -91,22 +91,23 @@ const AmountInput = () => {
       }}
       className="mt-auto w-full p-4"
     >
-      <div className="relative flex md:flex-col justify-center items-center gap-4">
-        <Text className="flex-shrink-0 md:w-full">Write Amount</Text>
-        <NumberInput
-          placeholder="Amount..."
-          radius={"xl"}
-          className="bottom-0 w-full"
-          value={value}
-          onChange={(newValue) => setValue(newValue)}
-        />
-        <Button
-          className="rounded-full flex justify-center items-center absolute bottom-0 right-0 z-10"
-          type="submit"
-        >
-          <Text>Send</Text>
-          <Send className="ml-1 w-5 h-5" />
-        </Button>
+      <div className="flex gap-4 flex-wrap items-center">
+        <Text>Write Amount</Text>
+        <div className="relative min-w-[250px] flex-1">
+          <NumberInput
+            placeholder="Amount..."
+            radius={"xl"}
+            value={value}
+            onChange={(newValue) => setValue(newValue)}
+          />
+          <Button
+            className="rounded-full flex justify-center items-center absolute bottom-0 right-0 z-10"
+            type="submit"
+          >
+            <Text>Send</Text>
+            <Send className="ml-1 w-5 h-5" />
+          </Button>
+        </div>
       </div>
     </form>
   );
