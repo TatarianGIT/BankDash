@@ -25,7 +25,7 @@ export const loader = async () => {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "BusinessApp" },
+    { title: "BankDash" },
     { name: "description", content: "Welcome to BusinessApp!" },
   ];
 };
