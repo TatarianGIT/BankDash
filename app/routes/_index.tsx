@@ -3,7 +3,7 @@ import { json, type MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import CreditCard from "~/components/CreditCard";
 import ExpenseRoundChart from "~/components/ExpenseRoundChart";
-import ItemGrid from "~/components/ItemCard";
+import Item from "~/components/Item";
 import QuickTransfer from "~/components/QuickTransfer";
 import RecentTransaction from "~/components/RecentTransaction";
 import RecentTransChart from "~/components/RecentTransChart";
@@ -34,39 +34,36 @@ export default function Index() {
   const { ...data } = useLoaderData<typeof loader>();
 
   return (
-    <Container className="p-0 m-0 grid grid-cols-3 gap-7">
-      <ItemGrid
+    <Container className="p-0 m-0 grid grid-cols-1 lg:grid-cols-12 gap-7 max-w-full w-full">
+      <Item
         leftHeading="My Cards"
         variant="alt"
         rightHeading="See All"
-        className="col-span-2 h-full"
+        size="big"
       >
-        <CreditCard
-          upperColor="bg-gradient-to-bl from-[#0A06F4] from-50% to-[#4C49ED]"
-          bottomColor="bg-gradient-to-b from-[#4C49ED] from-15% to-[#0A06F4] "
-        />
-        <CreditCard upperColor="bg-gray-100" bottomColor="bg-gray-100" />
-      </ItemGrid>
+        <CreditCard variant="primary" />
+        <CreditCard variant="alt" />
+      </Item>
 
-      <ItemGrid leftHeading="Recent Transaction" className="col-span-1">
+      <Item size="small" leftHeading="Recent Transaction">
         <RecentTransaction />
-      </ItemGrid>
+      </Item>
 
-      <ItemGrid leftHeading="Recent Transaction" className="col-span-2">
+      <Item size="big" leftHeading="Recent Transaction">
         <RecentTransChart data={data.transactionData} />
-      </ItemGrid>
+      </Item>
 
-      <ItemGrid leftHeading="Expense Statistics" className="col-span-1">
+      <Item size="small" leftHeading="Expense Statistics">
         <ExpenseRoundChart data={data.expenseStatistics} />
-      </ItemGrid>
+      </Item>
 
-      <ItemGrid leftHeading="Quick Transfer" className="col-span-1">
+      <Item size="small" leftHeading="Quick Transfer">
         <QuickTransfer data={data.contacts} />
-      </ItemGrid>
+      </Item>
 
-      <ItemGrid leftHeading="Recent Transaction" className="col-span-2">
+      <Item size="big" leftHeading="Balance History">
         <BalanceHistory data={data.balanceHistory} />
-      </ItemGrid>
+      </Item>
     </Container>
   );
 }
