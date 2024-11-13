@@ -1,4 +1,4 @@
-import { Text } from "@mantine/core";
+import { ScrollArea, Text } from "@mantine/core";
 import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
@@ -37,13 +37,20 @@ const Item = ({
 
         {variant === "alt" && <Text>{variant === "alt" && rightHeading}</Text>}
       </div>
-      <div
-        className={cn(
-          isChildrenArray ? "grid grid-cols-1 md:grid-cols-2 gap-7" : ""
-        )}
-      >
-        {children}
-      </div>
+
+      {isChildrenArray ? (
+        <ScrollArea offsetScrollbars={true} type="always">
+          <div
+            className={cn(
+              isChildrenArray ? "flex md:grid md:grid-cols-2 gap-7" : ""
+            )}
+          >
+            {children}
+          </div>
+        </ScrollArea>
+      ) : (
+        <>{children}</>
+      )}
     </div>
   );
 };
