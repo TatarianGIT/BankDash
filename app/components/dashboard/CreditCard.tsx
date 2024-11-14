@@ -1,4 +1,4 @@
-import { Card, Text } from "@mantine/core";
+import { Card, ScrollArea, Text } from "@mantine/core";
 import { CreditCard as CreditCardIcon } from "lucide-react";
 import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
@@ -18,7 +18,11 @@ const CreditCard = ({ variant }: CreditCardProps) => {
   const textColor = variant === "primary" ? "text-gray-300" : "text-gray-700";
 
   return (
-    <Card shadow="sm" className="p-0 m-0 " radius={"lg"}>
+    <Card
+      shadow="sm"
+      className="p-0 m-0 min-w-[400px] md:min-w-full "
+      radius={"lg"}
+    >
       <div className="flex flex-col">
         {/* Upper container */}
         <div
