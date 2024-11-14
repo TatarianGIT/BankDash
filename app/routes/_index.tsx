@@ -38,7 +38,7 @@ export default function Index() {
         leftHeading="My Cards"
         variant="alt"
         rightHeading="See All"
-        size="big"
+        size="medium"
       >
         <CreditCard variant="primary" />
         <CreditCard variant="alt" />
@@ -48,7 +48,7 @@ export default function Index() {
         <RecentTransaction />
       </Item>
 
-      <Item size="big" leftHeading="Recent Transaction">
+      <Item size="medium" leftHeading="Recent Transaction">
         <RecentTransChart data={data.transactionData} />
       </Item>
 
@@ -60,7 +60,7 @@ export default function Index() {
         <QuickTransfer data={data.contacts} />
       </Item>
 
-      <Item size="big" leftHeading="Balance History">
+      <Item size="medium" leftHeading="Balance History">
         <BalanceHistory data={data.balanceHistory} />
       </Item>
     </>
