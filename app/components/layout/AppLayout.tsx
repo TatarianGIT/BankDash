@@ -24,8 +24,12 @@ function AppLayout({ children }: AppLayoutProps) {
 
   const location = useLocation();
 
+  const currentPath =
+    location.pathname === "/" ? "/" : location.pathname.slice(1);
+
   const header =
-    navList.find((element) => element.value === location.pathname)?.label || "";
+    navList.find((item) => item.value === currentPath)?.label ||
+    "Unknown pathname";
 
   return (
     <AppShell
