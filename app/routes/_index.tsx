@@ -1,4 +1,3 @@
-import { Container } from "@mantine/core";
 import { json, type MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import CreditCard from "~/components/dashboard/CreditCard";
@@ -7,12 +6,12 @@ import Item from "~/components/common/Item";
 import QuickTransfer from "~/components/dashboard/QuickTransfer";
 import RecentTransaction from "~/components/dashboard/RecentTransaction";
 import RecentTransChart from "~/components/dashboard/RecentTransChart";
-import { getAllContacts } from "~/data/contacts.js";
+import { getAllContacts } from "~/data/dashboard/contacts.js";
 import {
   getBalanceHistory,
   getExpenseStatistics,
   getRecentTransactions,
-} from "~/data/mockedData.js";
+} from "~/data/dashboard/mockedData.js";
 import BalanceHistory from "~/components/dashboard/BalanceHistory";
 
 export const loader = async () => {

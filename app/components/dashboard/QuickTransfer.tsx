@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { Send } from "lucide-react";
 import { useState } from "react";
-import { UserData } from "~/data/contacts.js";
+import { UserData } from "~/data/dashboard/contacts.js";
 
 type QuickTransferProps = {
   data: UserData[];
