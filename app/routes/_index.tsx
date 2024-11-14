@@ -33,7 +33,7 @@ export default function Index() {
   const { ...data } = useLoaderData<typeof loader>();
 
   return (
-    <Container className="p-0 m-0 grid grid-cols-1 lg:grid-cols-12 gap-7 max-w-full w-full">
+    <>
       <Item
         leftHeading="My Cards"
         variant="alt"
@@ -63,6 +63,6 @@ export default function Index() {
       <Item size="big" leftHeading="Balance History">
         <BalanceHistory data={data.balanceHistory} />
       </Item>
-    </Container>
+    </>
   );
 }

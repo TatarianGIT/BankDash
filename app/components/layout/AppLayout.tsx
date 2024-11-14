@@ -72,7 +72,7 @@ function AppLayout({ children }: AppLayoutProps) {
         </ScrollArea>
       </AppShell.Navbar>
       <AppShell.Main>
-        <Container className="px-2 py-0 w-full max-w-[1500px] ">
+        <Container className="p-2 grid grid-cols-1 lg:grid-cols-12 gap-7 max-w-full w-full">
           {children}
         </Container>
       </AppShell.Main>
