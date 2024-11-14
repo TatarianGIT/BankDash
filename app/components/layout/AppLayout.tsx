@@ -80,8 +80,4 @@ function AppLayout({ children }: AppLayoutProps) {
   );
 }
 
-const CenterAside = () => {
-  return <div className="mx-auto sm:hidden" />;
-};
-
 export default AppLayout;
