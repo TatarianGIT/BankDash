@@ -1,11 +1,52 @@
+export const getRecentTransactionsLength = async ({
+  operation,
+}: {
+  operation: "all" | "expense" | "income";
+}): Promise<number> => {
+  const filteredData =
+    operation === "all"
+      ? recentTransactionsData
+      : operation === "income"
+      ? recentTransactionsData.filter(
+          (element) => element.operation === operation
+        )
+      : operation === "expense"
+      ? recentTransactionsData.filter(
+          (element) => element.operation === operation
+        )
+      : [];
+
+  return filteredData.length;
+};
+
+type GetRecentTransactionsType = {
+  limit: number;
+  offset: number;
+  operation: "all" | "expense" | "income";
+};
+
 export const getRecentTransactions = async ({
   limit,
   offset,
+  operation,
 }: GetRecentTransactionsType): Promise<RecentTransactionsType[]> => {
   const firstItem = (offset - 1) * limit;
   const lastItem = offset * limit;
 
-  return recentTransactionsData.slice(firstItem, lastItem);
+  const filteredData =
+    operation === "all"
+      ? recentTransactionsData
+      : operation === "income"
+      ? recentTransactionsData.filter(
+          (element) => element.operation === operation
+        )
+      : operation === "expense"
+      ? recentTransactionsData.filter(
+          (element) => element.operation === operation
+        )
+      : [];
+
+  return filteredData.slice(firstItem, lastItem);
 };
 
 export type RecentTransactionsType = {
