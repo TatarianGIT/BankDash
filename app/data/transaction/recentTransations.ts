@@ -15,7 +15,7 @@ export type RecentTransactionsType = {
 };
 
 const recentTransactionsData: RecentTransactionsType[] = Array.from(
-  { length: 27 },
+  { length: 74 },
   (_, index) => ({
     transactionId: Math.random().toString(36).substring(2, 10),
     operation: Math.random() > 0.5 ? "expense" : "income",
