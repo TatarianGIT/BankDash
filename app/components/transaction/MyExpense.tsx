@@ -17,6 +17,8 @@ const MyExpense = ({ data }: MyExpenseProps) => {
         withBarValueLabel={true}
         valueFormatter={(value) => new Intl.NumberFormat("en-US").format(value)}
         barProps={{ radius: 20 }}
+        maxBarWidth={30}
+        className="mx-auto max-w-[600px]"
       />
     </Card>
   );
