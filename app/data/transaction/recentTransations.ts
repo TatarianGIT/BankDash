@@ -6,7 +6,7 @@ export const getRecentTransactions = async (): Promise<
 
 export type RecentTransactionsType = {
   transactionId: string;
-  operation: "sent" | "received";
+  operation: "all" | "expense" | "income";
   description: string;
   type: string;
   last4Digits: string;
@@ -18,7 +18,7 @@ const recentTransactionsData: RecentTransactionsType[] = Array.from(
   { length: 27 },
   (_, index) => ({
     transactionId: Math.random().toString(36).substring(2, 10),
-    operation: Math.random() > 0.5 ? "sent" : "received",
+    operation: Math.random() > 0.5 ? "expense" : "income",
     description: [
       "Spotify subscription",
       "Grocery purchase",
