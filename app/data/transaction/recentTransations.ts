@@ -1,7 +1,11 @@
-export const getRecentTransactions = async (): Promise<
-  RecentTransactionsType[]
-> => {
-  return recentTransactionsData;
+export const getRecentTransactions = async ({
+  limit,
+  offset,
+}: GetRecentTransactionsType): Promise<RecentTransactionsType[]> => {
+  const firstItem = (offset - 1) * limit;
+  const lastItem = offset * limit;
+
+  return recentTransactionsData.slice(firstItem, lastItem);
 };
 
 export type RecentTransactionsType = {
