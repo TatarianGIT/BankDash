@@ -252,6 +252,11 @@ const Pagination = ({ totalPages }: { totalPages: number }) => {
     lg: "lg",
   });
 
+  const boundaries = useMatches({
+    base: 0,
+    md: 1,
+  });
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const offsetString = searchParams.get("offset");
@@ -278,6 +283,7 @@ const Pagination = ({ totalPages }: { totalPages: number }) => {
       size={size}
       onChange={onPageChage}
       withControls={true}
+      boundaries={boundaries}
     />
   );
 };
