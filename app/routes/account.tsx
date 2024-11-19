@@ -1,7 +1,7 @@
 import { useMatches } from "@mantine/core";
 import { CircleDollarSign, PiggyBank } from "lucide-react";
 import { GiExpense, GiReceiveMoney } from "react-icons/gi";
-import ItemBadge, { BadgeContent } from "~/components/common/ItemBadge";
+import ItemBadgeContainer, { ItemBadge } from "~/components/common/ItemBadge";
 
 const Account = () => {
   const colSpan = useMatches({
@@ -10,36 +10,36 @@ const Account = () => {
   });
   return (
     <>
-      <ItemBadge className="col-span-full">
-        <BadgeContent
+      <ItemBadgeContainer className="col-span-full">
+        <ItemBadge
           colSpan={colSpan}
           icon={<CircleDollarSign size={30} className="text-amber-500" />}
           backgroundColor="bg-amber-500/25"
           heading="My Balance"
           balance={12750}
         />
-        <BadgeContent
+        <ItemBadge
           colSpan={colSpan}
           icon={<GiReceiveMoney size={30} className="text-blue-500" />}
           backgroundColor="bg-blue-500/25"
           heading="Income"
           balance={5600}
         />
-        <BadgeContent
+        <ItemBadge
           colSpan={colSpan}
           icon={<GiExpense size={30} className="text-pink-500" />}
           backgroundColor="bg-pink-500/25"
           heading="Expense"
           balance={3625}
         />
-        <BadgeContent
+        <ItemBadge
           colSpan={colSpan}
           icon={<PiggyBank size={30} className="text-cyan-500" />}
           backgroundColor="bg-cyan-500/25"
           heading="Total Savings"
           balance={5250}
         />
-      </ItemBadge>
+      </ItemBadgeContainer>
     </>
   );
 };

@@ -7,7 +7,7 @@ type ItemBadgeProps = {
   className?: string;
 };
 
-const ItemBadge = ({ children, className }: ItemBadgeProps) => {
+const ItemBadgeContainer = ({ children, className }: ItemBadgeProps) => {
   return <Grid className={cn(className, "")}>{children}</Grid>;
 };
 
@@ -19,7 +19,7 @@ type BadgeContentProps = {
   backgroundColor: string;
 };
 
-export const BadgeContent = ({
+export const ItemBadge = ({
   icon,
   heading,
   balance,
@@ -56,4 +56,4 @@ export const BadgeContent = ({
   );
 };
 
-export default ItemBadge;
+export default ItemBadgeContainer;
