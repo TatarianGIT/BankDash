@@ -172,10 +172,13 @@ const TransactionTabs = () => {
   const operation = searchParams.get("operation") || "all";
 
   const onOperationChange = (newOperation: string) => {
-    setSearchParams((prev) => {
-      prev.set("operation", newOperation);
-      return prev;
-    });
+    setSearchParams(
+      (prev) => {
+        prev.set("operation", newOperation);
+        return prev;
+      },
+      { preventScrollReset: true }
+    );
   };
 
   return (
@@ -258,10 +261,13 @@ const Pagination = ({ totalPages }: { totalPages: number }) => {
 
   const onPageChage = (newPage: number) => {
     setPage(newPage);
-    setSearchParams((prev) => {
-      prev.set("offset", newPage.toString());
-      return prev;
-    });
+    setSearchParams(
+      (prev) => {
+        prev.set("offset", newPage.toString());
+        return prev;
+      },
+      { preventScrollReset: true }
+    );
   };
 
   return (
@@ -281,10 +287,13 @@ const LimitSelect = () => {
   const limit = searchParams.get("limit") || "5";
 
   const onLimitChange = (newLimit: string) => {
-    setSearchParams((prev) => {
-      prev.set("limit", newLimit);
-      return prev;
-    });
+    setSearchParams(
+      (prev) => {
+        prev.set("limit", newLimit);
+        return prev;
+      },
+      { preventScrollReset: true }
+    );
   };
 
   return (
