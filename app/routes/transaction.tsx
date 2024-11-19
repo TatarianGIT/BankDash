@@ -5,6 +5,9 @@ import CreditCard from "~/components/dashboard/CreditCard";
 import MyExpense from "~/components/transaction/MyExpense";
 import RecentTransactionsTable from "~/components/transaction/RecentTransactionsTable";
 import {
+  checkLimit,
+  checkOffset,
+  checkOperation,
   getRecentTransactions,
   getRecentTransactionsLength,
   RecentTransactionsType,
@@ -16,23 +19,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const url = new URL(request.url);
 
+  const getLimit = url.searchParams.get("limit");
   const getOperation = url.searchParams.get("operation");
+  const getOffset = url.searchParams.get("offset");
 
-  const operation: RecentTransactionsType["operation"] = getOperation
-    ? ["all", "expense", "income"].includes(getOperation)
-      ? getOperation
-      : "all"
-    : "all";
-
-  const offsetString = url.searchParams.get("offset");
-  const offset = offsetString ? parseInt(offsetString) : 1;
-
-  const limitString = url.searchParams.get("limit");
-  const limit = limitString ? parseInt(limitString) : 5;
+  const limit = checkLimit(getLimit);
+  const operation = checkOperation(getOperation);
+  const offset = checkOffset(getOffset, operation, limit);
 
   const recentTransactionsLength = await getRecentTransactionsLength({
     operation,
   });
+
   const recentTransactionsData: RecentTransactionsType[] =
     await getRecentTransactions({ limit, offset, operation });
 
