@@ -10,47 +10,39 @@ import {
 import { useSearchParams } from "@remix-run/react";
 import { CircleArrowDown, CircleArrowUp, Download } from "lucide-react";
 import { useState } from "react";
-import { RecentTransactionsType } from "~/data/transaction/recentTransations.js";
+import {
+  AllowedOperations,
+  RecentTransactionsType,
+} from "~/data/transaction/recentTransations.js";
 import { cn } from "~/utils/cn.js";
 
 type RecentTransactionsTableProps = {
   data: RecentTransactionsType[];
   dataLength: number;
+  totalPages: number;
 };
 
 const RecentTransactionsTable = ({
   data,
-  dataLength,
+  totalPages,
 }: RecentTransactionsTableProps) => {
   return (
     <>
       <LimitSelect />
-      <DesktopView
-        data={data}
-        dataLength={dataLength}
-        className="hidden lg:block"
-      />
-      <TabletView
-        data={data}
-        dataLength={dataLength}
-        className="hidden xs:block lg:hidden"
-      />
-      <MobileView
-        data={data}
-        dataLength={dataLength}
-        className="block xs:hidden"
-      />
+      <DesktopView data={data} className="hidden lg:block" />
+      <TabletView data={data} className="hidden xs:block lg:hidden" />
+      <MobileView data={data} className="block xs:hidden" />
+      <Pagination totalPages={totalPages} />
     </>
   );
 };
 
 type DeviceViewProps = {
   data: RecentTransactionsType[];
-  dataLength: number;
   className: string;
 };
 
-const DesktopView = ({ data, className, dataLength }: DeviceViewProps) => {
+const DesktopView = ({ data, className }: DeviceViewProps) => {
   const rows = data.map((element) => (
     <Table.Tr key={element.transactionId}>
       <Table.Td className="flex gap-1 items-center">
@@ -93,13 +85,11 @@ const DesktopView = ({ data, className, dataLength }: DeviceViewProps) => {
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
       </Card>
-
-      <Pagination dataLength={dataLength} />
     </div>
   );
 };
 
-const TabletView = ({ data, className, dataLength }: DeviceViewProps) => {
+const TabletView = ({ data, className }: DeviceViewProps) => {
   const rows = data.map((element) => (
     <Table.Tr key={element.transactionId}>
       <Table.Td className="flex gap-1 items-center">
@@ -138,13 +128,11 @@ const TabletView = ({ data, className, dataLength }: DeviceViewProps) => {
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
       </Card>
-
-      <Pagination dataLength={dataLength} />
     </div>
   );
 };
 
-const MobileView = ({ data, className, dataLength }: DeviceViewProps) => {
+const MobileView = ({ data, className }: DeviceViewProps) => {
   const rows = data.map((element) => (
     <Table.Tr key={element.transactionId}>
       <Table.Td className="flex gap-3">
@@ -175,8 +163,6 @@ const MobileView = ({ data, className, dataLength }: DeviceViewProps) => {
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
       </Card>
-
-      <Pagination dataLength={dataLength} />
     </div>
   );
 };
@@ -230,7 +216,7 @@ const AmountText = ({
   operation,
   amount,
 }: {
-  operation: "expense" | "income";
+  operation: AllowedOperations;
   amount: number;
 }) => {
   return (
@@ -256,7 +242,7 @@ const AmountText = ({
   );
 };
 
-const Pagination = ({ dataLength }: { dataLength: number }) => {
+const Pagination = ({ totalPages }: { totalPages: number }) => {
   const size = useMatches({
     base: "sm",
     md: "md",
@@ -265,13 +251,10 @@ const Pagination = ({ dataLength }: { dataLength: number }) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const limit = searchParams.get("limit") || "5";
-
   const offsetString = searchParams.get("offset");
   const offset = offsetString ? parseInt(offsetString) : 1;
 
   const [page, setPage] = useState<number>(offset);
-  const total = Math.ceil(dataLength / parseInt(limit));
 
   const onPageChage = (newPage: number) => {
     setPage(newPage);
@@ -284,7 +267,7 @@ const Pagination = ({ dataLength }: { dataLength: number }) => {
   return (
     <PaginationMantine
       value={page}
-      total={total}
+      total={totalPages}
       className="py-4 flex justify-end"
       size={size}
       onChange={onPageChage}
