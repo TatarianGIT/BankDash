@@ -36,10 +36,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const recentTransactionsData: RecentTransactionsType[] =
     await getRecentTransactions({ limit, offset, operation });
 
+  const totalPages = Math.ceil(recentTransactionsLength / limit);
+
   return json({
     myExpense,
     recentTransactionsData,
     recentTransactionsLength,
+    totalPages,
   });
 };
 
@@ -66,6 +69,7 @@ const Transaction = () => {
         <RecentTransactionsTable
           data={data.recentTransactionsData}
           dataLength={data.recentTransactionsLength}
+          totalPages={data.totalPages}
         />
       </Item>
     </>
