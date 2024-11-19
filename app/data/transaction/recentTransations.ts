@@ -1,12 +1,60 @@
-export const getRecentTransactionsLength = async ({
-  operation,
-}: {
-  operation: "all" | "expense" | "income";
-}): Promise<number> => {
+const allowedOperations = ["all", "expense", "income"] as const;
+export type AllowedOperations = (typeof allowedOperations)[number];
+
+export const allowedLimits = [5, 10] as const;
+export type AllowedLimits = (typeof allowedLimits)[number];
+
+export const checkLimit = (getLimit: AllowedLimits | string | null) => {
+  const limit: AllowedLimits = allowedLimits[0];
+
+  if (getLimit === null) return limit;
+
+  if (typeof getLimit !== "number") {
+    const parsedLimit = parseInt(getLimit);
+    if (allowedLimits.includes(parsedLimit as AllowedLimits)) {
+      return parsedLimit as AllowedLimits;
+    }
+  } else if (allowedLimits.includes(getLimit)) {
+    return getLimit;
+  }
+
+  return 5;
+};
+
+export const checkOperation = (getOperation: string | null) => {
+  if (getOperation === null) return "all";
+  const operation = allowedOperations.includes(
+    getOperation as AllowedOperations
+  )
+    ? getOperation
+    : "all";
+
+  return operation as AllowedOperations;
+};
+
+export const checkOffset = (
+  getOffset: string | null,
+  getOperation: AllowedOperations,
+  getLimit: AllowedLimits
+) => {
+  if (getOffset === null) return 1;
+
+  const operation = checkOperation(getOperation);
+  const limit = checkLimit(getLimit);
+
+  const dataLength = filterData(recentTransactionsData, operation).length;
+
+  const offset = parseInt(getOffset);
+
+  return offset <= Math.ceil(dataLength / limit) ? offset : 1;
+};
+
+function filterData(
+  data: RecentTransactionsType[],
+  operation: AllowedOperations
+) {
   const filteredData =
-    operation === "all"
-      ? recentTransactionsData
-      : operation === "income"
+    operation === "income"
       ? recentTransactionsData.filter(
           (element) => element.operation === operation
         )
@@ -14,9 +62,17 @@ export const getRecentTransactionsLength = async ({
       ? recentTransactionsData.filter(
           (element) => element.operation === operation
         )
-      : [];
+      : recentTransactionsData;
 
-  return filteredData.length;
+  return filteredData;
+}
+
+export const getRecentTransactionsLength = async ({
+  operation,
+}: {
+  operation: AllowedOperations;
+}): Promise<number> => {
+  return filterData(recentTransactionsData, operation).length;
 };
 
 type GetRecentTransactionsType = {
@@ -30,28 +86,23 @@ export const getRecentTransactions = async ({
   offset,
   operation,
 }: GetRecentTransactionsType): Promise<RecentTransactionsType[]> => {
-  const firstItem = (offset - 1) * limit;
-  const lastItem = offset * limit;
+  const filteredData = filterData(recentTransactionsData, operation);
 
-  const filteredData =
-    operation === "all"
-      ? recentTransactionsData
-      : operation === "income"
-      ? recentTransactionsData.filter(
-          (element) => element.operation === operation
-        )
-      : operation === "expense"
-      ? recentTransactionsData.filter(
-          (element) => element.operation === operation
-        )
-      : [];
+  let rowLimit = 5;
+
+  const isLimitAllowed = allowedLimits.includes(limit as 5 | 10);
+
+  if (isLimitAllowed) rowLimit = limit;
+
+  const firstItem = (offset - 1) * rowLimit;
+  const lastItem = offset * rowLimit;
 
   return filteredData.slice(firstItem, lastItem);
 };
 
 export type RecentTransactionsType = {
   transactionId: string;
-  operation: "all" | "expense" | "income";
+  operation: AllowedOperations;
   description: string;
   type: string;
   last4Digits: string;
@@ -60,7 +111,7 @@ export type RecentTransactionsType = {
 };
 
 const recentTransactionsData: RecentTransactionsType[] = Array.from(
-  { length: 74 },
+  { length: 72 },
   (_, index) => ({
     transactionId: Math.random().toString(36).substring(2, 10),
     operation: Math.random() > 0.5 ? "expense" : "income",
