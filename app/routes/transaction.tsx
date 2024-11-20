@@ -1,7 +1,7 @@
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Item from "~/components/common/Item";
-import CreditCard from "~/components/dashboard/CreditCard";
+import CreditCard from "~/components/common/CreditCard";
 import MyExpense from "~/components/transaction/MyExpense";
 import RecentTransactionsTable from "~/components/transaction/RecentTransactionsTable";
 import {
