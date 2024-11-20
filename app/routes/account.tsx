@@ -1,6 +1,11 @@
 import { useMatches } from "@mantine/core";
 import { CircleDollarSign, PiggyBank } from "lucide-react";
 import { GiExpense, GiReceiveMoney } from "react-icons/gi";
+import Invoices from "~/components/account/InvoicesList";
+import LatestTransation from "~/components/account/LatestTransation";
+import Overview from "~/components/account/Overview";
+import CreditCard from "~/components/common/CreditCard";
+import Item from "~/components/common/Item";
 import ItemBadgeContainer, { ItemBadge } from "~/components/common/ItemBadge";
 
 const Account = () => {
@@ -40,6 +45,27 @@ const Account = () => {
           balance={5250}
         />
       </ItemBadgeContainer>
+
+      <Item size="medium" leftHeading="Last Transaction">
+        <LatestTransation />
+      </Item>
+
+      <Item
+        leftHeading="My Card"
+        rightHeading="See All"
+        variant="alt"
+        size="small"
+      >
+        <CreditCard variant="primary" />
+      </Item>
+
+      <Item leftHeading="Debit & Credit Overview" size="medium">
+        <Overview />
+      </Item>
+
+      <Item leftHeading="Invoces Sent" size="small">
+        <Invoices />
+      </Item>
     </>
   );
 };
