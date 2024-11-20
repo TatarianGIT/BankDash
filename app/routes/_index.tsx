@@ -1,6 +1,6 @@
 import { json, type MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import CreditCard from "~/components/dashboard/CreditCard";
+import CreditCard from "~/components/common/CreditCard";
 import ExpenseRoundChart from "~/components/dashboard/ExpenseRoundChart";
 import Item from "~/components/common/Item";
 import QuickTransfer from "~/components/dashboard/QuickTransfer";
