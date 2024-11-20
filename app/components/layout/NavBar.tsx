@@ -15,14 +15,20 @@ import { NavLink, useLocation } from "@remix-run/react";
 import { NavLink as MantineNavLink } from "@mantine/core";
 import { cn } from "~/utils/cn.js";
 
-const NavBar = () => {
+const NavBar = ({ navBarClick }: { navBarClick: () => void }) => {
+  const handleNavBarClick = () => {
+    navBarClick();
+  };
   return (
     <>
       {navList.length ? (
         <ul className="flex flex-col gap-9 py-4">
           {navList.map((element) => (
             <li key={element.id}>
-              <NavBarElement element={element} />
+              <NavBarElement
+                element={element}
+                navBarClick={handleNavBarClick}
+              />
             </li>
           ))}
         </ul>
@@ -37,12 +43,19 @@ export default NavBar;
 
 type NavBarElementProps = {
   element: NavElementType;
+  navBarClick: () => void;
 };
 
-const NavBarElement = ({ element }: NavBarElementProps) => {
+const NavBarElement = ({ element, navBarClick }: NavBarElementProps) => {
   const location = useLocation();
 
-  const isActive = location.pathname === element.value;
+  const currentPath =
+    location.pathname === "/" ? "/" : location.pathname.slice(1);
+  const isActive = currentPath === element.value;
+
+  const handleClick = () => {
+    navBarClick();
+  };
 
   return (
     <div className="relative">
@@ -59,6 +72,7 @@ const NavBarElement = ({ element }: NavBarElementProps) => {
             isActive ? "text-blue-500" : "",
             "pl-10 text-lg rounded-md"
           )}
+          onClick={handleClick}
         />
       </div>
     </div>

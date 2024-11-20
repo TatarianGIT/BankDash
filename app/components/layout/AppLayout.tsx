@@ -24,6 +24,10 @@ function AppLayout({ children }: AppLayoutProps) {
     navList.find((item) => item.value === currentPath)?.label ||
     "Unknown pathname";
 
+  const toggleNavBar = () => {
+    toggle();
+  };
+
   return (
     <AppShell
       layout="alt"
@@ -61,7 +65,7 @@ function AppLayout({ children }: AppLayoutProps) {
           <AppLogo />
         </Group>
         <ScrollArea type="auto">
-          <NavBar />
+          <NavBar navBarClick={toggleNavBar} />
         </ScrollArea>
       </AppShell.Navbar>
       <AppShell.Main>
