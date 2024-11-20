@@ -1,4 +1,4 @@
-import { ScrollArea, Text } from "@mantine/core";
+import { Grid, ScrollArea, Text } from "@mantine/core";
 import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
@@ -23,16 +23,17 @@ const Item = ({
   const isChildrenArray = Array.isArray(children);
 
   return (
-    <div
-      className={cn(
+    <Grid.Col
+      className={cn("w-full h-full", className)}
+      span={
         size === "big"
-          ? "col-span-1 lg:col-span-12"
+          ? { base: 12, lg: 12 }
           : size === "medium"
-          ? "col-span-1 lg:col-span-7"
-          : "col-span-1 lg:col-span-5",
-        className,
-        ""
-      )}
+          ? { base: 12, lg: 7 }
+          : size === "small"
+          ? { base: 12, lg: 5 }
+          : { base: 12, lg: 12 }
+      }
     >
       <div className="flex justify-between items-center p-1">
         <Text className="text-2xl">{leftHeading}</Text>
@@ -53,7 +54,7 @@ const Item = ({
       ) : (
         <>{children}</>
       )}
-    </div>
+    </Grid.Col>
   );
 };
 

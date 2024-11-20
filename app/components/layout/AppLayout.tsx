@@ -1,13 +1,6 @@
 import "@mantine/core/styles.css";
 
-import {
-  AppShell,
-  Burger,
-  Container,
-  Group,
-  ScrollArea,
-  Text,
-} from "@mantine/core";
+import { AppShell, Burger, Grid, Group, ScrollArea, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import ThemeSwticher from "./ThemeSwitcher.js";
 import { ReactNode } from "react";
@@ -72,9 +65,13 @@ function AppLayout({ children }: AppLayoutProps) {
         </ScrollArea>
       </AppShell.Navbar>
       <AppShell.Main>
-        <Container className="p-2 grid grid-cols-1 lg:grid-cols-12 gap-7 max-w-[1500px] w-full">
+        <Grid
+          className="p-2 gap-7 max-w-[1500px] w-full"
+          align="stretch"
+          justify="stretch"
+        >
           {children}
-        </Container>
+        </Grid>
       </AppShell.Main>
     </AppShell>
   );

@@ -3,12 +3,21 @@ import { ReactElement, ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
 type ItemBadgeProps = {
-  children: ReactElement<typeof BadgeContent>[];
+  children: ReactElement<typeof ItemBadge>[];
+  colSpan: number | "auto" | "content";
   className?: string;
 };
 
-const ItemBadgeContainer = ({ children, className }: ItemBadgeProps) => {
-  return <Grid className={cn(className, "")}>{children}</Grid>;
+const ItemBadgeContainer = ({
+  children,
+  className,
+  colSpan,
+}: ItemBadgeProps) => {
+  return (
+    <Grid.Col span={colSpan}>
+      <Grid className={cn(className, "")}>{children}</Grid>
+    </Grid.Col>
+  );
 };
 
 type BadgeContentProps = {

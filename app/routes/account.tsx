@@ -15,7 +15,7 @@ const Account = () => {
   });
   return (
     <>
-      <ItemBadgeContainer className="col-span-full">
+      <ItemBadgeContainer colSpan={12}>
         <ItemBadge
           colSpan={colSpan}
           icon={<CircleDollarSign size={30} className="text-amber-500" />}
