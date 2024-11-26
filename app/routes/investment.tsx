@@ -45,6 +45,14 @@ const Investment = () => {
           operation="income"
         />
       </ItemBadgeContainer>
+
+      <Item leftHeading="Yearly Total Investment" size="half">
+        <InvestmentChart type="investment" data={data.ivestments} />
+      </Item>
+
+      <Item leftHeading="Yearly Total Investment" size="half">
+        <InvestmentChart type="revenue" data={data.revenue} />
+      </Item>
     </>
   );
 };
