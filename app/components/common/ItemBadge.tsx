@@ -24,9 +24,13 @@ type BadgeContentProps = {
   icon: ReactNode;
   heading: string;
   balance: number;
-  colSpan: number;
+  colSpan: number | "auto" | "content";
   backgroundColor: string;
-};
+} & (
+  | { type: "%"; operation: "income" | "expense" }
+  | { type: "number"; operation?: undefined }
+  | { type: "$"; operation?: undefined }
+);
 
 export const ItemBadge = ({
   icon,
@@ -34,6 +38,8 @@ export const ItemBadge = ({
   balance,
   colSpan,
   backgroundColor,
+  type,
+  operation,
 }: BadgeContentProps) => {
   return (
     <Grid.Col span={colSpan}>
@@ -53,12 +59,7 @@ export const ItemBadge = ({
         </div>
         <div className="flex flex-col justify-center">
           <Text className="text-xs">{heading}</Text>
-          <NumberFormatter
-            className="text-base font-semibold"
-            prefix={"$"}
-            value={balance}
-            thousandSeparator
-          />
+          <Amount balance={balance} type={type} operation={operation} />
         </div>
       </Card>
     </Grid.Col>
