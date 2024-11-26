@@ -65,4 +65,34 @@ export const ItemBadge = ({
   );
 };
 
+type AmountProps = {
+  balance: number;
+  type: "%" | "$" | "number";
+  operation: "income" | "expense" | undefined;
+};
+
+const Amount = ({ balance, operation, type }: AmountProps) => {
+  const operationPrefix =
+    operation === "income" ? "+" : operation === "expense" ? "-" : "";
+  const prefix = type === "$" ? "$" : "";
+  const suffix = type === "%" ? "%" : "";
+
+  return (
+    <>
+      <NumberFormatter
+        className={cn(
+          "text-base font-semibold",
+          operation === "expense" ? "text-red-500" : ""
+        )}
+        suffix={suffix}
+        prefix={operationPrefix + prefix}
+        value={balance}
+        thousandSeparator
+        decimalSeparator="."
+        decimalScale={2}
+      />
+    </>
+  );
+};
+
 export default ItemBadgeContainer;
