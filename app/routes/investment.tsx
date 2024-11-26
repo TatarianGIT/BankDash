@@ -1,5 +1,12 @@
 import { useMatches } from "@mantine/core";
 import { json, useLoaderData } from "@remix-run/react";
+import { IoPieChartOutline } from "react-icons/io5";
+import { TbMoneybag, TbRepeat } from "react-icons/tb";
+import Item from "~/components/common/Item";
+import ItemBadgeContainer, { ItemBadge } from "~/components/common/ItemBadge";
+import InvestmentChart from "~/components/investment/InvestmentChart";
+import MyInvestment from "~/components/investment/MyInvestment";
+import TrendingStock from "~/components/investment/TrendingStock";
 import { getInvestment, getRevenue } from "~/data/investment/mockedData";
 
 export const loader = async () => {
@@ -56,6 +63,10 @@ const Investment = () => {
 
       <Item leftHeading="My Investment" size="medium">
         <MyInvestment />
+      </Item>
+
+      <Item leftHeading="Trending Stock" size="small">
+        <TrendingStock />
       </Item>
     </>
   );
