@@ -70,7 +70,7 @@ function AppLayout({ children }: AppLayoutProps) {
       </AppShell.Navbar>
       <AppShell.Main>
         <Grid
-          className="p-2 gap-7 max-w-[1500px] w-full"
+          className="p-2 gap-7 max-w-[1500px] w-full mx-auto"
           align="stretch"
           justify="stretch"
         >
