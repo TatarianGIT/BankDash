@@ -6,7 +6,7 @@ type ItemCardProps = {
   children: ReactNode | ReactNode[];
   leftHeading: string;
   className?: string;
-  size: "small" | "medium" | "big";
+  size: "small" | "medium" | "big" | "half";
 } & (
   | { variant?: "default"; rightHeading?: string }
   | { variant: "alt"; rightHeading: string | undefined }
@@ -32,6 +32,8 @@ const Item = ({
           ? { base: 12, lg: 7 }
           : size === "small"
           ? { base: 12, lg: 5 }
+          : size === "half"
+          ? { base: 12, lg: 6 }
           : { base: 12, lg: 12 }
       }
     >
