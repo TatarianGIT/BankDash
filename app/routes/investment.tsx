@@ -53,6 +53,10 @@ const Investment = () => {
       <Item leftHeading="Yearly Total Investment" size="half">
         <InvestmentChart type="revenue" data={data.revenue} />
       </Item>
+
+      <Item leftHeading="My Investment" size="medium">
+        <MyInvestment />
+      </Item>
     </>
   );
 };
