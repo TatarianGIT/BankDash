@@ -22,6 +22,7 @@ const Account = () => {
           backgroundColor="bg-amber-500/25"
           heading="My Balance"
           balance={12750}
+          type="$"
         />
         <ItemBadge
           colSpan={colSpan}
@@ -29,6 +30,7 @@ const Account = () => {
           backgroundColor="bg-blue-500/25"
           heading="Income"
           balance={5600}
+          type="$"
         />
         <ItemBadge
           colSpan={colSpan}
@@ -36,6 +38,7 @@ const Account = () => {
           backgroundColor="bg-pink-500/25"
           heading="Expense"
           balance={3625}
+          type="$"
         />
         <ItemBadge
           colSpan={colSpan}
@@ -43,6 +46,7 @@ const Account = () => {
           backgroundColor="bg-cyan-500/25"
           heading="Total Savings"
           balance={5250}
+          type="$"
         />
       </ItemBadgeContainer>
 
