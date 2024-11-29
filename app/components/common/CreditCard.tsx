@@ -1,4 +1,5 @@
-import { Card, ScrollArea, Text } from "@mantine/core";
+import { Card, Text } from "@mantine/core";
+import { useElementSize } from "@mantine/hooks";
 import { CreditCard as CreditCardIcon } from "lucide-react";
 import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
@@ -15,12 +16,17 @@ const data = {
 };
 
 const CreditCard = ({ variant }: CreditCardProps) => {
+  const { ref, width } = useElementSize();
+
+  const size = ref.current ? Math.floor(width / 10 - 8) + "px" : "16px";
+
   const textColor = variant === "primary" ? "text-gray-300" : "text-gray-700";
 
   return (
     <Card
+      ref={ref}
       shadow="sm"
-      className="p-0 m-0 min-w-[400px] md:min-w-full "
+      className="p-0 m-0 min-w-[300px] md:min-w-full flex"
       radius={"lg"}
     >
       <div className="flex flex-col">
@@ -62,13 +68,14 @@ const CreditCard = ({ variant }: CreditCardProps) => {
               variant === "primary"
                 ? "bg-gradient-to-b from-[#4C49ED] from-15% to-[#0A06F4]"
                 : "bg-gray-100 border-t",
-              "flex justify-between items-center px-6 py-3 "
+              "flex justify-between items-center px-6 py-3"
             )}
           >
             <Text
+              style={{ fontSize: `clamp(12px, ${size}, 20px)` }}
               className={cn(
                 variant === "primary" ? "text-gray-300" : "text-gray-700",
-                "text-2xl"
+                ``
               )}
             >
               {data.cardNumber}
