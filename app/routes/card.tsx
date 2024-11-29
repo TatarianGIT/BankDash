@@ -1,6 +1,7 @@
 import CardList from "~/components/card/CardList";
 import CardSetting from "~/components/card/CardSetting";
 import ExpenseStatistics from "~/components/card/ExpenseStatistics";
+import CreditCard from "~/components/common/CreditCard";
 import Item from "~/components/common/Item";
 
 const Card = () => {
