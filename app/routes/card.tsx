@@ -1,3 +1,4 @@
+import CardList from "~/components/card/CardList";
 import ExpenseStatistics from "~/components/card/ExpenseStatistics";
 import Item from "~/components/common/Item";
 
@@ -11,6 +12,10 @@ const Card = () => {
 
       <Item size="small" leftHeading="Card Expense Statistics">
         <ExpenseStatistics />
+      </Item>
+
+      <Item size="medium" leftHeading="Card List">
+        <CardList />
       </Item>
     </>
   );
