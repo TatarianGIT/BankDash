@@ -6,7 +6,7 @@ type ItemCardProps = {
   children: ReactNode | ReactNode[];
   leftHeading: string;
   className?: string;
-  size: "small" | "medium" | "big" | "half";
+  size: "small" | "medium" | "full" | "half";
 } & (
   | { variant?: "default"; rightHeading?: string }
   | { variant: "alt"; rightHeading: string | undefined }
@@ -26,7 +26,7 @@ const Item = ({
     <Grid.Col
       className={cn("w-full h-full", className)}
       span={
-        size === "big"
+        size === "full"
           ? { base: 12, lg: 12 }
           : size === "medium"
           ? { base: 12, lg: 7 }
@@ -47,7 +47,9 @@ const Item = ({
         <ScrollArea offsetScrollbars={true} type="always">
           <div
             className={cn(
-              isChildrenArray ? "flex md:grid md:grid-cols-2 gap-7" : ""
+              isChildrenArray
+                ? "flex md:grid md:grid-cols-2 gap-7 justify-center items-center"
+                : ""
             )}
           >
             {children}
