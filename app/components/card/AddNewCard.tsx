@@ -82,8 +82,11 @@ const AddNewCard = () => {
             name="type"
             type="select"
             label="Card Type"
-            placeholder="Classic"
-            error={fetcher.data?.error?.type}
+            error={
+              fetcher.data?.response.status === "error"
+                ? fetcher.data?.response.message.type?._errors
+                : undefined
+            }
             value={formValues.type}
             onChange={(value) => handleChange("type", value)}
           />
@@ -93,7 +96,11 @@ const AddNewCard = () => {
             type="text"
             label="Name On Card"
             placeholder="My Cards"
-            error={fetcher.data?.error?.name}
+            error={
+              fetcher.data?.response.status === "error"
+                ? fetcher.data?.response.message.name?._errors
+                : undefined
+            }
             value={formValues.name}
             onChange={(value) => handleChange("name", value)}
           />
@@ -103,7 +110,11 @@ const AddNewCard = () => {
             type="text"
             label="Card Number"
             placeholder="**** **** **** ****"
-            error={fetcher.data?.error?.number}
+            error={
+              fetcher.data?.response.status === "error"
+                ? fetcher.data?.response.message.number?._errors
+                : undefined
+            }
             value={formValues.number}
             onChange={(value) => handleChange("number", value)}
           />
@@ -112,7 +123,11 @@ const AddNewCard = () => {
             name="date"
             type="datePicker"
             label="Expiration Date"
-            error={fetcher.data?.error?.date}
+            error={
+              fetcher.data?.response.status === "error"
+                ? fetcher.data?.response.message.date?._errors
+                : undefined
+            }
             value={formValues.date}
             onChange={(value) => handleChange("date", value)}
           />
@@ -133,7 +148,7 @@ export default AddNewCard;
 type FormElementProps = {
   label: string;
   name: string;
-  error: { _errors: string[] } | undefined;
+  error?: string[];
   value: string | Date | null;
   onChange: (value: string | Date | null) => void;
 } & (
