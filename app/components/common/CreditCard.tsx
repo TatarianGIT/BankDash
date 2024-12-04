@@ -4,23 +4,22 @@ import { CreditCard as CreditCardIcon } from "lucide-react";
 import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
+type CreditCardType = "Physical" | "Virtual";
+
 type CreditCardProps = {
-  variant: "primary" | "alt";
+  balance: number;
+  name: string;
+  date: string;
+  number: string;
+  type: CreditCardType;
 };
 
-const data = {
-  balance: 7421,
-  cardHolder: "Some Dude",
-  validThru: "12/24",
-  cardNumber: "4123 **** **** 5124",
-};
-
-const CreditCard = ({ variant }: CreditCardProps) => {
+const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
   const { ref, width } = useElementSize();
 
-  const size = ref.current ? Math.floor(width / 10 - 8) + "px" : "16px";
+  const size = ref.current ? Math.floor(width / 10 - 10) + "px" : "16px";
 
-  const textColor = variant === "primary" ? "text-gray-300" : "text-gray-700";
+  const textColor = type === "Virtual" ? "text-gray-300" : "text-gray-700";
 
   return (
     <Card
@@ -33,7 +32,7 @@ const CreditCard = ({ variant }: CreditCardProps) => {
         {/* Upper container */}
         <div
           className={cn(
-            variant === "primary"
+            type === "Virtual"
               ? "bg-gradient-to-bl from-[#0A06F4] from-50% to-[#4C49ED]"
               : "bg-gray-100",
             "flex flex-col"
@@ -43,7 +42,7 @@ const CreditCard = ({ variant }: CreditCardProps) => {
           <div className="flex justify-between items-center px-6 py-3">
             <div className="flex flex-col">
               <CardDetail textColor={textColor} type="balance" header="Balance">
-                {data.balance}
+                $ {balance}
               </CardDetail>
             </div>
             <CreditCardIcon className={cn(textColor, "w-8 h-8")} />
@@ -52,12 +51,12 @@ const CreditCard = ({ variant }: CreditCardProps) => {
           <div className="grid grid-cols-2 px-6 py-3">
             <div>
               <CardDetail textColor={textColor} header="CARD HOLDER">
-                {data.cardHolder}
+                {name}
               </CardDetail>
             </div>
             <div>
               <CardDetail textColor={textColor} header="VALID THRU">
-                {data.validThru}
+                {date}
               </CardDetail>
             </div>
           </div>
@@ -65,22 +64,22 @@ const CreditCard = ({ variant }: CreditCardProps) => {
           {/* Bottom container / Number and Icon */}
           <div
             className={cn(
-              variant === "primary"
+              type === "Virtual"
                 ? "bg-gradient-to-b from-[#4C49ED] from-15% to-[#0A06F4]"
                 : "bg-gray-100 border-t",
               "flex justify-between items-center px-6 py-3"
             )}
           >
             <Text
-              style={{ fontSize: `clamp(12px, ${size}, 20px)` }}
+              style={{ fontSize: `clamp(10px, ${size}, 20px)` }}
               className={cn(
-                variant === "primary" ? "text-gray-300" : "text-gray-700",
+                type === "Virtual" ? "text-gray-300" : "text-gray-700",
                 ``
               )}
             >
-              {data.cardNumber}
+              {number}
             </Text>
-            <BottomIcon variant={variant} />
+            <BottomIcon type={type} />
           </div>
         </div>
       </div>
@@ -117,9 +116,9 @@ const CardDetail = ({
   );
 };
 
-const BottomIcon = ({ variant }: { variant: "primary" | "alt" }) => {
+const BottomIcon = ({ type }: { type: CreditCardType }) => {
   const circleStyles = cn(
-    variant === "primary" ? "bg-gray-200/50" : "bg-gray-400/50",
+    type === "Virtual" ? "bg-gray-200/50" : "bg-gray-400/50",
     " w-[30px] h-[30px] rounded-full"
   );
 
