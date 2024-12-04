@@ -13,6 +13,7 @@ import {
   RecentTransactionsType,
 } from "~/data/transaction/recentTransations.js";
 import { getMyExpense } from "~/data/transaction/myExpense.js";
+import { MockedCreditCardData } from "~/data/common/creditCard";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const myExpense = await getMyExpense();
@@ -55,8 +56,9 @@ const Transaction = () => {
         rightHeading="+ Add Card"
         size="medium"
       >
-        <CreditCard variant="primary" />
-        <CreditCard variant="alt" />
+        {MockedCreditCardData.map((creditCard) => (
+          <CreditCard key={creditCard.id} {...creditCard} />
+        ))}
       </Item>
 
       <Item leftHeading="My Expense" size="small">

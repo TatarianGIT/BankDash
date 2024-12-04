@@ -7,6 +7,7 @@ import Overview from "~/components/account/Overview";
 import CreditCard from "~/components/common/CreditCard";
 import Item from "~/components/common/Item";
 import ItemBadgeContainer, { ItemBadge } from "~/components/common/ItemBadge";
+import { MockedCreditCardData } from "~/data/common/creditCard";
 
 const Account = () => {
   const colSpan = useMatches({
@@ -60,7 +61,9 @@ const Account = () => {
         variant="alt"
         size="small"
       >
-        <CreditCard variant="primary" />
+        {MockedCreditCardData.map((creditCard) => (
+          <CreditCard key={creditCard.id} {...creditCard} />
+        ))}
       </Item>
 
       <Item leftHeading="Debit & Credit Overview" size="medium">

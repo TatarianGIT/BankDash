@@ -13,6 +13,7 @@ import {
   getRecentTransactions,
 } from "~/data/dashboard/mockedData.js";
 import BalanceHistory from "~/components/dashboard/BalanceHistory";
+import { MockedCreditCardData } from "~/data/common/creditCard";
 
 export const loader = async () => {
   const transactionData = await getRecentTransactions();
@@ -40,8 +41,9 @@ export default function Index() {
         rightHeading="See All"
         size="medium"
       >
-        <CreditCard variant="primary" />
-        <CreditCard variant="alt" />
+        {MockedCreditCardData.map((creditCard) => (
+          <CreditCard key={creditCard.id} {...creditCard} />
+        ))}
       </Item>
 
       <Item size="small" leftHeading="Recent Transaction">
