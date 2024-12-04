@@ -36,6 +36,7 @@ export default function Index() {
   return (
     <>
       <Item
+        shouldOverflow={true}
         leftHeading="My Cards"
         variant="alt"
         rightHeading="See All"

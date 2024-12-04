@@ -56,6 +56,7 @@ const Account = () => {
       </Item>
 
       <Item
+        shouldOverflow={true}
         leftHeading="My Card"
         rightHeading="See All"
         variant="alt"

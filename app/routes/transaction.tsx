@@ -51,6 +51,7 @@ const Transaction = () => {
   return (
     <>
       <Item
+        shouldOverflow={true}
         leftHeading="My Cards"
         variant="alt"
         rightHeading="+ Add Card"
