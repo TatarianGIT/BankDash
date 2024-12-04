@@ -1,4 +1,11 @@
-import { Button, Input, SimpleGrid, Text, useMatches } from "@mantine/core";
+import {
+  Button,
+  Input,
+  Select,
+  SimpleGrid,
+  Text,
+  useMatches,
+} from "@mantine/core";
 import { MonthPickerInput } from "@mantine/dates";
 import { useFetcher } from "@remix-run/react";
 import { X } from "lucide-react";
@@ -73,7 +80,7 @@ const AddNewCard = () => {
         <SimpleGrid cols={cols} className="py-4">
           <FormElement
             name="type"
-            type="text"
+            type="select"
             label="Card Type"
             placeholder="Classic"
             error={fetcher.data?.error?.type}
@@ -132,6 +139,7 @@ type FormElementProps = {
 } & (
   | { type: "text"; placeholder: string }
   | { type: "datePicker"; placeholder?: string }
+  | { type: "select"; placeholder?: string }
 );
 
 const FormElement = ({
@@ -172,9 +180,17 @@ const FormElement = ({
             onChange={(date) => onChange(date)}
             error={isError}
           />
+        ) : type === "select" ? (
+          <Select
+            name={name}
+            defaultValue={"Physical"}
+            placeholder="Pick type of Credit Card"
+            data={["Physical", "Virtual"]}
+            onChange={() => console.log("first")}
+          />
         ) : null}
 
-        {value ? (
+        {value && type !== "select" ? (
           <Button
             variant="transparent"
             onClick={handleValueClear}
@@ -186,7 +202,7 @@ const FormElement = ({
       </div>
 
       {error ? (
-        <Text className="text-red-500 text-sm m-0 p-0">{error._errors[0]}</Text>
+        <Text className="text-red-500 text-sm m-0 p-0">{error[0]}</Text>
       ) : null}
     </div>
   );
