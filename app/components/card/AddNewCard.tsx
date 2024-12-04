@@ -18,7 +18,7 @@ const AddNewCard = () => {
   const fetcher = useFetcher<typeof action>();
 
   const [formValues, setFormValues] = useState({
-    type: "",
+    type: "Physical",
     name: "",
     number: "",
     date: null,
