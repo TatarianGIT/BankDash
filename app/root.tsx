@@ -2,6 +2,7 @@ import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
 import "@mantine/carousel/styles.css";
 import "@mantine/dates/styles.css";
+import "@mantine/notifications/styles.css";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import type { LinksFunction } from "@remix-run/node";
@@ -12,6 +13,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { Notifications } from "@mantine/notifications";
 
 import "./tailwind.css";
 import AppLayout from "./components/layout/AppLayout.js";
@@ -40,7 +42,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider defaultColorScheme="dark">{children}</MantineProvider>
+        <MantineProvider defaultColorScheme="dark">
+          <Notifications />
+          {children}
+        </MantineProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
