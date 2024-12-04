@@ -3,7 +3,8 @@ import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
 type ItemCardProps = {
-  children: ReactNode | ReactNode[];
+  children: ReactNode;
+  shouldOverflow?: boolean;
   leftHeading: string;
   className?: string;
   size: "small" | "medium" | "full" | "half";
@@ -19,6 +20,7 @@ const Item = ({
   size,
   variant = "default",
   className,
+  shouldOverflow = false,
 }: ItemCardProps) => {
   const isChildrenArray = Array.isArray(children);
 
@@ -43,7 +45,7 @@ const Item = ({
         {variant === "alt" && <Text>{variant === "alt" && rightHeading}</Text>}
       </div>
 
-      {isChildrenArray ? (
+      {shouldOverflow ? (
         <ScrollArea offsetScrollbars={true} type="always">
           <div
             className={cn(
