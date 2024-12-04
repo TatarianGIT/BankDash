@@ -66,7 +66,11 @@ const Transaction = () => {
         <MyExpense data={data.myExpense} />
       </Item>
 
-      <Item leftHeading="Recent Transactions" size="big" className="col-span-1">
+      <Item
+        leftHeading="Recent Transactions"
+        size="full"
+        className="col-span-1"
+      >
         <RecentTransactionsTable
           data={data.recentTransactionsData}
           dataLength={data.recentTransactionsLength}
