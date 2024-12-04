@@ -23,7 +23,7 @@ const ItemBadgeContainer = ({
 type BadgeContentProps = {
   icon: ReactNode;
   heading: string;
-  balance: number;
+  description: number | string;
   colSpan: number | "auto" | "content";
   backgroundColor: string;
 } & (
@@ -35,7 +35,7 @@ type BadgeContentProps = {
 export const ItemBadge = ({
   icon,
   heading,
-  balance,
+  description,
   colSpan,
   backgroundColor,
   type,
@@ -59,7 +59,15 @@ export const ItemBadge = ({
         </div>
         <div className="flex flex-col justify-center">
           <Text className="text-xs">{heading}</Text>
-          <Amount balance={balance} type={type} operation={operation} />
+          {typeof description === "number" ? (
+            <Amount
+              description={description}
+              type={type}
+              operation={operation}
+            />
+          ) : (
+            <Text className="text-base font-semibold">{description}</Text>
+          )}
         </div>
       </Card>
     </Grid.Col>
@@ -67,12 +75,12 @@ export const ItemBadge = ({
 };
 
 type AmountProps = {
-  balance: number;
+  description: number | string;
   type: "%" | "$" | "number";
   operation: "income" | "expense" | undefined;
 };
 
-const Amount = ({ balance, operation, type }: AmountProps) => {
+const Amount = ({ description, operation, type }: AmountProps) => {
   const operationPrefix =
     operation === "income" ? "+" : operation === "expense" ? "-" : "";
   const prefix = type === "$" ? "$" : "";
@@ -87,7 +95,7 @@ const Amount = ({ balance, operation, type }: AmountProps) => {
         )}
         suffix={suffix}
         prefix={operationPrefix + prefix}
-        value={balance}
+        value={description}
         thousandSeparator
         decimalSeparator="."
         decimalScale={2}
