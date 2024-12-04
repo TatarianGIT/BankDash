@@ -1,5 +1,7 @@
+import { wait } from "~/utils/wait";
+
 export async function getAllContacts() {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await wait(500);
   const contacts = await fakeContacts.getAll();
   return contacts;
 }
