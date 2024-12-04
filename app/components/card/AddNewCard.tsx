@@ -1,20 +1,11 @@
 import { Button, Input, SimpleGrid, Text, useMatches } from "@mantine/core";
 import { MonthPickerInput } from "@mantine/dates";
+import { useFetcher } from "@remix-run/react";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import CardContainer from "../common/CardContainer";
-import { z } from "zod";
-import { useFetcher } from "@remix-run/react";
 import { action } from "~/routes/card";
-
-export const cardFormSchema = z.object({
-  type: z.string().min(1, "Card Type is required"),
-  name: z.string().min(1, "Name On Card is required"),
-  number: z
-    .string()
-    .regex(/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/, "Invalid Card Number"),
-  date: z.string().min(1, "Expiration Date is required"),
-});
+import CardContainer from "../common/CardContainer";
+import { notifications } from "@mantine/notifications";
 
 const AddNewCard = () => {
   const fetcher = useFetcher<typeof action>();
@@ -32,8 +23,36 @@ const AddNewCard = () => {
   });
 
   useEffect(() => {
-    if (fetcher.state === "idle" && !fetcher.data?.error) {
+    const notificationId = "cardNotification";
+
+    if (fetcher.state === "submitting") {
+      notifications.show({
+        id: notificationId,
+        loading: true,
+        title: "Loading...",
+        message: "We are adding your new card.",
+        autoClose: false,
+      });
+    }
+
+    if (
+      fetcher.state === "idle" &&
+      fetcher.data?.response.status === "success"
+    ) {
       setFormValues({ type: "", name: "", number: "", date: null });
+
+      notifications.update({
+        id: notificationId,
+        loading: false,
+        color: "lime",
+        title: fetcher.data?.response.message.title,
+        message: fetcher.data?.response.message.description,
+        autoClose: 4000,
+      });
+    }
+
+    if (fetcher.state === "idle" && fetcher.data?.response.status === "error") {
+      notifications.hide(notificationId);
     }
   }, [fetcher.state, fetcher.data]);
 
