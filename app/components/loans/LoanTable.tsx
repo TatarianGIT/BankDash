@@ -34,7 +34,10 @@ const DataTable = ({ loansData }: DataTableProps) => {
     <Table.Tr>
       <Table.Th>
         <Checkbox
-          checked={JSON.stringify(selectedRows) == JSON.stringify(loansData)}
+          checked={
+            JSON.stringify(objSort(selectedRows)) ==
+            JSON.stringify(objSort(loansData))
+          }
           variant="outline"
           aria-label="Select row"
           onChange={(event) =>
@@ -179,4 +182,8 @@ const reduceNumber = (
     (accumulator, loan) => accumulator + Number(loan[key]),
     0
   );
+};
+
+const objSort = (objArray: LoanTableElementType[]) => {
+  return objArray.sort((a, b) => a.SLNo - b.SLNo);
 };
