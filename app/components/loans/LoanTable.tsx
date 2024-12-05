@@ -22,35 +22,13 @@ type DataTableProps = {
 const DataTable = ({ loansData }: DataTableProps) => {
   const [selectedRows, setSelectedRows] = useState<LoanTableElementType[]>([]);
 
-  const selectedMoneyTotal = selectedRows.reduce(
-    (accumulator, loan) => accumulator + loan.money,
-    0
-  );
+  const selectedMoneyTotal = reduceNumber(selectedRows, "money");
+  const selectedMoneyLeftTotal = reduceNumber(selectedRows, "moneyLeft");
+  const selectedInstallmentTotal = reduceNumber(selectedRows, "installment");
 
-  const selectedMoneyLeftTotal = selectedRows.reduce(
-    (accumulator, loan) => accumulator + loan.moneyLeft,
-    0
-  );
-
-  const selectedInstallmentTotal = selectedRows.reduce(
-    (accumulator, loan) => accumulator + Number(loan.installment),
-    0
-  );
-
-  const totalMoney = loansData.reduce(
-    (accumulator, loan) => accumulator + Number(loan.money),
-    0
-  );
-
-  const totalMoneyLeft = loansData.reduce(
-    (accumulator, loan) => accumulator + Number(loan.moneyLeft),
-    0
-  );
-
-  const totalInstallment = loansData.reduce(
-    (accumulator, loan) => accumulator + Number(loan.installment),
-    0
-  );
+  const totalMoney = reduceNumber(loansData, "money");
+  const totalMoneyLeft = reduceNumber(loansData, "moneyLeft");
+  const totalInstallment = reduceNumber(loansData, "installment");
 
   const header = (
     <Table.Tr>
@@ -193,3 +171,12 @@ const FormatedNumber = ({ value }: { value: number | string }) => {
 
 export default LoanTable;
 
+const reduceNumber = (
+  arrayOfElements: LoanTableElementType[],
+  key: keyof LoanTableElementType
+): number => {
+  return arrayOfElements.reduce(
+    (accumulator, loan) => accumulator + Number(loan[key]),
+    0
+  );
+};
