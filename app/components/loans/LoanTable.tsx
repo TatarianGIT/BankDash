@@ -56,7 +56,7 @@ const DataTable = ({ loansData }: DataTableProps) => {
   );
 
   const footer = (
-    <Table.Tr className="border-t-4 ">
+    <Table.Tr>
       <Table.Th></Table.Th>
       <Table.Th>Total</Table.Th>
       <Table.Th>
@@ -109,10 +109,8 @@ const DataTable = ({ loansData }: DataTableProps) => {
             onChange={(event) =>
               setSelectedRows(
                 event.currentTarget.checked
-                  ? [...selectedRows, loan].sort()
-                  : selectedRows
-                      .filter((oldLoan) => oldLoan.SLNo !== loan.SLNo)
-                      .sort()
+                  ? [...selectedRows, loan]
+                  : selectedRows.filter((oldLoan) => oldLoan.SLNo !== loan.SLNo)
               )
             }
           />
@@ -185,5 +183,5 @@ const reduceNumber = (
 };
 
 const objSort = (objArray: LoanTableElementType[]) => {
-  return objArray.sort((a, b) => a.SLNo - b.SLNo);
+  return [...objArray].sort((a, b) => a.SLNo - b.SLNo);
 };
