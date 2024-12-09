@@ -9,7 +9,7 @@ import {
 
 const LoanBadgeSection = () => {
   const colSpan = useMatches({
-    base: 1,
+    base: 6,
     md: 3,
   });
 
