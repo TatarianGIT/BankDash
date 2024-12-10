@@ -125,8 +125,8 @@ export const navList: NavElementType[] = [
   },
   {
     id: 7,
-    label: "Servieces",
-    value: "serviece",
+    label: "Services",
+    value: "service",
     icon: <PencilRuler />,
   },
   {
