@@ -1,4 +1,4 @@
-import { Card, Grid, NumberFormatter, Text } from "@mantine/core";
+import { Card, Grid, NumberFormatter, ScrollArea, Text } from "@mantine/core";
 import { ReactElement, ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
@@ -6,13 +6,28 @@ type ItemBadgeProps = {
   children: ReactElement<typeof ItemBadge>[];
   colSpan: number | "auto" | "content";
   className?: string;
+  shouldOverflow?: boolean;
 };
 
 const ItemBadgeContainer = ({
   children,
   className,
   colSpan,
+  shouldOverflow,
 }: ItemBadgeProps) => {
+  if (shouldOverflow)
+    return (
+      <>
+        <Grid.Col span={colSpan} className="hidden md:block">
+          <Grid className={cn(className, "")}>{children}</Grid>
+        </Grid.Col>
+
+        <ScrollArea className="block md:hidden w-full" offsetScrollbars>
+          <div className="flex flex-row min-w-max">{children}</div>
+        </ScrollArea>
+      </>
+    );
+
   return (
     <Grid.Col span={colSpan}>
       <Grid className={cn(className, "")}>{children}</Grid>
