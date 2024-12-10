@@ -2,6 +2,7 @@ import { Button, Checkbox, NumberFormatter, Table, Text } from "@mantine/core";
 import React, { useState } from "react";
 import { LoanTableElementType } from "~/data/loan/mockedData";
 import CardContainer from "../common/CardContainer";
+import { RotateCcw } from "lucide-react";
 
 type LoanTableProps = {
   loansData: LoanTableElementType[];
@@ -9,7 +10,7 @@ type LoanTableProps = {
 
 const LoanTable = ({ loansData }: LoanTableProps) => {
   return (
-    <CardContainer>
+    <CardContainer className="p-0 md:p-3">
       <DataTable loansData={loansData} />
     </CardContainer>
   );
@@ -49,45 +50,48 @@ const DataTable = ({ loansData }: DataTableProps) => {
   };
 
   return (
-    <Table withTableBorder>
-      <Table.Thead>
-        <TableHeader
-          handleSelectAll={handleSelectAll}
-          allRowsChecked={allRowsChecked}
-        />
-      </Table.Thead>
-      <Table.Tbody>
-        {loansData.map((loan) => {
-          const isRowSelected = selectedRows.some(
-            (item) => item.SLNo === loan.SLNo
-          );
+    <>
+      <Table striped withColumnBorders withRowBorders highlightOnHover>
+        <Table.Thead>
+          <TableHeader
+            handleSelectAll={handleSelectAll}
+            allRowsChecked={allRowsChecked}
+          />
+        </Table.Thead>
+        <Table.Tbody>
+          {loansData.map((loan) => {
+            const isRowSelected = selectedRows.some(
+              (item) => item.SLNo === loan.SLNo
+            );
 
-          return (
-            <React.Fragment key={loan.SLNo}>
-              <TableRowData
-                loan={loan}
-                isRowSelected={isRowSelected}
-                handleRowSelect={handleSelectRow}
-              />
-            </React.Fragment>
-          );
-        })}
-      </Table.Tbody>
-      <Table.Tfoot>
-        <TableFooter
-          heading="Total"
-          money={totalMoney}
-          moneyLeft={totalMoneyLeft}
-          installment={totalInstallment}
-        />
-        <TableFooter
-          heading="Selected"
-          money={selectedMoneyTotal}
-          moneyLeft={selectedMoneyLeftTotal}
-          installment={selectedInstallmentTotal}
-        />
-      </Table.Tfoot>
-    </Table>
+            return (
+              <React.Fragment key={loan.SLNo}>
+                <TableRowData
+                  loan={loan}
+                  isRowSelected={isRowSelected}
+                  handleRowSelect={handleSelectRow}
+                />
+              </React.Fragment>
+            );
+          })}
+        </Table.Tbody>
+
+        <Table.Tfoot>
+          <TableFooter
+            heading="Total"
+            money={totalMoney}
+            moneyLeft={totalMoneyLeft}
+            installment={totalInstallment}
+          />
+          <TableFooter
+            heading="Selected"
+            money={selectedMoneyTotal}
+            moneyLeft={selectedMoneyLeftTotal}
+            installment={selectedInstallmentTotal}
+          />
+        </Table.Tfoot>
+      </Table>
+    </>
   );
 };
 
@@ -106,7 +110,6 @@ const TableRowData = ({
     <Table.Tr
       key={loan.SLNo}
       bg={isRowSelected ? "var(--mantine-color-blue-light)" : undefined}
-      style={{ border: "1px solid var(--mantine-color-default-border) " }}
     >
       <Table.Td>
         <Checkbox
@@ -117,7 +120,6 @@ const TableRowData = ({
           }
         />
       </Table.Td>
-
       <Table.Td className="md:table-cell hidden">#{loan.SLNo}</Table.Td>
       <Table.Td>
         <FormatedNumber value={loan.money} />
@@ -130,10 +132,9 @@ const TableRowData = ({
       </Table.Td>
       <Table.Td className="md:table-cell hidden">{loan.rate}%</Table.Td>
       <Table.Td className="sm:table-cell hidden">
-        <FormatedNumber value={loan.installment} /> {" / month"}
+        <FormatedNumber value={loan.installment} /> {" / mo"}
       </Table.Td>
-
-      <Table.Td>
+      <Table.Td className="flex justify-center">
         <RepayButton />
       </Table.Td>
     </Table.Tr>
@@ -152,7 +153,7 @@ const TableHeader = ({ allRowsChecked, handleSelectAll }: TableHeaderProps) => {
         <Checkbox
           checked={allRowsChecked}
           variant="outline"
-          aria-label="Select row"
+          aria-label="Select all rows"
           onChange={(event) => handleSelectAll(event.currentTarget.checked)}
         />
       </Table.Th>
@@ -181,30 +182,50 @@ const TableFooter = ({
   moneyLeft,
 }: TableFooterProps) => {
   return (
-    <Table.Tr>
-      <Table.Th></Table.Th>
-      <Table.Th>{heading}</Table.Th>
-      <Table.Th>
-        <FormatedNumber value={money.toFixed(2)} />
-      </Table.Th>
-      <Table.Th>
-        <FormatedNumber value={moneyLeft.toFixed(2)} />
-      </Table.Th>
-      <Table.Th></Table.Th>
-      <Table.Th></Table.Th>
-      <Table.Th>
-        <FormatedNumber value={installment.toFixed(2)} /> {" / month"}
-      </Table.Th>
-      <Table.Th></Table.Th>
-    </Table.Tr>
+    <>
+      <Table.Tr>
+        <Table.Td colSpan={8}>
+          <Text className="font-medium text-red-600">{heading}</Text>
+        </Table.Td>
+      </Table.Tr>
+      <Table.Tr>
+        <Table.Th></Table.Th>
+        <Table.Th>
+          <FormatedNumber value={money.toFixed(2)} />
+        </Table.Th>
+        <Table.Th>
+          <FormatedNumber value={moneyLeft.toFixed(2)} />
+        </Table.Th>
+        <Table.Th className="hidden md:table-cell"></Table.Th>
+        <Table.Th className="hidden md:table-cell"></Table.Th>
+        <Table.Th className="hidden sm:table-cell">
+          <FormatedNumber value={installment.toFixed(2)} /> {" / mo"}
+        </Table.Th>
+        <Table.Th className="hidden md:table-cell"></Table.Th>
+      </Table.Tr>
+    </>
   );
 };
 
 const RepayButton = () => {
   return (
-    <Button variant="outline" className="rounded-full">
-      Repay
-    </Button>
+    <>
+      <Button
+        variant="outline"
+        className="hidden md:inline-block rounded-full"
+        aria-label="Repay loan"
+      >
+        Repay
+      </Button>
+
+      <Button
+        variant="outline"
+        className="md:hidden rounded-full p-1"
+        aria-label="Repay loan"
+      >
+        <RotateCcw />
+      </Button>
+    </>
   );
 };
 
