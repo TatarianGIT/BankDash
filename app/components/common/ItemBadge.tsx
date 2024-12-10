@@ -47,7 +47,7 @@ export const ItemBadge = ({
         withBorder
         shadow="sm"
         radius={"lg"}
-        className="flex flex-row gap-2 w-full h-full"
+        className="flex flex-row gap-2 w-full h-full md:justify-center "
       >
         <div
           className={cn(
