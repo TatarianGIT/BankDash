@@ -24,7 +24,7 @@ type BadgeContentProps = {
   icon: ReactNode;
   heading: string;
   description: number | string;
-  colSpan: number | "auto" | "content";
+  colSpan?: number | "auto" | "content";
   backgroundColor: string;
 } & (
   | { type: "%"; operation: "income" | "expense" }
