@@ -22,7 +22,7 @@ const ItemBadgeContainer = ({
           <Grid className={cn(className, "")}>{children}</Grid>
         </Grid.Col>
 
-        <ScrollArea className="block md:hidden w-full" offsetScrollbars>
+        <ScrollArea className="block md:hidden w-full pb-2" type="always">
           <div className="flex flex-row min-w-max">{children}</div>
         </ScrollArea>
       </>
@@ -62,7 +62,7 @@ export const ItemBadge = ({
         withBorder
         shadow="sm"
         radius={"lg"}
-        className="flex flex-row gap-2 w-full h-full md:justify-center "
+        className="flex flex-row gap-2 w-full h-full md:justify-center"
       >
         <div
           className={cn(
