@@ -52,13 +52,14 @@ export const ItemBadge = ({
         <div
           className={cn(
             backgroundColor,
-            "h-12 w-12 rounded-full flex justify-center items-center"
+            "md:h-12 md:w-12 w-10 h-10 p-2 md:p-1 shrink-0 rounded-full flex justify-center items-center my-auto"
           )}
         >
           {icon}
         </div>
+
         <div className="flex flex-col justify-center">
-          <Text className="text-xs">{heading}</Text>
+          <Text className="text-xs ">{heading}</Text>
           {typeof description === "number" ? (
             <Amount
               description={description}
@@ -66,7 +67,9 @@ export const ItemBadge = ({
               operation={operation}
             />
           ) : (
-            <Text className="text-base font-semibold">{description}</Text>
+            <Text className="text-xs md:text-base font-semibold">
+              {description}
+            </Text>
           )}
         </div>
       </Card>
@@ -90,7 +93,7 @@ const Amount = ({ description, operation, type }: AmountProps) => {
     <>
       <NumberFormatter
         className={cn(
-          "text-base font-semibold",
+          "text-xs md:text-base font-semibold",
           operation === "expense" ? "text-red-500" : ""
         )}
         suffix={suffix}
