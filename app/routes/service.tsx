@@ -1,5 +1,11 @@
+import ServiceBadgeSection from "~/components/service/ServiceBadgeSection";
+
 const Service = () => {
-  return <div>service</div>;
+  return (
+    <>
+      <ServiceBadgeSection />
+    </>
+  );
 };
 
 export default Service;
