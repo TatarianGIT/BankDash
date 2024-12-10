@@ -110,6 +110,7 @@ const TableRowData = ({
     <Table.Tr
       key={loan.SLNo}
       bg={isRowSelected ? "var(--mantine-color-blue-light)" : undefined}
+      style={{ borderBottom: "1px solid var(--mantine-color-default-border)" }}
     >
       <Table.Td>
         <Checkbox
