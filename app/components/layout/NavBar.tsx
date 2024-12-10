@@ -131,12 +131,6 @@ export const navList: NavElementType[] = [
   },
   {
     id: 8,
-    label: "My Privileges",
-    value: "privileges",
-    icon: <Wrench />,
-  },
-  {
-    id: 9,
     label: "Settings",
     value: "setting",
     icon: <Settings />,
