@@ -1,5 +1,8 @@
 import { Tabs, Text } from "@mantine/core";
 import CardContainer from "../common/CardContainer";
+import ProfileTab from "./ProfileTab";
+import PreferencesTab from "./PreferencesTab";
+import SecurityTab from "./SecurityTab";
 
 const SettingCard = () => {
   return (
@@ -18,15 +21,15 @@ const SettingCard = () => {
         </Tabs.List>
 
         <Tabs.Panel value="profile">
-          Profile Tab
+          <ProfileTab />
         </Tabs.Panel>
 
         <Tabs.Panel value="preferences">
-          Preferences
+          <PreferencesTab />
         </Tabs.Panel>
 
         <Tabs.Panel value="security">
-          Security
+          <SecurityTab />
         </Tabs.Panel>
       </Tabs>
     </CardContainer>
