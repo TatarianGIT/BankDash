@@ -1,10 +1,15 @@
 import { SimpleGrid, useMatches } from "@mantine/core";
 import { useFetcher } from "@remix-run/react";
+import { PreferencesType } from "~/data/setting/mockedData";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import SwitchOption from "./SwitchOption";
 
-const PreferencesTab = () => {
+type PreferencesTabProps = {
+  data: PreferencesType;
+};
+
+const PreferencesTab = ({ data }: PreferencesTabProps) => {
   const fetcher = useFetcher();
   const cols = useMatches({
     base: 1,
@@ -15,12 +20,14 @@ const PreferencesTab = () => {
     <fetcher.Form method="POST" className="pt-10 px-1 md:px-6">
       <SimpleGrid cols={cols} verticalSpacing={"xl"}>
         <FormInput
+          select={data.currency}
           type="select"
           label="Currency"
           data={currencies}
           placeholder={currencies[0]}
         />
         <FormInput
+          select={data.timeZone}
           type="select"
           label="Time Zone"
           data={timezones.map((timezone) => {
@@ -28,11 +35,19 @@ const PreferencesTab = () => {
           })}
           placeholder={placeholderTimezone}
         />
-
         <div className="flex flex-col gap-2">
-          <SwitchOption label="I send or receive digita currency" />
-          <SwitchOption label="I receive merchant order" />
-          <SwitchOption label="There are recommendation for my account" />
+          <SwitchOption
+            checked={data.digitalCurrency}
+            label="I send or receive digital currency"
+          />
+          <SwitchOption
+            checked={data.merchantOrder}
+            label="I receive merchant order"
+          />
+          <SwitchOption
+            checked={data.recommendation}
+            label="There are recommendation for my account"
+          />
         </div>
       </SimpleGrid>
       <div className="flex justify-end w-full">
@@ -44,7 +59,7 @@ const PreferencesTab = () => {
 
 export default PreferencesTab;
 
-const currencies = ["USD ($)", "EUR (€)", "PLN (zł)"];
+const currencies = ["USD", "EUR", "PLN"];
 
 const timezones = [
   {

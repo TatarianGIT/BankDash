@@ -3,8 +3,13 @@ import { useFetcher } from "@remix-run/react";
 import { Pencil } from "lucide-react";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
+import { ProfileType } from "~/data/setting/mockedData";
 
-const ProfileTab = () => {
+type ProfileTabProps = {
+  data: ProfileType;
+};
+
+const ProfileTab = ({ data }: ProfileTabProps) => {
   const cols = useMatches({
     base: 1,
     md: 2,
@@ -18,16 +23,19 @@ const ProfileTab = () => {
       <fetcher.Form method="POST" className="w-full px-0 md:px-6">
         <SimpleGrid cols={cols}>
           <FormInput
+            value={data.fullName}
             label="Your Name"
             type="text"
             placeholder="Charlene Reed "
           />
           <FormInput
+            value={data.username}
             label="User Name"
             type="text"
             placeholder="Charlene Reed "
           />
           <FormInput
+            value={data.email}
             label="Email"
             type="email"
             placeholder="charlenereed@gmail.com"
@@ -37,20 +45,41 @@ const ProfileTab = () => {
             type="password"
             placeholder="**********"
           />
-          <FormInput label="Date of Birth" type="date" />
           <FormInput
+            date={new Date(data.birthDate)}
+            label="Date of Birth"
+            type="date"
+          />
+          <FormInput
+            value={data.presentAddress}
             label="Present Adress"
             type="text"
             placeholder="San Jose, California, USA"
           />
           <FormInput
+            value={data.permaAddress}
             label="Permament Address"
             type="text"
             placeholder="San Jose, California, USA"
           />
-          <FormInput label="City" type="text" placeholder="San Jose" />
-          <FormInput label="Postal Code" type="number" placeholder="45962" />
-          <FormInput label="Country" type="text" placeholder="USA" />
+          <FormInput
+            value={data.city}
+            label="City"
+            type="text"
+            placeholder="San Jose"
+          />
+          <FormInput
+            value={data.postalCode}
+            label="Postal Code"
+            type="number"
+            placeholder="45962"
+          />
+          <FormInput
+            value={data.country}
+            label="Country"
+            type="text"
+            placeholder="USA"
+          />
         </SimpleGrid>
 
         <div className="flex justify-end">
