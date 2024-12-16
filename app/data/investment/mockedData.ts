@@ -1,8 +1,12 @@
+import { wait } from "~/utils/wait";
+
 export async function getInvestment() {
+  await wait(700);
   return investmentData;
 }
 
 export async function getRevenue() {
+  await wait(2000);
   return revenueData;
 }
 
