@@ -1,58 +1,130 @@
 import { Button, Input, Select, Text } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
-import { X } from "lucide-react";
+import { Undo2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
 type FormInputProps = {
   label: string;
   placeholder?: string;
 } & (
+  | (
+      | {
+          type: "text" | "email";
+          value: string;
+          data?: undefined;
+          date?: null;
+          select?: null;
+        }
+      | {
+          type: "number";
+          value: number;
+          data?: undefined;
+          date?: null;
+          select?: null;
+        }
+    )
   | {
-      type: "text" | "email" | "password" | "number" | "date";
+      type: "date";
+      value?: undefined;
       data?: undefined;
+      date: Date | null;
+      select?: null;
     }
-  | { type: "select"; data: string[] }
+  | {
+      type: "select";
+      value?: undefined;
+      data: string[];
+      date?: null;
+      select: string;
+    }
+  | {
+      type: "password";
+      value?: undefined;
+      data?: undefined;
+      date?: null;
+      select?: null;
+    }
 );
 
-const FormInput = ({ type, label, placeholder, data }: FormInputProps) => {
-  const [value, setValue] = useState<string | number | undefined>();
-  const [dateValue, setDateValue] = useState<Date | null>(null);
+const FormInput = ({
+  type,
+  label,
+  placeholder,
+  data = undefined,
+  value = undefined,
+  date = null,
+  select = null,
+}: FormInputProps) => {
+  const initialInputValue = value;
+  const initialDateValue = date;
+  const initialSelectValue = select;
+
+  const [inputValue, setInputValue] = useState<string | number | undefined>(
+    value
+  );
+  const [selectValue, setSelectValue] = useState<string | null>(select);
+  const [dateValue, setDateValue] = useState<Date | null>(date);
 
   const handleClearValue = () => {
-    if (value || dateValue) {
-      setValue("");
-      setDateValue(null);
-    }
+    setInputValue(initialInputValue);
+    setDateValue(initialDateValue);
+    setSelectValue(initialSelectValue);
   };
 
-  if (type === "select")
+  if (type === "select") {
+    const isChanged = initialSelectValue !== selectValue;
     return (
-      <InputContainer value={value} onClick={handleClearValue} label={label}>
-        <Select placeholder={placeholder} data={data} searchable />
-      </InputContainer>
+      <>
+        <InputContainer
+          onClick={handleClearValue}
+          label={label}
+          showUndoButton={isChanged}
+        >
+          <Select
+            searchable
+            placeholder={placeholder}
+            data={data}
+            value={selectValue}
+            onChange={setSelectValue}
+            nothingFoundMessage="Nothing found..."
+            styles={{ section: { display: "none" } }}
+          />
+        </InputContainer>
+      </>
     );
+  }
 
-  if (type === "date")
+  if (type === "date") {
+    const isChanged =
+      initialDateValue?.toDateString() !== dateValue?.toDateString();
     return (
       <InputContainer
-        value={dateValue}
         onClick={handleClearValue}
         label={label}
+        showUndoButton={isChanged}
       >
-        <DateInput
-          value={dateValue}
-          onChange={setDateValue}
-          placeholder="Date input"
-          radius={"lg"}
-        />
+        <div>
+          <DateInput
+            value={dateValue}
+            onChange={setDateValue}
+            placeholder="Date input"
+            radius={"lg"}
+          />
+        </div>
       </InputContainer>
     );
+  }
 
+  const isChanged = initialInputValue !== inputValue;
   return (
-    <InputContainer value={value} onClick={handleClearValue} label={label}>
+    <InputContainer
+      onClick={handleClearValue}
+      label={label}
+      showUndoButton={isChanged}
+    >
       <Input
-        value={value}
-        onChange={(e) => setValue(e.currentTarget.value)}
+        value={inputValue ?? ""}
+        onChange={(e) => setInputValue(e.currentTarget.value)}
         type={type}
         radius={"lg"}
         placeholder={placeholder}
@@ -63,38 +135,38 @@ const FormInput = ({ type, label, placeholder, data }: FormInputProps) => {
 
 export default FormInput;
 
-const ClearButton = ({ onClick }: { onClick: () => void }) => {
-  return (
-    <Button
-      onClick={onClick}
-      variant="transparent"
-      className="absolute right-2 bottom-0 p-0"
-    >
-      <X size={20} />
-    </Button>
-  );
-};
-
 type InputContainerProps = {
   label: string;
   children: ReactNode;
-  value: (string | number | undefined) | (Date | null);
+  showUndoButton: boolean;
   onClick: () => void;
 };
 
 const InputContainer = ({
   label,
   children,
-  value,
   onClick,
+  showUndoButton,
 }: InputContainerProps) => {
   return (
     <div className="flex flex-col">
       <Text>{label}</Text>
       <div className="relative">
         {children}
-        {value && <ClearButton onClick={onClick} />}
+        {showUndoButton && <UndoButton onClick={onClick} />}
       </div>
     </div>
+  );
+};
+
+const UndoButton = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <Button
+      onClick={onClick}
+      variant="transparent"
+      className="absolute right-3 bottom-0 p-0"
+    >
+      <Undo2 size={20} />
+    </Button>
   );
 };
