@@ -93,6 +93,7 @@ const FormInput = ({
         >
           <Select
             searchable
+            radius={"lg"}
             placeholder={placeholder}
             data={data}
             value={selectValue ?? ""}
