@@ -14,7 +14,7 @@ const RecentTransaction = () => {
       shadow="md"
       radius={"lg"}
       withBorder
-      className="flex justify-center items-center p-1"
+      className="flex justify-center items-center p-1 w-full"
     >
       {RecentTransactionData?.length ? (
         RecentTransactionData.map((transaction: TransactionType) => (

@@ -14,7 +14,7 @@ const InvestmentChart = ({ type, data }: InvestmentChartProps) => {
     type === "investment" ? "linear" : type === "revenue" ? "bump" : undefined;
 
   return (
-    <Card withBorder shadow="sm" radius={"lg"}>
+    <Card withBorder shadow="sm" radius={"lg"} className="w-full">
       <LineChart
         className="pt-3 pr-2"
         h={300}

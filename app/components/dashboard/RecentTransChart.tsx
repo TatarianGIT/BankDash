@@ -11,7 +11,7 @@ type RecentTransChartProps = {
 
 const RecentTransChart = ({ data }: RecentTransChartProps) => {
   return (
-    <Card shadow="md" radius={"lg"} withBorder className="p-6">
+    <Card shadow="md" radius={"lg"} withBorder className="p-6 w-full">
       <BarChart
         h={300}
         data={data}

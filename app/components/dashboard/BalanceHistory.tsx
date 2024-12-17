@@ -10,7 +10,7 @@ type BalanceHistoryProps = {
 
 const BalanceHistory = ({ data }: BalanceHistoryProps) => {
   return (
-    <Card shadow="md" withBorder radius={"lg"} className="p-5 pl-0">
+    <Card shadow="md" withBorder radius={"lg"} className="p-5 pl-0 w-full">
       <AreaChart
         h={300}
         data={data}

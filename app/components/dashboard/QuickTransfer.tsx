@@ -17,7 +17,7 @@ type QuickTransferProps = {
 
 const QuickTransfer = ({ data }: QuickTransferProps) => {
   return (
-    <Card shadow="md" radius={"lg"} withBorder className="p-0 flex-col">
+    <Card shadow="md" radius={"lg"} withBorder className="p-0 flex-col w-full">
       {data.length ? (
         <>
           <Carousel

@@ -15,7 +15,7 @@ const ExpenseRoundChart = ({ data }: ExpenseRoundChartProps) => {
       shadow="md"
       withBorder
       radius={"lg"}
-      className="p-4 flex justify-center items-center"
+      className="p-4 flex justify-center items-center w-full"
     >
       <PieChart
         withLabelsLine
