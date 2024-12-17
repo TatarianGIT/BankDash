@@ -10,7 +10,7 @@ type PreferencesTabProps = WithLoading<{
   data?: PreferencesType;
 }>;
 
-const PreferencesTab = ({ data }: PreferencesTabProps) => {
+const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
   const fetcher = useFetcher();
   const cols = useMatches({
     base: 1,
@@ -21,6 +21,7 @@ const PreferencesTab = ({ data }: PreferencesTabProps) => {
     <fetcher.Form method="POST" className="pt-10 px-1 md:px-6">
       <SimpleGrid cols={cols} verticalSpacing={"xl"}>
         <FormInput
+          isLoading={isLoading}
           select={data?.currency}
           type="select"
           label="Currency"
@@ -28,6 +29,7 @@ const PreferencesTab = ({ data }: PreferencesTabProps) => {
           placeholder={currencies[0]}
         />
         <FormInput
+          isLoading={isLoading}
           select={data?.timeZone}
           type="select"
           label="Time Zone"
@@ -38,14 +40,17 @@ const PreferencesTab = ({ data }: PreferencesTabProps) => {
         />
         <div className="flex flex-col gap-2">
           <SwitchOption
+            isLoading={isLoading}
             checked={data?.digitalCurrency}
             label="I send or receive digital currency"
           />
           <SwitchOption
+            isLoading={isLoading}
             checked={data?.merchantOrder}
             label="I receive merchant order"
           />
           <SwitchOption
+            isLoading={isLoading}
             checked={data?.recommendation}
             label="There are recommendation for my account"
           />
