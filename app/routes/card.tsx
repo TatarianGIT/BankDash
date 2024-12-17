@@ -1,17 +1,18 @@
 import { ActionFunctionArgs } from "@remix-run/node";
-import { json, useLoaderData } from "@remix-run/react";
+import { defer, json, useLoaderData } from "@remix-run/react";
 import AddNewCard from "~/components/card/AddNewCard";
 import CardList from "~/components/card/CardList";
 import CardSetting from "~/components/card/CardSetting";
 import ExpenseStatistics from "~/components/card/ExpenseStatistics";
 import CreditCard from "~/components/common/CreditCard";
 import Item from "~/components/common/Item";
+import LoadingItem from "~/components/common/LoadingItem";
 import { addNewCard, CardData, getAllCards } from "~/data/card/addNewCard";
 
 export const loader = async () => {
-  const cards = await getAllCards();
+  const cards = getAllCards();
 
-  return json({ cards });
+  return defer({ cards });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -35,11 +36,13 @@ const Card = () => {
   return (
     <>
       <Item shouldOverflow={true} size="full" leftHeading="My Cards">
-        {cards.length
-          ? cards.map((creditCard) => (
+        <LoadingItem data={cards}>
+          {(response) =>
+            response.map((creditCard) => (
               <CreditCard key={creditCard.id} {...creditCard} />
             ))
-          : null}
+          }
+        </LoadingItem>
       </Item>
 
       <Item size="small" leftHeading="Card Expense Statistics">

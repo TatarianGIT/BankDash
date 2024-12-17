@@ -1,22 +1,25 @@
-import { json, LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import Item from "~/components/common/Item";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { Await, defer, useLoaderData } from "@remix-run/react";
+import { Suspense } from "react";
 import CreditCard from "~/components/common/CreditCard";
+import Item from "~/components/common/Item";
+import LoadingItem, {
+  SkeletonContainer,
+} from "~/components/common/LoadingItem";
 import MyExpense from "~/components/transaction/MyExpense";
 import RecentTransactionsTable from "~/components/transaction/RecentTransactionsTable";
+import { MockedCreditCardData } from "~/data/common/creditCard";
+import { getMyExpense } from "~/data/transaction/myExpense.js";
 import {
   checkLimit,
   checkOffset,
   checkOperation,
   getRecentTransactions,
   getRecentTransactionsLength,
-  RecentTransactionsType,
 } from "~/data/transaction/recentTransations.js";
-import { getMyExpense } from "~/data/transaction/myExpense.js";
-import { MockedCreditCardData } from "~/data/common/creditCard";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const myExpense = await getMyExpense();
+  const myExpense = getMyExpense();
 
   const url = new URL(request.url);
 
@@ -28,16 +31,19 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const operation = checkOperation(getOperation);
   const offset = checkOffset(getOffset, operation, limit);
 
-  const recentTransactionsLength = await getRecentTransactionsLength({
+  const recentTransactionsLength = getRecentTransactionsLength({
     operation,
   });
 
-  const recentTransactionsData: RecentTransactionsType[] =
-    await getRecentTransactions({ limit, offset, operation });
+  const recentTransactionsData = getRecentTransactions({
+    limit,
+    offset,
+    operation,
+  });
 
-  const totalPages = Math.ceil(recentTransactionsLength / limit);
+  const totalPages = Math.ceil(Number(recentTransactionsLength) / limit);
 
-  return json({
+  return defer({
     myExpense,
     recentTransactionsData,
     recentTransactionsLength,
@@ -63,7 +69,9 @@ const Transaction = () => {
       </Item>
 
       <Item leftHeading="My Expense" size="small">
-        <MyExpense data={data.myExpense} />
+        <LoadingItem data={data.myExpense}>
+          {(response) => <MyExpense data={response} />}
+        </LoadingItem>
       </Item>
 
       <Item
@@ -71,11 +79,23 @@ const Transaction = () => {
         size="full"
         className="col-span-1"
       >
-        <RecentTransactionsTable
-          data={data.recentTransactionsData}
-          dataLength={data.recentTransactionsLength}
-          totalPages={data.totalPages}
-        />
+        <Suspense fallback={<SkeletonContainer />}>
+          <Await
+            resolve={Promise.all([
+              data.recentTransactionsData,
+              data.recentTransactionsLength,
+              data.totalPages,
+            ])}
+          >
+            {([resolvedData, resolvedLength, resolvedTotalPages]) => (
+              <RecentTransactionsTable
+                data={resolvedData}
+                dataLength={resolvedLength}
+                totalPages={resolvedTotalPages}
+              />
+            )}
+          </Await>
+        </Suspense>
       </Item>
     </>
   );

@@ -1,13 +1,14 @@
-import { json, useLoaderData } from "@remix-run/react";
+import { defer, useLoaderData } from "@remix-run/react";
 import Item from "~/components/common/Item";
+import LoadingItem from "~/components/common/LoadingItem";
 import LoanBadgeSection from "~/components/loans/LoanBadgeSection";
 import LoanTable from "~/components/loans/LoanTable";
 import { getLoansData } from "~/data/loan/mockedData";
 
 export const loader = async () => {
-  const loansData = await getLoansData();
+  const loansData = getLoansData();
 
-  return json({ loansData });
+  return defer({ loansData });
 };
 
 const Loan = () => {
@@ -18,7 +19,9 @@ const Loan = () => {
       <LoanBadgeSection />
 
       <Item leftHeading="Active Loans Overview" size="full">
-        <LoanTable loansData={loansData} />
+        <LoadingItem data={loansData} className="h-[600px]">
+          {(reponse) => <LoanTable loansData={reponse} />}
+        </LoadingItem>
       </Item>
     </>
   );

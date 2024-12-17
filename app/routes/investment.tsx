@@ -1,5 +1,6 @@
-import { json, useLoaderData } from "@remix-run/react";
+import { defer, useLoaderData } from "@remix-run/react";
 import Item from "~/components/common/Item";
+import LoadingItem from "~/components/common/LoadingItem";
 import InvestmentBadgeSection from "~/components/investment/InvestmentBadgeSection";
 import InvestmentChart from "~/components/investment/InvestmentChart";
 import MyInvestment from "~/components/investment/MyInvestment";
@@ -7,10 +8,10 @@ import TrendingStock from "~/components/investment/TrendingStock";
 import { getInvestment, getRevenue } from "~/data/investment/mockedData";
 
 export const loader = async () => {
-  const ivestments = await getInvestment();
-  const revenue = await getRevenue();
+  const ivestments = getInvestment();
+  const revenue = getRevenue();
 
-  return json({ ivestments, revenue });
+  return defer({ ivestments, revenue });
 };
 
 const Investment = () => {
@@ -21,11 +22,15 @@ const Investment = () => {
       <InvestmentBadgeSection />
 
       <Item leftHeading="Yearly Total Investment" size="half">
-        <InvestmentChart type="investment" data={data.ivestments} />
+        <LoadingItem data={data.ivestments}>
+          {(response) => <InvestmentChart type="investment" data={response} />}
+        </LoadingItem>
       </Item>
 
       <Item leftHeading="Yearly Total Investment" size="half">
-        <InvestmentChart type="revenue" data={data.revenue} />
+        <LoadingItem data={data.revenue}>
+          {(response) => <InvestmentChart type="revenue" data={response} />}
+        </LoadingItem>
       </Item>
 
       <Item leftHeading="My Investment" size="medium">

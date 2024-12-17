@@ -1,26 +1,33 @@
-import { json, type MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { type MetaFunction } from "@remix-run/node";
+import { defer, useLoaderData } from "@remix-run/react";
 import CreditCard from "~/components/common/CreditCard";
-import ExpenseRoundChart from "~/components/dashboard/ExpenseRoundChart";
 import Item from "~/components/common/Item";
+import LoadingItem from "~/components/common/LoadingItem";
+import BalanceHistory from "~/components/dashboard/BalanceHistory";
+import ExpenseRoundChart from "~/components/dashboard/ExpenseRoundChart";
 import QuickTransfer from "~/components/dashboard/QuickTransfer";
 import RecentTransaction from "~/components/dashboard/RecentTransaction";
 import RecentTransChart from "~/components/dashboard/RecentTransChart";
+import { MockedCreditCardData } from "~/data/common/creditCard";
 import { getAllContacts } from "~/data/dashboard/contacts.js";
 import {
   getBalanceHistory,
   getExpenseStatistics,
   getRecentTransactions,
 } from "~/data/dashboard/mockedData.js";
-import BalanceHistory from "~/components/dashboard/BalanceHistory";
-import { MockedCreditCardData } from "~/data/common/creditCard";
 
 export const loader = async () => {
-  const transactionData = await getRecentTransactions();
-  const expenseStatistics = await getExpenseStatistics();
-  const contacts = await getAllContacts();
-  const balanceHistory = await getBalanceHistory();
-  return json({ transactionData, expenseStatistics, contacts, balanceHistory });
+  const transactionData = getRecentTransactions();
+  const expenseStatistics = getExpenseStatistics();
+  const contacts = getAllContacts();
+  const balanceHistory = getBalanceHistory();
+
+  return defer({
+    transactionData,
+    expenseStatistics,
+    contacts,
+    balanceHistory,
+  });
 };
 
 export const meta: MetaFunction = () => {
@@ -51,20 +58,28 @@ export default function Index() {
         <RecentTransaction />
       </Item>
 
-      <Item size="medium" leftHeading="Recent Transaction">
-        <RecentTransChart data={data.transactionData} />
+      <Item size="medium" leftHeading="Expense Statistics">
+        <LoadingItem data={data.transactionData}>
+          {(response) => <RecentTransChart data={response} />}
+        </LoadingItem>
       </Item>
 
       <Item size="small" leftHeading="Expense Statistics">
-        <ExpenseRoundChart data={data.expenseStatistics} />
+        <LoadingItem data={data.expenseStatistics}>
+          {(response) => <ExpenseRoundChart data={response} />}
+        </LoadingItem>
       </Item>
 
       <Item size="small" leftHeading="Quick Transfer">
-        <QuickTransfer data={data.contacts} />
+        <LoadingItem data={data.contacts}>
+          {(response) => <QuickTransfer data={response} />}
+        </LoadingItem>
       </Item>
 
       <Item size="medium" leftHeading="Balance History">
-        <BalanceHistory data={data.balanceHistory} />
+        <LoadingItem data={data.balanceHistory}>
+          {(response) => <BalanceHistory data={response} />}
+        </LoadingItem>
       </Item>
     </>
   );
