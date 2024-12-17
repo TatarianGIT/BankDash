@@ -6,14 +6,14 @@ const SwitchOption = ({
   checked,
 }: {
   label: string;
-  checked: boolean;
+  checked: boolean | undefined;
 }) => {
-  const [isChecked, setIsChecked] = useState<boolean>(checked);
+  const [isChecked, setIsChecked] = useState<boolean | undefined>(checked);
 
   return (
     <Switch
       label={label}
-      checked={isChecked}
+      checked={isChecked ?? false}
       onChange={(e) => setIsChecked(e.currentTarget.checked)}
     />
   );

@@ -4,10 +4,11 @@ import { PreferencesType } from "~/data/setting/mockedData";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import SwitchOption from "./SwitchOption";
+import { WithLoading } from "~/types";
 
-type PreferencesTabProps = {
-  data: PreferencesType;
-};
+type PreferencesTabProps = WithLoading<{
+  data?: PreferencesType;
+}>;
 
 const PreferencesTab = ({ data }: PreferencesTabProps) => {
   const fetcher = useFetcher();
@@ -20,14 +21,14 @@ const PreferencesTab = ({ data }: PreferencesTabProps) => {
     <fetcher.Form method="POST" className="pt-10 px-1 md:px-6">
       <SimpleGrid cols={cols} verticalSpacing={"xl"}>
         <FormInput
-          select={data.currency}
+          select={data?.currency}
           type="select"
           label="Currency"
           data={currencies}
           placeholder={currencies[0]}
         />
         <FormInput
-          select={data.timeZone}
+          select={data?.timeZone}
           type="select"
           label="Time Zone"
           data={timezones.map((timezone) => {
@@ -37,15 +38,15 @@ const PreferencesTab = ({ data }: PreferencesTabProps) => {
         />
         <div className="flex flex-col gap-2">
           <SwitchOption
-            checked={data.digitalCurrency}
+            checked={data?.digitalCurrency}
             label="I send or receive digital currency"
           />
           <SwitchOption
-            checked={data.merchantOrder}
+            checked={data?.merchantOrder}
             label="I receive merchant order"
           />
           <SwitchOption
-            checked={data.recommendation}
+            checked={data?.recommendation}
             label="There are recommendation for my account"
           />
         </div>

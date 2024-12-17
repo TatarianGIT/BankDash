@@ -4,12 +4,13 @@ import { Pencil } from "lucide-react";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import { ProfileType } from "~/data/setting/mockedData";
+import { WithLoading } from "~/types";
 
-type ProfileTabProps = {
-  data: ProfileType;
-};
+type ProfileTabProps = WithLoading<{
+  data?: ProfileType;
+}>;
 
-const ProfileTab = ({ data }: ProfileTabProps) => {
+const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
   const cols = useMatches({
     base: 1,
     md: 2,
@@ -23,59 +24,69 @@ const ProfileTab = ({ data }: ProfileTabProps) => {
       <fetcher.Form method="POST" className="w-full px-0 md:px-6">
         <SimpleGrid cols={cols}>
           <FormInput
-            value={data.fullName}
+            isLoading={isLoading}
+            value={data?.fullName}
             label="Your Name"
             type="text"
             placeholder="Charlene Reed "
           />
           <FormInput
-            value={data.username}
+            isLoading={isLoading}
+            value={data?.username}
             label="User Name"
             type="text"
             placeholder="Charlene Reed "
           />
           <FormInput
-            value={data.email}
+            isLoading={isLoading}
+            value={data?.email}
             label="Email"
             type="email"
             placeholder="charlenereed@gmail.com"
           />
           <FormInput
+            isLoading={isLoading}
             label="Password"
             type="password"
             placeholder="**********"
           />
           <FormInput
-            date={new Date(data.birthDate)}
+            isLoading={isLoading}
+            date={new Date(data?.birthDate ?? "")}
             label="Date of Birth"
             type="date"
           />
           <FormInput
-            value={data.presentAddress}
+            isLoading={isLoading}
+            value={data?.presentAddress}
             label="Present Adress"
             type="text"
             placeholder="San Jose, California, USA"
           />
           <FormInput
-            value={data.permaAddress}
+            isLoading={isLoading}
+            value={data?.permaAddress}
             label="Permament Address"
             type="text"
             placeholder="San Jose, California, USA"
           />
           <FormInput
-            value={data.city}
+            isLoading={isLoading}
+            value={data?.city}
             label="City"
             type="text"
             placeholder="San Jose"
           />
           <FormInput
-            value={data.postalCode}
+            isLoading={isLoading}
+            value={data?.postalCode ?? 0}
             label="Postal Code"
             type="number"
             placeholder="45962"
           />
           <FormInput
-            value={data.country}
+            isLoading={isLoading}
+            value={data?.country}
             label="Country"
             type="text"
             placeholder="USA"

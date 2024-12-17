@@ -1,50 +1,53 @@
-import { Button, Input, Select, Text } from "@mantine/core";
+import { Button, Input, Select, Skeleton, Text } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { Undo2 } from "lucide-react";
 import { ReactNode, useState } from "react";
+import { WithLoading } from "~/types";
 
-type FormInputProps = {
-  label: string;
-  placeholder?: string;
-} & (
-  | (
-      | {
-          type: "text" | "email";
-          value: string;
-          data?: undefined;
-          date?: null;
-          select?: null;
-        }
-      | {
-          type: "number";
-          value: number;
-          data?: undefined;
-          date?: null;
-          select?: null;
-        }
-    )
-  | {
-      type: "date";
-      value?: undefined;
-      data?: undefined;
-      date: Date | null;
-      select?: null;
-    }
-  | {
-      type: "select";
-      value?: undefined;
-      data: string[];
-      date?: null;
-      select: string;
-    }
-  | {
-      type: "password";
-      value?: undefined;
-      data?: undefined;
-      date?: null;
-      select?: null;
-    }
-);
+type FormInputProps = WithLoading<
+  {
+    label: string;
+    placeholder?: string;
+  } & (
+    | (
+        | {
+            type: "text" | "email";
+            value: string | undefined;
+            data?: undefined;
+            date?: null;
+            select?: null;
+          }
+        | {
+            type: "number";
+            value: number | undefined;
+            data?: undefined;
+            date?: null;
+            select?: null;
+          }
+      )
+    | {
+        type: "date";
+        value?: undefined;
+        data?: undefined;
+        date: Date | null | undefined;
+        select?: null;
+      }
+    | {
+        type: "select";
+        value?: undefined;
+        data: string[];
+        date?: null;
+        select: string | undefined;
+      }
+    | {
+        type: "password";
+        value?: undefined;
+        data?: undefined;
+        date?: null;
+        select?: null;
+      }
+  )
+>;
 
 const FormInput = ({
   type,
@@ -54,6 +57,7 @@ const FormInput = ({
   value = undefined,
   date = null,
   select = null,
+  isLoading = false,
 }: FormInputProps) => {
   const initialInputValue = value;
   const initialDateValue = date;
@@ -71,6 +75,13 @@ const FormInput = ({
     setSelectValue(initialSelectValue);
   };
 
+  if (isLoading)
+    return (
+      <InputContainer label={label}>
+        <Skeleton className="h-9 rounded-3xl" />
+      </InputContainer>
+    );
+
   if (type === "select") {
     const isChanged = initialSelectValue !== selectValue;
     return (
@@ -84,7 +95,7 @@ const FormInput = ({
             searchable
             placeholder={placeholder}
             data={data}
-            value={selectValue}
+            value={selectValue ?? ""}
             onChange={setSelectValue}
             nothingFoundMessage="Nothing found..."
             styles={{ section: { display: "none" } }}
@@ -105,7 +116,7 @@ const FormInput = ({
       >
         <div>
           <DateInput
-            value={dateValue}
+            value={dateValue ?? null}
             onChange={setDateValue}
             placeholder="Date input"
             radius={"lg"}
@@ -136,10 +147,10 @@ const FormInput = ({
 export default FormInput;
 
 type InputContainerProps = {
-  label: string;
-  children: ReactNode;
-  showUndoButton: boolean;
-  onClick: () => void;
+  label?: string;
+  children?: ReactNode;
+  showUndoButton?: boolean;
+  onClick?: () => void;
 };
 
 const InputContainer = ({
@@ -149,11 +160,11 @@ const InputContainer = ({
   showUndoButton,
 }: InputContainerProps) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full h-full">
       <Text>{label}</Text>
       <div className="relative">
         {children}
-        {showUndoButton && <UndoButton onClick={onClick} />}
+        {onClick && showUndoButton && <UndoButton onClick={onClick} />}
       </div>
     </div>
   );

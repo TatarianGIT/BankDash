@@ -3,10 +3,11 @@ import SwitchOption from "./SwitchOption";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import { SecurityType } from "~/data/setting/mockedData";
+import { WithLoading } from "~/types";
 
-type SecurityTabProps = {
-  data: SecurityType;
-};
+type SecurityTabProps = WithLoading<{
+  data?: SecurityType;
+}>;
 
 const SecurityTab = ({ data }: SecurityTabProps) => {
   return (
@@ -14,7 +15,7 @@ const SecurityTab = ({ data }: SecurityTabProps) => {
       <div className="flex flex-col gap-3">
         <Text>Two-factor Authentication</Text>
         <SwitchOption
-          checked={data.twoFa}
+          checked={data?.twoFa ?? false}
           label="Enable or disable two factor authentication"
         />
       </div>
