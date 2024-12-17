@@ -1,3 +1,5 @@
+import { wait } from "~/utils/wait";
+
 const allowedOperations = ["all", "expense", "income"] as const;
 export type AllowedOperations = (typeof allowedOperations)[number];
 
@@ -71,7 +73,8 @@ export const getRecentTransactionsLength = async ({
   operation,
 }: {
   operation: AllowedOperations;
-}): Promise<number> => {
+}) => {
+  await wait(600);
   return filterData(recentTransactionsData, operation).length;
 };
 
@@ -85,7 +88,9 @@ export const getRecentTransactions = async ({
   limit,
   offset,
   operation,
-}: GetRecentTransactionsType): Promise<RecentTransactionsType[]> => {
+}: GetRecentTransactionsType) => {
+  await wait(600);
+
   const filteredData = filterData(recentTransactionsData, operation);
 
   let rowLimit = 5;

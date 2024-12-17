@@ -1,12 +1,17 @@
+import { wait } from "~/utils/wait";
+
 export const getProfile = async () => {
+  await wait(800);
   return settings.getProfile();
 };
 
 export const getPreferences = async () => {
+  await wait(1100);
   return settings.getPreferences();
 };
 
 export const getSecurity = async () => {
+  await wait(1500);
   return settings.getSecurity();
 };
 

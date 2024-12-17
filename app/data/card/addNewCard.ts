@@ -25,6 +25,8 @@ export const addNewCard = async (data: CardData): Promise<NewCardResponse> => {
 };
 
 export const getAllCards = async () => {
+  await wait(1000);
+
   return card.getAll();
 };
 
@@ -81,7 +83,6 @@ const card = {
   },
 
   async getAll(): Promise<CardData[]> {
-    await wait(1000);
     return Object.keys(card.records).map((key) => card.records[key]);
   },
 };

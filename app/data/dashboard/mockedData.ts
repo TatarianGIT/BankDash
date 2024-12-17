@@ -1,12 +1,17 @@
+import { wait } from "~/utils/wait";
+
 export const getRecentTransactions = async () => {
+  await wait(700);
   return transactionData;
 };
 
 export const getExpenseStatistics = async () => {
+  await wait(1500);
   return expenseStatistics;
 };
 
 export const getBalanceHistory = async () => {
+  await wait(2000);
   return balanceHistory;
 };
 
