@@ -11,10 +11,6 @@ type ProfileTabProps = WithLoading<{
 }>;
 
 const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
-  const cols = useMatches({
-    base: 1,
-    md: 2,
-  });
   const fetcher = useFetcher();
 
   return (
@@ -22,7 +18,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
       <UserAvatar />
 
       <fetcher.Form method="POST" className="w-full px-0 md:px-6">
-        <SimpleGrid cols={cols}>
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
           <FormInput
             isLoading={isLoading}
             value={data?.fullName}
@@ -91,7 +87,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             type="text"
             placeholder="USA"
           />
-        </SimpleGrid>
+        </div>
 
         <div className="flex justify-end">
           <SaveButton />

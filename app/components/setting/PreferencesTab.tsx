@@ -1,10 +1,9 @@
-import { SimpleGrid, useMatches } from "@mantine/core";
 import { useFetcher } from "@remix-run/react";
 import { PreferencesType } from "~/data/setting/mockedData";
+import { WithLoading } from "~/types";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import SwitchOption from "./SwitchOption";
-import { WithLoading } from "~/types";
 
 type PreferencesTabProps = WithLoading<{
   data?: PreferencesType;
@@ -12,14 +11,10 @@ type PreferencesTabProps = WithLoading<{
 
 const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
   const fetcher = useFetcher();
-  const cols = useMatches({
-    base: 1,
-    md: 2,
-  });
 
   return (
     <fetcher.Form method="POST" className="pt-10 px-1 md:px-6">
-      <SimpleGrid cols={cols} verticalSpacing={"xl"}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormInput
           isLoading={isLoading}
           select={data?.currency}
@@ -38,7 +33,7 @@ const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
           })}
           placeholder={placeholderTimezone}
         />
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-4">
           <SwitchOption
             isLoading={isLoading}
             checked={data?.digitalCurrency}
@@ -55,7 +50,7 @@ const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
             label="There are recommendation for my account"
           />
         </div>
-      </SimpleGrid>
+      </div>
       <div className="flex justify-end w-full">
         <SaveButton />
       </div>
