@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { z } from "zod";
 
 export const addNewCard = async (data: CardData): Promise<NewCardResponse> => {
+  await wait(600);
   const parsed = await cardFormSchema.safeParseAsync(data);
 
   if (!parsed.success) {
@@ -25,7 +26,7 @@ export const addNewCard = async (data: CardData): Promise<NewCardResponse> => {
 };
 
 export const getAllCards = async () => {
-  await wait(1000);
+  await wait(800);
 
   return card.getAll();
 };
