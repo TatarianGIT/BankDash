@@ -21,7 +21,7 @@ const SecurityTab = ({ data, isLoading }: SecurityTabProps) => {
         />
       </div>
 
-      <div className="w-1/2 flex flex-col gap-3">
+      <div className="md:w-1/2 sm:w-3/5 w-full max-w-96 flex flex-col gap-3">
         <Text>Change Password</Text>
         <FormInput
           isLoading={isLoading}
