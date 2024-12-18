@@ -1,10 +1,9 @@
-import { Grid, ScrollArea, Text } from "@mantine/core";
+import { Grid, Text } from "@mantine/core";
 import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
 type ItemCardProps = {
   children: ReactNode;
-  shouldOverflow?: boolean;
   leftHeading: string;
   className?: string;
   size: "small" | "medium" | "full" | "half";
@@ -20,10 +19,7 @@ const Item = ({
   size,
   variant = "default",
   className,
-  shouldOverflow = false,
 }: ItemCardProps) => {
-  const isChildrenArray = Array.isArray(children);
-
   return (
     <Grid.Col
       className={cn("w-full h-full", className)}
@@ -45,21 +41,7 @@ const Item = ({
         {variant === "alt" && <Text>{variant === "alt" && rightHeading}</Text>}
       </div>
 
-      {shouldOverflow ? (
-        <ScrollArea offsetScrollbars={true} type="always">
-          <div
-            className={cn(
-              isChildrenArray
-                ? "flex md:grid md:grid-cols-2 gap-7 justify-center items-center"
-                : ""
-            )}
-          >
-            {children}
-          </div>
-        </ScrollArea>
-      ) : (
-        <>{children}</>
-      )}
+      {children}
     </Grid.Col>
   );
 };
