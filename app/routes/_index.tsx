@@ -1,6 +1,7 @@
 import { type MetaFunction } from "@remix-run/node";
 import { defer, useLoaderData } from "@remix-run/react";
 import CreditCard from "~/components/common/CreditCard";
+import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
 import BalanceHistory from "~/components/dashboard/BalanceHistory";
@@ -8,7 +9,7 @@ import ExpenseRoundChart from "~/components/dashboard/ExpenseRoundChart";
 import QuickTransfer from "~/components/dashboard/QuickTransfer";
 import RecentTransaction from "~/components/dashboard/RecentTransaction";
 import RecentTransChart from "~/components/dashboard/RecentTransChart";
-import { MockedCreditCardData } from "~/data/common/creditCard";
+import { getCard } from "~/data/common/creditCard";
 import { getAllContacts } from "~/data/dashboard/contacts.js";
 import {
   getBalanceHistory,
@@ -21,12 +22,14 @@ export const loader = async () => {
   const expenseStatistics = getExpenseStatistics();
   const contacts = getAllContacts();
   const balanceHistory = getBalanceHistory();
+  const creditCards = getCard(2);
 
   return defer({
     transactionData,
     expenseStatistics,
     contacts,
     balanceHistory,
+    creditCards,
   });
 };
 
@@ -43,15 +46,20 @@ export default function Index() {
   return (
     <>
       <Item
-        shouldOverflow={true}
         leftHeading="My Cards"
         variant="alt"
         rightHeading="See All"
         size="medium"
       >
-        {MockedCreditCardData.map((creditCard) => (
-          <CreditCard key={creditCard.id} {...creditCard} />
-        ))}
+        <CreditCardContainer>
+          <LoadingItem data={data.creditCards}>
+            {(response) =>
+              response.map((creditCard) => (
+                <CreditCard key={creditCard.id} {...creditCard} />
+              ))
+            }
+          </LoadingItem>
+        </CreditCardContainer>
       </Item>
 
       <Item size="small" leftHeading="Recent Transaction">

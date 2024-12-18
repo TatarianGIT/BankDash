@@ -5,6 +5,7 @@ import CardList from "~/components/card/CardList";
 import CardSetting from "~/components/card/CardSetting";
 import ExpenseStatistics from "~/components/card/ExpenseStatistics";
 import CreditCard from "~/components/common/CreditCard";
+import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
 import { addNewCard, CardData, getAllCards } from "~/data/card/addNewCard";
@@ -35,14 +36,16 @@ const Card = () => {
   const { cards } = useLoaderData<typeof loader>();
   return (
     <>
-      <Item shouldOverflow={true} size="full" leftHeading="My Cards">
-        <LoadingItem data={cards}>
-          {(response) =>
-            response.map((creditCard) => (
-              <CreditCard key={creditCard.id} {...creditCard} />
-            ))
-          }
-        </LoadingItem>
+      <Item size="full" leftHeading="My Cards">
+        <CreditCardContainer>
+          <LoadingItem data={cards}>
+            {(response) =>
+              response.map((creditCard) => (
+                <CreditCard key={creditCard.id} {...creditCard} />
+              ))
+            }
+          </LoadingItem>
+        </CreditCardContainer>
       </Item>
 
       <Item size="small" leftHeading="Card Expense Statistics">

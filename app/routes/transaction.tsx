@@ -2,13 +2,14 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { Await, defer, useLoaderData } from "@remix-run/react";
 import { Suspense } from "react";
 import CreditCard from "~/components/common/CreditCard";
+import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
 import LoadingItem, {
   SkeletonContainer,
 } from "~/components/common/LoadingItem";
 import MyExpense from "~/components/transaction/MyExpense";
 import RecentTransactionsTable from "~/components/transaction/RecentTransactionsTable";
-import { MockedCreditCardData } from "~/data/common/creditCard";
+import { getCard } from "~/data/common/creditCard";
 import { getMyExpense } from "~/data/transaction/myExpense.js";
 import {
   checkLimit,
@@ -20,6 +21,7 @@ import {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const myExpense = getMyExpense();
+  const creditCards = getCard(2);
 
   const url = new URL(request.url);
 
@@ -48,6 +50,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     recentTransactionsData,
     recentTransactionsLength,
     totalPages,
+    creditCards,
   });
 };
 
@@ -57,15 +60,20 @@ const Transaction = () => {
   return (
     <>
       <Item
-        shouldOverflow={true}
         leftHeading="My Cards"
         variant="alt"
         rightHeading="+ Add Card"
         size="medium"
       >
-        {MockedCreditCardData.map((creditCard) => (
-          <CreditCard key={creditCard.id} {...creditCard} />
-        ))}
+        <CreditCardContainer>
+          <LoadingItem data={data.creditCards}>
+            {(response) =>
+              response.map((creditCard) => (
+                <CreditCard key={creditCard.id} {...creditCard} />
+              ))
+            }
+          </LoadingItem>
+        </CreditCardContainer>
       </Item>
 
       <Item leftHeading="My Expense" size="small">

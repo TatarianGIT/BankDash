@@ -1,19 +1,31 @@
 import { useMatches } from "@mantine/core";
+import { defer, useLoaderData } from "@remix-run/react";
 import { CircleDollarSign, PiggyBank } from "lucide-react";
 import { GiExpense, GiReceiveMoney } from "react-icons/gi";
 import Invoices from "~/components/account/InvoicesList";
 import LatestTransation from "~/components/account/LatestTransation";
 import Overview from "~/components/account/Overview";
 import CreditCard from "~/components/common/CreditCard";
+import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
 import ItemBadgeContainer, { ItemBadge } from "~/components/common/ItemBadge";
-import { MockedCreditCardData } from "~/data/common/creditCard";
+import LoadingItem from "~/components/common/LoadingItem";
+import { getCard } from "~/data/common/creditCard";
+
+export const loader = async () => {
+  const creditCard = getCard(1);
+
+  return defer({ creditCard });
+};
 
 const Account = () => {
+  const { ...data } = useLoaderData<typeof loader>();
+
   const colSpan = useMatches({
     base: 6,
     md: 3,
   });
+
   return (
     <>
       <ItemBadgeContainer colSpan={12}>
@@ -56,15 +68,20 @@ const Account = () => {
       </Item>
 
       <Item
-        shouldOverflow={true}
         leftHeading="My Card"
         rightHeading="See All"
         variant="alt"
         size="small"
       >
-        {MockedCreditCardData.map((creditCard) => (
-          <CreditCard key={creditCard.id} {...creditCard} />
-        ))}
+        <CreditCardContainer>
+          <LoadingItem data={data.creditCard}>
+            {(response) =>
+              response.map((creditCard) => (
+                <CreditCard key={creditCard.id} {...creditCard} />
+              ))
+            }
+          </LoadingItem>
+        </CreditCardContainer>
       </Item>
 
       <Item leftHeading="Debit & Credit Overview" size="medium">
