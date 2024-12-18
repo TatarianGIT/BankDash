@@ -104,5 +104,12 @@ const card = {
       date: "05/25",
       number: "5120 4486 4884 1688",
     },
+    {
+      balance: 2200,
+      name: "Anna Strong",
+      type: "Physical",
+      date: "07/28",
+      number: "1120 4516 5221 8128",
+    },
   ] as CardData[]
 ).forEach((element) => card.create(element));
