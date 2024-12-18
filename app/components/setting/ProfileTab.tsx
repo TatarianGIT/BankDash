@@ -106,9 +106,7 @@ const UserAvatar = () => {
         <Avatar
           src={"https://i.pravatar.cc/300"}
           alt="Profile avatar"
-          className="w-28 h-28 relative border-2"
-          name="James Gray"
-          color="initials"
+          className={"w-28 h-28 relative border-2"}
         />
 
         <Button className="bg-blue-600 p-2 rounded-full absolute bottom-1 right-0">
