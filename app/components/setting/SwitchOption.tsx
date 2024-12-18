@@ -1,5 +1,5 @@
 import { Skeleton, Switch } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WithLoading } from "~/types";
 
 type SwitchOptionsProps = WithLoading<{
@@ -9,14 +9,21 @@ type SwitchOptionsProps = WithLoading<{
 
 const SwitchOption = ({ label, checked, isLoading }: SwitchOptionsProps) => {
   const [isChecked, setIsChecked] = useState<boolean | undefined>(checked);
+  const [width, setWidth] = useState<number>(0);
 
-  if (isLoading)
+  useEffect(() => {
+    setWidth(Math.floor(Math.random() * (200 - 100 + 1) + 100));
+  }, []);
+
+  if (isLoading) {
     return (
-      <div className="flex gap-2">
-        <Skeleton className="w-10 rounded-3xl" />
-        {label}
-      </div>
+      <Switch
+        disabled
+        label={<Skeleton className={`h-5`} style={{ width: width + "px" }} />}
+        onChange={(e) => setIsChecked(e.currentTarget.checked)}
+      />
     );
+  }
 
   return (
     <Switch
