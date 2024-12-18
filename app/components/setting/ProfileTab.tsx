@@ -1,10 +1,10 @@
-import { Avatar, Button, SimpleGrid, useMatches } from "@mantine/core";
+import { Avatar, Button } from "@mantine/core";
 import { useFetcher } from "@remix-run/react";
 import { Pencil } from "lucide-react";
-import FormInput from "./FormInput";
-import SaveButton from "./SaveButton";
 import { ProfileType } from "~/data/setting/mockedData";
 import { WithLoading } from "~/types";
+import FormInput from "./FormInput";
+import SaveButton from "./SaveButton";
 
 type ProfileTabProps = WithLoading<{
   data?: ProfileType;
@@ -24,14 +24,14 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             value={data?.fullName}
             label="Your Name"
             type="text"
-            placeholder="Charlene Reed "
+            placeholder="Charlene Reed"
           />
           <FormInput
             isLoading={isLoading}
             value={data?.username}
             label="User Name"
             type="text"
-            placeholder="Charlene Reed "
+            placeholder="charlenereed"
           />
           <FormInput
             isLoading={isLoading}
