@@ -71,11 +71,10 @@ type CardRecord = {
   id: string;
 } & CardData;
 
-const card = {
+export const card = {
   records: {} as Record<string, CardData>,
 
   async create(values: CardData): Promise<CardRecord> {
-    await wait(1000);
     const id = (Date.now() + Math.floor(Math.random() * 10000)).toString();
     const newCard = { id, ...values };
     card.records[id] = newCard;
@@ -85,6 +84,12 @@ const card = {
 
   async getAll(): Promise<CardData[]> {
     return Object.keys(card.records).map((key) => card.records[key]);
+  },
+
+  async getAmount(amount: number): Promise<CardData[]> {
+    return Object.keys(card.records)
+      .slice(0, amount)
+      .map((key) => card.records[key]);
   },
 };
 
