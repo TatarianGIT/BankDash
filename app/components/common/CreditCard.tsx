@@ -25,7 +25,7 @@ const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
     <Card
       ref={ref}
       shadow="sm"
-      className="p-0 m-0 min-w-[300px] md:min-w-full flex"
+      className="p-0 m-0 min-w-[300px] md:min-w-max w-full flex"
       radius={"lg"}
     >
       <div className="flex flex-col">
