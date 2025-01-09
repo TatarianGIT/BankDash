@@ -34,7 +34,7 @@ const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
           className={cn(
             type === "Virtual"
               ? "bg-gradient-to-bl from-[#0A06F4] from-50% to-[#4C49ED]"
-              : "bg-gray-100",
+              : "bg-gray-200",
             "flex flex-col"
           )}
         >
@@ -66,7 +66,7 @@ const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
             className={cn(
               type === "Virtual"
                 ? "bg-gradient-to-b from-[#4C49ED] from-15% to-[#0A06F4]"
-                : "bg-gray-100 border-t",
+                : "bg-gray-200 border-t border-gray-300",
               "flex justify-between items-center px-6 py-3"
             )}
           >
