@@ -2,24 +2,40 @@ import { Card, Text } from "@mantine/core";
 import { useElementSize } from "@mantine/hooks";
 import { CreditCard as CreditCardIcon } from "lucide-react";
 import { ReactNode } from "react";
+import { WithLoading } from "~/types";
 import { cn } from "~/utils/cn.js";
 
 type CreditCardType = "Physical" | "Virtual";
 
-type CreditCardProps = {
+type CreditCardProps = WithLoading<{
   balance: number;
   name: string;
   date: string;
   number: string;
   type: CreditCardType;
-};
+}>;
 
-const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
+const CreditCard = ({
+  type,
+  balance,
+  name,
+  number,
+  date,
+  isLoading = false,
+}: CreditCardProps) => {
   const { ref, width } = useElementSize();
 
   const size = ref.current ? Math.floor(width / 10 - 10) + "px" : "16px";
+  const cardType = isLoading ? "Physical" : type;
+  const textColor = cardType === "Virtual" ? "text-gray-300" : "text-gray-700";
 
-  const textColor = type === "Virtual" ? "text-gray-300" : "text-gray-700";
+  const withLoading = <T,>(cardDetail: T): T | JSX.Element => {
+    return isLoading ? (
+      <LoadingSkeleton className="w-4/5 h-5 mt-1" />
+    ) : (
+      cardDetail
+    );
+  };
 
   return (
     <Card
@@ -32,7 +48,7 @@ const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
         {/* Upper container */}
         <div
           className={cn(
-            type === "Virtual"
+            cardType === "Virtual"
               ? "bg-gradient-to-bl from-[#0A06F4] from-50% to-[#4C49ED]"
               : "bg-gray-200",
             "flex flex-col"
@@ -42,7 +58,14 @@ const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
           <div className="flex justify-between items-center px-6 py-3">
             <div className="flex flex-col">
               <CardDetail textColor={textColor} type="balance" header="Balance">
-                $ {balance}
+                <div
+                  className={cn(
+                    isLoading && "w-24",
+                    "flex justify-center items-center gap-2"
+                  )}
+                >
+                  $ {withLoading(balance)}
+                </div>
               </CardDetail>
             </div>
             <CreditCardIcon className={cn(textColor, "w-8 h-8")} />
@@ -51,12 +74,12 @@ const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
           <div className="grid grid-cols-2 px-6 py-3">
             <div>
               <CardDetail textColor={textColor} header="CARD HOLDER">
-                {name}
+                {withLoading(name)}
               </CardDetail>
             </div>
             <div>
               <CardDetail textColor={textColor} header="VALID THRU">
-                {date}
+                {withLoading(date)}
               </CardDetail>
             </div>
           </div>
@@ -64,7 +87,7 @@ const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
           {/* Bottom container / Number and Icon */}
           <div
             className={cn(
-              type === "Virtual"
+              cardType === "Virtual"
                 ? "bg-gradient-to-b from-[#4C49ED] from-15% to-[#0A06F4]"
                 : "bg-gray-200 border-t border-gray-300",
               "flex justify-between items-center px-6 py-3"
@@ -73,13 +96,13 @@ const CreditCard = ({ type, balance, name, number, date }: CreditCardProps) => {
             <Text
               style={{ fontSize: `clamp(10px, ${size}, 20px)` }}
               className={cn(
-                type === "Virtual" ? "text-gray-300" : "text-gray-700",
-                ``
+                cardType === "Virtual" ? "text-gray-300" : "text-gray-700",
+                `w-full`
               )}
             >
-              {number}
+              {withLoading(number)}
             </Text>
-            <BottomIcon type={type} />
+            <BottomIcon cardType={cardType} />
           </div>
         </div>
       </div>
@@ -116,9 +139,9 @@ const CardDetail = ({
   );
 };
 
-const BottomIcon = ({ type }: { type: CreditCardType }) => {
+const BottomIcon = ({ cardType }: { cardType: CreditCardType }) => {
   const circleStyles = cn(
-    type === "Virtual" ? "bg-gray-200/50" : "bg-gray-400/50",
+    cardType === "Virtual" ? "bg-gray-200/50" : "bg-gray-400/50",
     " w-[30px] h-[30px] rounded-full"
   );
 
@@ -128,6 +151,17 @@ const BottomIcon = ({ type }: { type: CreditCardType }) => {
         <div className={cn(circleStyles, "absolute left-[15px]")} />
       </div>
     </div>
+  );
+};
+
+const LoadingSkeleton = ({ className }: { className?: string }) => {
+  return (
+    <div
+      className={cn(
+        "bg-stone-300 dark:bg-stone-300 h-full w-full rounded-lg",
+        className
+      )}
+    />
   );
 };
 
