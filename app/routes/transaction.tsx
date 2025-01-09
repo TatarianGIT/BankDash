@@ -1,12 +1,17 @@
+import { Pagination as PaginationMantine } from "@mantine/core";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { Await, defer, useLoaderData } from "@remix-run/react";
+import {
+  Await,
+  defer,
+  useLoaderData,
+  useNavigation,
+  useSearchParams,
+} from "@remix-run/react";
 import { Suspense } from "react";
 import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
-import LoadingItem, {
-  SkeletonContainer,
-} from "~/components/common/LoadingItem";
+import LoadingItem from "~/components/common/LoadingItem";
 import MyExpense from "~/components/transaction/MyExpense";
 import RecentTransactionsTable from "~/components/transaction/RecentTransactionsTable";
 import { getCard } from "~/data/common/creditCard";
@@ -20,9 +25,6 @@ import {
 } from "~/data/transaction/recentTransations.js";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const myExpense = getMyExpense();
-  const creditCards = getCard(2);
-
   const url = new URL(request.url);
 
   const getLimit = url.searchParams.get("limit");
@@ -33,29 +35,31 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const operation = checkOperation(getOperation);
   const offset = checkOffset(getOffset, operation, limit);
 
-  const recentTransactionsLength = getRecentTransactionsLength({
-    operation,
-  });
-
   const recentTransactionsData = getRecentTransactions({
     limit,
     offset,
     operation,
   });
 
-  const totalPages = Math.ceil(Number(recentTransactionsLength) / limit);
+  const recentTransactionsLength = await getRecentTransactionsLength({
+    limit,
+    operation,
+  });
+
+  const myExpense = await getMyExpense();
 
   return defer({
-    myExpense,
+    creditCards: getCard(2),
     recentTransactionsData,
-    recentTransactionsLength,
-    totalPages,
-    creditCards,
+    myExpense,
+    totalPages: recentTransactionsLength,
   });
 };
 
 const Transaction = () => {
   const { ...data } = useLoaderData<typeof loader>();
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
 
   return (
     <>
@@ -77,9 +81,7 @@ const Transaction = () => {
       </Item>
 
       <Item leftHeading="My Expense" size="small">
-        <LoadingItem data={data.myExpense}>
-          {(response) => <MyExpense data={response} />}
-        </LoadingItem>
+        <MyExpense data={data.myExpense} />
       </Item>
 
       <Item
@@ -87,25 +89,74 @@ const Transaction = () => {
         size="full"
         className="col-span-1"
       >
-        <Suspense fallback={<SkeletonContainer />}>
-          <Await
-            resolve={Promise.all([
-              data.recentTransactionsData,
-              data.recentTransactionsLength,
-              data.totalPages,
-            ])}
+        {isLoading ? (
+          <RecentTransactionsTable isLoading={true} data={[]} />
+        ) : (
+          <Suspense
+            fallback={
+              <>
+                <RecentTransactionsTable isLoading={true} data={[]} />
+              </>
+            }
           >
-            {([resolvedData, resolvedLength, resolvedTotalPages]) => (
-              <RecentTransactionsTable
-                data={resolvedData}
-                dataLength={resolvedLength}
-                totalPages={resolvedTotalPages}
-              />
-            )}
-          </Await>
-        </Suspense>
+            <Await
+              resolve={Promise.all([
+                data.recentTransactionsData,
+                data.totalPages,
+              ])}
+            >
+              {([resolvedData]) => (
+                <>
+                  <RecentTransactionsTable data={resolvedData} />
+                </>
+              )}
+            </Await>
+          </Suspense>
+        )}
       </Item>
+
+      <Pagination totalPages={data.totalPages} />
     </>
+  );
+};
+
+const Pagination = ({ totalPages }: { totalPages: number }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const offset = parseInt(searchParams.get("offset") || "1", 10);
+
+  const onPageChage = (newPage: number) => {
+    setSearchParams(
+      (prev) => {
+        prev.set("offset", newPage.toString());
+        return prev;
+      },
+      { preventScrollReset: true }
+    );
+  };
+
+  return (
+    <div className="ml-auto pr-2">
+      <PaginationMantine
+        value={offset}
+        total={totalPages}
+        className="py-4 hidden md:flex justify-end"
+        size={"md"}
+        onChange={onPageChage}
+        withControls={true}
+        boundaries={1}
+      />
+
+      <PaginationMantine
+        value={offset}
+        total={totalPages}
+        className="py-4 flex justify-end md:hidden"
+        size={"xs"}
+        onChange={onPageChage}
+        withControls={true}
+        boundaries={1}
+      />
+    </div>
   );
 };
 
