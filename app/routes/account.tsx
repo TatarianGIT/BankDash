@@ -74,7 +74,10 @@ const Account = () => {
         size="small"
       >
         <CreditCardContainer>
-          <LoadingItem data={data.creditCard}>
+          <LoadingItem
+            fallback={<CreditCard isLoading={true} />}
+            data={data.creditCard}
+          >
             {(response) =>
               response.map((creditCard) => (
                 <CreditCard key={creditCard.id} {...creditCard} />

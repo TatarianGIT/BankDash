@@ -38,7 +38,16 @@ const Card = () => {
     <>
       <Item size="full" leftHeading="My Cards">
         <CreditCardContainer>
-          <LoadingItem data={cards}>
+          <LoadingItem
+            fallback={
+              <>
+                {Array.from({ length: 3 }, (_, index) => (
+                  <CreditCard key={index} isLoading={true} />
+                ))}
+              </>
+            }
+            data={cards}
+          >
             {(response) =>
               response.map((creditCard) => (
                 <CreditCard key={creditCard.id} {...creditCard} />

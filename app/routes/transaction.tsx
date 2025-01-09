@@ -46,10 +46,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     operation,
   });
 
+  const creditCards = getCard(2);
+
   const myExpense = await getMyExpense();
 
   return defer({
-    creditCards: getCard(2),
+    creditCards,
     recentTransactionsData,
     myExpense,
     totalPages: recentTransactionsLength,
@@ -70,7 +72,16 @@ const Transaction = () => {
         size="medium"
       >
         <CreditCardContainer>
-          <LoadingItem data={data.creditCards}>
+          <LoadingItem
+            fallback={
+              <>
+                {Array.from({ length: 2 }, (_, index) => (
+                  <CreditCard key={index} isLoading={true} />
+                ))}
+              </>
+            }
+            data={data.creditCards}
+          >
             {(response) =>
               response.map((creditCard) => (
                 <CreditCard key={creditCard.id} {...creditCard} />

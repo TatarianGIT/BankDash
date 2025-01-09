@@ -52,7 +52,16 @@ export default function Index() {
         size="medium"
       >
         <CreditCardContainer>
-          <LoadingItem data={data.creditCards}>
+          <LoadingItem
+            fallback={
+              <>
+                {Array.from({ length: 2 }, (_, index) => (
+                  <CreditCard key={index} isLoading={true} />
+                ))}
+              </>
+            }
+            data={data.creditCards}
+          >
             {(response) =>
               response.map((creditCard) => (
                 <CreditCard key={creditCard.id} {...creditCard} />
