@@ -68,7 +68,7 @@ function AppLayout({ children }: AppLayoutProps) {
           <NavBar navBarClick={toggleNavBar} />
         </ScrollArea>
       </AppShell.Navbar>
-      <AppShell.Main>
+      <AppShell.Main className="bg-gray-50 dark:bg-stone-800">
         <Grid
           className="p-2 gap-7 max-w-[1300px] w-full mx-auto"
           align="stretch"
