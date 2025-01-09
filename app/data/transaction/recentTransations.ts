@@ -71,11 +71,15 @@ function filterData(
 
 export const getRecentTransactionsLength = async ({
   operation,
+  limit,
 }: {
   operation: AllowedOperations;
+  limit: AllowedLimits;
 }) => {
-  await wait(600);
-  return filterData(recentTransactionsData, operation).length;
+  await wait(200);
+  return Math.ceil(
+    filterData(recentTransactionsData, operation).length / limit
+  );
 };
 
 type GetRecentTransactionsType = {

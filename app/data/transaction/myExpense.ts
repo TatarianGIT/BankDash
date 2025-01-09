@@ -1,7 +1,7 @@
 import { wait } from "~/utils/wait";
 
 export const getMyExpense = async (): Promise<typeof myExpenseData> => {
-  await wait(1700);
+  await wait(150);
   return myExpenseData;
 };
 
