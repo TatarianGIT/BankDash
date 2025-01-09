@@ -94,6 +94,7 @@ const CreditCard = ({
             )}
           >
             <Text
+              component="span"
               style={{ fontSize: `clamp(10px, ${size}, 20px)` }}
               className={cn(
                 cardType === "Virtual" ? "text-gray-300" : "text-gray-700",
@@ -127,6 +128,7 @@ const CardDetail = ({
     <div>
       <Text className={cn(textColor, " text-xs")}>{header}</Text>
       <Text
+        component="span"
         className={cn(
           "font-semibold text-base",
           type === "balance" ? "text-2xl" : "",
@@ -139,7 +141,11 @@ const CardDetail = ({
   );
 };
 
-const BottomIcon = ({ cardType }: { cardType: CreditCardType }) => {
+const BottomIcon = ({
+  cardType = "Physical",
+}: {
+  cardType: CreditCardType | undefined;
+}) => {
   const circleStyles = cn(
     cardType === "Virtual" ? "bg-gray-200/50" : "bg-gray-400/50",
     " w-[30px] h-[30px] rounded-full"
