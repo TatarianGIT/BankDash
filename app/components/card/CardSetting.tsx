@@ -9,31 +9,40 @@ const CardSetting = () => {
   return (
     <CardContainer className="flex flex-col gap-5 py-6">
       {cardSettingData.length ? (
-        cardSettingData.map((setting) => (
-          <Grid key={setting.id} align="center" className="mx-auto">
-            <Grid.Col
-              span={"content"}
-              className={cn(
-                "w-14 h-14 rounded-2xl flex justify-center items-center",
-                setting.backgroundColor
-              )}
-            >
-              {setting.icon}
-            </Grid.Col>
-            <Grid.Col span={"auto"}>
-              <Text className="text-lg">{setting.name}</Text>
-              <Text className="text-sm">{setting.description}</Text>
-            </Grid.Col>
-          </Grid>
-        ))
+        <Grid>
+          <CardSettingOptions data={cardSettingData} />
+        </Grid>
       ) : (
-        <Text>No settings found</Text>
+        <Text className="mx-auto my-4">No settings found</Text>
       )}
     </CardContainer>
   );
 };
 
 export default CardSetting;
+
+const CardSettingOptions = ({ data }: { data: CardSettingDataType[] }) => {
+  return (
+    <div className="flex flex-col">
+      {data.map((setting) => (
+        <div key={setting.id} className="flex gap-2 cursor-pointer my-1">
+          <div
+            className={cn(
+              "w-14 h-14 rounded-2xl flex justify-center items-center",
+              setting.backgroundColor
+            )}
+          >
+            {setting.icon}
+          </div>
+          <div>
+            <Text className="text-lg">{setting.name}</Text>
+            <Text className="text-sm">{setting.description}</Text>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 type CardSettingDataType = {
   id: number;
