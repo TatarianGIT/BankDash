@@ -27,7 +27,7 @@ const Investment = () => {
         </LoadingItem>
       </Item>
 
-      <Item leftHeading="Yearly Total Investment" size="half">
+      <Item leftHeading="Monthly Revenue" size="half">
         <LoadingItem data={data.revenue}>
           {(response) => <InvestmentChart type="revenue" data={response} />}
         </LoadingItem>
