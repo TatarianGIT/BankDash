@@ -1,5 +1,5 @@
 import { Grid, Text } from "@mantine/core";
-import { ReactNode } from "react";
+import { ElementType, Fragment, ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
 type ItemCardProps = {
@@ -8,8 +8,12 @@ type ItemCardProps = {
   className?: string;
   size: "small" | "medium" | "full" | "half";
 } & (
-  | { variant?: "default"; rightHeading?: string }
-  | { variant: "alt"; rightHeading: string | undefined }
+  | { variant?: "default"; rightHeading?: string; CustomWrapper?: undefined }
+  | {
+      variant: "alt";
+      rightHeading: string | undefined;
+      CustomWrapper?: ElementType;
+    }
 );
 
 const Item = ({
@@ -19,6 +23,7 @@ const Item = ({
   size,
   variant = "default",
   className,
+  CustomWrapper = Fragment,
 }: ItemCardProps) => {
   return (
     <Grid.Col
@@ -38,7 +43,11 @@ const Item = ({
       <div className="flex justify-between items-center p-1">
         <Text className="text-2xl">{leftHeading}</Text>
 
-        {variant === "alt" && <Text>{variant === "alt" && rightHeading}</Text>}
+        {variant === "alt" && (
+          <CustomWrapper>
+            <Text>{rightHeading}</Text>
+          </CustomWrapper>
+        )}
       </div>
 
       {children}
