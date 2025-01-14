@@ -18,7 +18,7 @@ function AppLayout({ children }: AppLayoutProps) {
   const location = useLocation();
 
   const currentPath =
-    location.pathname === "/" ? "/" : location.pathname.slice(1);
+    location.pathname === "/" ? "/" : location.pathname.split("/")[1];
 
   const header =
     navList.find((item) => item.value === currentPath)?.label ||
