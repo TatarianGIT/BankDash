@@ -32,7 +32,9 @@ export const getAllCards = async () => {
 };
 
 export const cardFormSchema = z.object({
-  type: z.enum(["Physical", "Virtual"]),
+  type: z.enum(["Physical", "Virtual"], {
+    errorMap: () => ({ message: "Invalid card type" }),
+  }),
   name: z.string().min(1, "Name On Card is required"),
   number: z
     .string()
