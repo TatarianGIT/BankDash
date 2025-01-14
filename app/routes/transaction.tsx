@@ -8,6 +8,7 @@ import {
   useSearchParams,
 } from "@remix-run/react";
 import { Suspense } from "react";
+import CardRouteLinkWrapper from "~/components/common/CardRouteLinkWrapper";
 import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
@@ -70,6 +71,7 @@ const Transaction = () => {
         variant="alt"
         rightHeading="+ Add Card"
         size="medium"
+        CustomWrapper={CardRouteLinkWrapper}
       >
         <CreditCardContainer>
           <LoadingItem

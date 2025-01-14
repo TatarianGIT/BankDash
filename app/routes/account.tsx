@@ -5,6 +5,7 @@ import { GiExpense, GiReceiveMoney } from "react-icons/gi";
 import Invoices from "~/components/account/InvoicesList";
 import LatestTransation from "~/components/account/LatestTransation";
 import Overview from "~/components/account/Overview";
+import CardRouteLinkWrapper from "~/components/common/CardRouteLinkWrapper";
 import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
@@ -72,6 +73,7 @@ const Account = () => {
         rightHeading="See All"
         variant="alt"
         size="small"
+        CustomWrapper={CardRouteLinkWrapper}
       >
         <CreditCardContainer>
           <LoadingItem

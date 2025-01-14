@@ -1,5 +1,6 @@
 import { type MetaFunction } from "@remix-run/node";
 import { defer, useLoaderData } from "@remix-run/react";
+import CardRouteLinkWrapper from "~/components/common/CardRouteLinkWrapper";
 import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
@@ -50,6 +51,7 @@ export default function Index() {
         variant="alt"
         rightHeading="See All"
         size="medium"
+        CustomWrapper={CardRouteLinkWrapper}
       >
         <CreditCardContainer>
           <LoadingItem
