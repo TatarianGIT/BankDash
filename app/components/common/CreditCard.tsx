@@ -71,7 +71,7 @@ const CreditCard = ({
             <CreditCardIcon className={cn(textColor, "w-8 h-8")} />
           </div>
 
-          <div className="grid grid-cols-2 px-6 py-3">
+          <div className="grid grid-cols-2 px-6 py-3 gap-2">
             <div>
               <CardDetail textColor={textColor} header="CARD HOLDER">
                 {withLoading(name)}
