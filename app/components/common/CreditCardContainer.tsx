@@ -1,4 +1,3 @@
-import { ScrollArea } from "@mantine/core";
 import { ReactNode } from "react";
 
 type CreditCardContainerProps = {
@@ -7,9 +6,7 @@ type CreditCardContainerProps = {
 
 const CreditCardContainer = ({ children }: CreditCardContainerProps) => {
   return (
-    <ScrollArea type="auto" className="pb-4 -mb-4">
-      <div className="flex flex-row gap-3">{children}</div>
-    </ScrollArea>
+    <div className="flex flex-row gap-3 overflow-auto pb-3">{children}</div>
   );
 };
 
