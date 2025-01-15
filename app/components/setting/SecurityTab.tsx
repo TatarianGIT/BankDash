@@ -15,6 +15,7 @@ const SecurityTab = ({ data, isLoading }: SecurityTabProps) => {
       <div className="flex flex-col gap-3">
         <Text>Two-factor Authentication</Text>
         <SwitchOption
+          name={"twoFa"}
           isLoading={isLoading}
           checked={data?.twoFa}
           label="Enable or disable two factor authentication"
@@ -24,12 +25,14 @@ const SecurityTab = ({ data, isLoading }: SecurityTabProps) => {
       <div className="md:w-1/2 sm:w-3/5 w-full max-w-96 flex flex-col gap-3">
         <Text>Change Password</Text>
         <FormInput
+          name={"currentPassword"}
           isLoading={isLoading}
           type="password"
           placeholder="**********"
           label="Current Password"
         />
         <FormInput
+          name={"newPassword"}
           isLoading={isLoading}
           type="password"
           placeholder="**********"

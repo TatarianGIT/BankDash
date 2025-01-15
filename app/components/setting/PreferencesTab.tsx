@@ -16,6 +16,7 @@ const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
     <fetcher.Form method="POST" className="pt-10 px-1 md:px-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormInput
+          name={"currency"}
           isLoading={isLoading}
           select={data?.currency}
           type="select"
@@ -24,6 +25,7 @@ const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
           placeholder={currencies[0]}
         />
         <FormInput
+          name={"timeZone"}
           isLoading={isLoading}
           select={data?.timeZone}
           type="select"
@@ -35,16 +37,19 @@ const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
         />
         <div className="flex flex-col gap-2 mt-4">
           <SwitchOption
+            name={"digitalCurrency"}
             isLoading={isLoading}
             checked={data?.digitalCurrency}
             label="I send or receive digital currency"
           />
           <SwitchOption
+            name={"merchantOrder"}
             isLoading={isLoading}
             checked={data?.merchantOrder}
             label="I receive merchant order"
           />
           <SwitchOption
+            name={"recommentations"}
             isLoading={isLoading}
             checked={data?.recommendation}
             label="There are recommendation for my account"

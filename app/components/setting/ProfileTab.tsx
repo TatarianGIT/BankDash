@@ -20,6 +20,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
       <fetcher.Form method="POST" className="w-full px-0 md:px-6">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
           <FormInput
+            name={"fullname"}
             isLoading={isLoading}
             value={data?.fullName}
             label="Your Name"
@@ -27,6 +28,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             placeholder="Charlene Reed"
           />
           <FormInput
+            name={"username"}
             isLoading={isLoading}
             value={data?.username}
             label="User Name"
@@ -34,6 +36,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             placeholder="charlenereed"
           />
           <FormInput
+            name={"email"}
             isLoading={isLoading}
             value={data?.email}
             label="Email"
@@ -41,18 +44,21 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             placeholder="charlenereed@gmail.com"
           />
           <FormInput
+            name={"password"}
             isLoading={isLoading}
             label="Password"
             type="password"
             placeholder="**********"
           />
           <FormInput
+            name={"birthDate"}
             isLoading={isLoading}
             date={new Date(data?.birthDate ?? "")}
             label="Date of Birth"
             type="date"
           />
           <FormInput
+            name={"presentAddress"}
             isLoading={isLoading}
             value={data?.presentAddress}
             label="Present Adress"
@@ -60,6 +66,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             placeholder="San Jose, California, USA"
           />
           <FormInput
+            name={"premamentAddress"}
             isLoading={isLoading}
             value={data?.permaAddress}
             label="Permament Address"
@@ -67,6 +74,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             placeholder="San Jose, California, USA"
           />
           <FormInput
+            name={"city"}
             isLoading={isLoading}
             value={data?.city}
             label="City"
@@ -74,6 +82,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             placeholder="San Jose"
           />
           <FormInput
+            name={"postalCode"}
             isLoading={isLoading}
             value={data?.postalCode ?? 0}
             label="Postal Code"
@@ -81,6 +90,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             placeholder="45962"
           />
           <FormInput
+            name={"country"}
             isLoading={isLoading}
             value={data?.country}
             label="Country"
