@@ -4,14 +4,20 @@ import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import { SecurityType } from "~/data/setting/mockedData";
 import { WithLoading } from "~/types";
+import { useFetcher } from "@remix-run/react";
 
 type SecurityTabProps = WithLoading<{
   data?: SecurityType;
 }>;
 
 const SecurityTab = ({ data, isLoading }: SecurityTabProps) => {
+  const fetcher = useFetcher();
+
   return (
-    <div className="pt-10 px-1 md:px-6 flex flex-col gap-4">
+    <fetcher.Form
+      method="POST"
+      className="pt-10 px-1 md:px-6 flex flex-col gap-4"
+    >
       <div className="flex flex-col gap-3">
         <Text>Two-factor Authentication</Text>
         <SwitchOption
@@ -43,7 +49,7 @@ const SecurityTab = ({ data, isLoading }: SecurityTabProps) => {
       <div className="flex justify-end">
         <SaveButton isLoading={isLoading} />
       </div>
-    </div>
+    </fetcher.Form>
   );
 };
 
