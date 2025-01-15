@@ -53,6 +53,7 @@ const FormInput = ({
   type,
   label,
   placeholder,
+  name,
   data = undefined,
   value = undefined,
   date = null,
@@ -92,6 +93,7 @@ const FormInput = ({
           showUndoButton={isChanged}
         >
           <Select
+            name={name}
             searchable
             radius={"lg"}
             placeholder={placeholder}
@@ -117,6 +119,7 @@ const FormInput = ({
       >
         <div>
           <DateInput
+            name={name}
             value={dateValue ?? null}
             onChange={setDateValue}
             placeholder="Date input"
@@ -135,6 +138,7 @@ const FormInput = ({
       showUndoButton={isChanged}
     >
       <Input
+        name={name}
         value={inputValue ?? ""}
         onChange={(e) => setInputValue(e.currentTarget.value)}
         type={type}
