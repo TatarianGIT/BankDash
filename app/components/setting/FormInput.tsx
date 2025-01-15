@@ -4,49 +4,61 @@ import { Undo2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { WithLoading } from "~/types";
 
+type BaseInputProps = {
+  label: string;
+  name: string;
+  placeholder?: string;
+};
+
+type TextOrEmailInputProps = {
+  type: "text" | "email";
+  value: string | undefined;
+  data?: undefined;
+  date?: null;
+  select?: null;
+};
+
+type NumberInputProps = {
+  type: "number";
+  value: number | undefined;
+  data?: undefined;
+  date?: null;
+  select?: null;
+};
+
+type DateInputProps = {
+  type: "date";
+  date: Date | null | undefined;
+  value?: undefined;
+  data?: undefined;
+  select?: null;
+};
+
+type SelectInputProps = {
+  type: "select";
+  data: string[];
+  value?: undefined;
+  date?: null;
+  select: string | undefined;
+};
+
+type PasswordInputProps = {
+  type: "password";
+  value?: undefined;
+  data?: undefined;
+  date?: null;
+  select?: null;
+};
+
 type FormInputProps = WithLoading<
-  {
-    label: string;
-    placeholder?: string;
-  } & (
-    | (
-        | {
-            type: "text" | "email";
-            value: string | undefined;
-            data?: undefined;
-            date?: null;
-            select?: null;
-          }
-        | {
-            type: "number";
-            value: number | undefined;
-            data?: undefined;
-            date?: null;
-            select?: null;
-          }
-      )
-    | {
-        type: "date";
-        value?: undefined;
-        data?: undefined;
-        date: Date | null | undefined;
-        select?: null;
-      }
-    | {
-        type: "select";
-        value?: undefined;
-        data: string[];
-        date?: null;
-        select: string | undefined;
-      }
-    | {
-        type: "password";
-        value?: undefined;
-        data?: undefined;
-        date?: null;
-        select?: null;
-      }
-  )
+  BaseInputProps &
+    (
+      | TextOrEmailInputProps
+      | NumberInputProps
+      | DateInputProps
+      | SelectInputProps
+      | PasswordInputProps
+    )
 >;
 
 const FormInput = ({
