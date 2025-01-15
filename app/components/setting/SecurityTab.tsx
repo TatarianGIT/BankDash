@@ -16,7 +16,7 @@ const SecurityTab = ({ data, isLoading }: SecurityTabProps) => {
   return (
     <fetcher.Form
       method="POST"
-      className="pt-10 px-1 md:px-6 flex flex-col gap-4"
+      className="pt-10 px-1 md:px-6 flex flex-col gap-8"
     >
       <div className="flex flex-col gap-3">
         <Text>Two-factor Authentication</Text>
