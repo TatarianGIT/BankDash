@@ -100,7 +100,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
         </div>
 
         <div className="flex justify-end">
-          <SaveButton />
+          <SaveButton isLoading={isLoading} />
         </div>
       </fetcher.Form>
     </div>

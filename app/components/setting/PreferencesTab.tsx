@@ -57,7 +57,7 @@ const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
         </div>
       </div>
       <div className="flex justify-end w-full">
-        <SaveButton />
+        <SaveButton isLoading={isLoading} />
       </div>
     </fetcher.Form>
   );

@@ -41,7 +41,7 @@ const SecurityTab = ({ data, isLoading }: SecurityTabProps) => {
       </div>
 
       <div className="flex justify-end">
-        <SaveButton />
+        <SaveButton isLoading={isLoading} />
       </div>
     </div>
   );
