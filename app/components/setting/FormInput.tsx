@@ -3,7 +3,7 @@ import { DateInput } from "@mantine/dates";
 import { Undo2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Override } from "~/types";
-import { WithLoading } from "~/types";
+import AuthFiller from "../common/AuthFiller";
 
 type BaseInputProps = {
   label: string;
@@ -121,6 +121,17 @@ const FormInput = ({
   const [selectValue, setSelectValue] = useState<string | null>(select);
   const [dateValue, setDateValue] = useState<Date | null>(date);
 
+  const handleAuthFill = () => {
+    if (type === "text" && withAuthFiller) {
+      setInputValue(username);
+    } else {
+      if (type === "password" && withAuthFiller) {
+        setInputValue(password);
+      }
+    }
+    return;
+  };
+
   const handleClearValue = () => {
     setInputValue(initialInputValue);
     setDateValue(initialDateValue);
@@ -139,7 +150,7 @@ const FormInput = ({
     return (
       <>
         <InputContainer
-          onClick={handleClearValue}
+          handleClearClick={handleClearValue}
           label={label}
           showUndoButton={isChanged}
         >
@@ -164,7 +175,7 @@ const FormInput = ({
       initialDateValue?.toDateString() !== dateValue?.toDateString();
     return (
       <InputContainer
-        onClick={handleClearValue}
+        handleClearClick={handleClearValue}
         label={label}
         showUndoButton={isChanged}
       >
@@ -184,9 +195,11 @@ const FormInput = ({
   const isChanged = initialInputValue !== inputValue;
   return (
     <InputContainer
-      onClick={handleClearValue}
+      handleAuthClick={handleAuthFill}
+      handleClearClick={handleClearValue}
       label={label}
       showUndoButton={isChanged}
+      withAuthFiller={withAuthFiller}
     >
       <Input
         name={name}
@@ -206,21 +219,32 @@ type InputContainerProps = {
   label?: string;
   children?: ReactNode;
   showUndoButton?: boolean;
-  onClick?: () => void;
+  withAuthFiller?: boolean;
+  handleClearClick?: () => void;
+  handleAuthClick?: () => void;
 };
 
 const InputContainer = ({
   label,
   children,
-  onClick,
   showUndoButton,
+  withAuthFiller = false,
+  handleClearClick,
+  handleAuthClick,
 }: InputContainerProps) => {
   return (
     <div className="flex flex-col w-full h-full">
-      <Text>{label}</Text>
+      <div className="flex justify-between">
+        <Text>{label}</Text>
+        {handleAuthClick && withAuthFiller && (
+          <AuthFiller handleClick={handleAuthClick} />
+        )}
+      </div>
       <div className="relative">
         {children}
-        {onClick && showUndoButton && <UndoButton onClick={onClick} />}
+        {handleClearClick && showUndoButton && (
+          <UndoButton onClick={handleClearClick} />
+        )}
       </div>
     </div>
   );
