@@ -20,7 +20,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
       <fetcher.Form method="POST" className="w-full px-0 md:px-6">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
           <FormInput
-            name={"fullname"}
+            name={"fullName"}
             isLoading={isLoading}
             value={data?.fullName}
             label="Your Name"
@@ -66,7 +66,7 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             placeholder="San Jose, California, USA"
           />
           <FormInput
-            name={"premamentAddress"}
+            name={"permaAddress"}
             isLoading={isLoading}
             value={data?.permaAddress}
             label="Permament Address"
