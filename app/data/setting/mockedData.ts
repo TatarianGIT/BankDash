@@ -181,7 +181,7 @@ export const settings = {
     }
 
     this.profile = { ...parsedProfile };
-    return { status: "success", message: "Profile saved successfully!" };
+    return { status: "success", message: "Profile has been saved" };
   },
 
   async updatePreferences(
@@ -197,7 +197,7 @@ export const settings = {
     const parsedNewPreferences = parseResult.data;
 
     this.preferences = { ...parsedNewPreferences };
-    return { status: "success", message: "Preferences saved successfully!" };
+    return { status: "success", message: "Preferences have been saved" };
   },
 
   async updateSecurity(update: IncomingSecurity): Promise<SettingResponse> {
@@ -212,7 +212,7 @@ export const settings = {
       settings.security = { ...settings.security, twoFa: parsedTwoFa.data };
       return {
         status: "success",
-        message: "Two factor authentication saved.",
+        message: "Two factor authentication saved",
       };
     }
 
@@ -250,13 +250,13 @@ export const settings = {
     if (prevTwoFa !== parsedTwoFa.data) {
       return {
         status: "success",
-        message: "Security options saved successfully!",
+        message: "Security options have been saved",
       };
     }
 
     return {
       status: "success",
-      message: "New password has been set!",
+      message: "New password has been set",
     };
   },
 };
