@@ -1,8 +1,8 @@
 import { defer, useLoaderData } from "@remix-run/react";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
-import LoanBadgeSection from "~/components/loans/LoanBadgeSection";
-import LoanTable from "~/components/loans/LoanTable";
+import LoanBadgeSection from "~/components/uncommon/loans/LoanBadgeSection";
+import LoanTable from "~/components/uncommon/loans/LoanTable";
 import { getLoansData } from "~/data/loan/mockedData";
 
 export const loader = async () => {

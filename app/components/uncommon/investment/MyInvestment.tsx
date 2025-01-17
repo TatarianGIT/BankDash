@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { SiApple, SiSamsung, SiTesla } from "react-icons/si";
 import { Grid, NumberFormatter, Text, useMatches } from "@mantine/core";
-import CardContainer from "../common/CardContainer";
+import CardContainer from "../../common/CardContainer";
 import { cn } from "~/utils/cn";
 
 const MyInvestment = () => {

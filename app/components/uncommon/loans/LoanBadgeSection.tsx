@@ -1,5 +1,5 @@
 import { useMatches } from "@mantine/core";
-import ItemBadgeContainer, { ItemBadge } from "../common/ItemBadge";
+import ItemBadgeContainer, { ItemBadge } from "../../common/ItemBadge";
 import {
   BriefcaseBusiness,
   ChartColumnIncreasing,

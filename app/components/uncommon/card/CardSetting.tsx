@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import CardContainer from "../common/CardContainer";
+import CardContainer from "../../common/CardContainer";
 import { LockKeyhole, Snowflake } from "lucide-react";
 import { FaApple, FaApplePay, FaGoogle } from "react-icons/fa";
 import { cn } from "~/utils/cn";

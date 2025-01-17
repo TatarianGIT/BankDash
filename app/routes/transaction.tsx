@@ -13,8 +13,8 @@ import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
-import MyExpense from "~/components/transaction/MyExpense";
-import RecentTransactionsTable from "~/components/transaction/RecentTransactionsTable";
+import MyExpense from "~/components/uncommon/transaction/MyExpense";
+import RecentTransactionsTable from "~/components/uncommon/transaction/RecentTransactionsTable";
 import { getCard } from "~/data/common/creditCard";
 import { getMyExpense } from "~/data/transaction/myExpense.js";
 import {

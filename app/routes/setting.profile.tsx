@@ -1,7 +1,7 @@
 import { ActionFunctionArgs } from "@remix-run/node";
 import { defer, json, useFetchers, useLoaderData } from "@remix-run/react";
 import LoadingItem from "~/components/common/LoadingItem";
-import ProfileTab from "~/components/setting/ProfileTab";
+import ProfileTab from "~/components/uncommon/setting/ProfileTab";
 import {
   getPassword,
   getProfile,

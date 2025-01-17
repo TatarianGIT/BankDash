@@ -11,7 +11,7 @@ import { useFetcher } from "@remix-run/react";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { action } from "~/routes/card";
-import CardContainer from "../common/CardContainer";
+import CardContainer from "../../common/CardContainer";
 import { notifications } from "@mantine/notifications";
 
 const AddNewCard = () => {

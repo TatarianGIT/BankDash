@@ -1,5 +1,5 @@
 import { Button, Grid, Text, useMatches } from "@mantine/core";
-import CardContainer from "../common/CardContainer";
+import CardContainer from "../../common/CardContainer";
 import { CreditCard } from "lucide-react";
 
 const CardList = () => {

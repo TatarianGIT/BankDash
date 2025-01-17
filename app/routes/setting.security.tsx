@@ -1,7 +1,7 @@
 import { ActionFunctionArgs } from "@remix-run/node";
 import { defer, json, useFetchers, useLoaderData } from "@remix-run/react";
 import LoadingItem from "~/components/common/LoadingItem";
-import SecurityTab from "~/components/setting/SecurityTab";
+import SecurityTab from "~/components/uncommon/setting/SecurityTab";
 import {
   getPassword,
   getSecurity,

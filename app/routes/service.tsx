@@ -1,6 +1,6 @@
 import Item from "~/components/common/Item";
-import BankServiceList from "~/components/service/BankServiceList";
-import ServiceBadgeSection from "~/components/service/ServiceBadgeSection";
+import BankServiceList from "~/components/uncommon/service/BankServiceList";
+import ServiceBadgeSection from "~/components/uncommon/service/ServiceBadgeSection";
 
 const Service = () => {
   return (

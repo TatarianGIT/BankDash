@@ -1,9 +1,9 @@
 import { ActionFunctionArgs } from "@remix-run/node";
 import { defer, json, useLoaderData } from "@remix-run/react";
-import AddNewCard from "~/components/card/AddNewCard";
-import CardList from "~/components/card/CardList";
-import CardSetting from "~/components/card/CardSetting";
-import ExpenseStatistics from "~/components/card/ExpenseStatistics";
+import AddNewCard from "~/components/uncommon/card/AddNewCard";
+import CardList from "~/components/uncommon/card/CardList";
+import CardSetting from "~/components/uncommon/card/CardSetting";
+import ExpenseStatistics from "~/components/uncommon/card/ExpenseStatistics";
 import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";

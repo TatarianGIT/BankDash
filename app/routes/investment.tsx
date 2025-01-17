@@ -1,10 +1,10 @@
 import { defer, useLoaderData } from "@remix-run/react";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
-import InvestmentBadgeSection from "~/components/investment/InvestmentBadgeSection";
-import InvestmentChart from "~/components/investment/InvestmentChart";
-import MyInvestment from "~/components/investment/MyInvestment";
-import TrendingStock from "~/components/investment/TrendingStock";
+import InvestmentBadgeSection from "~/components/uncommon/investment/InvestmentBadgeSection";
+import InvestmentChart from "~/components/uncommon/investment/InvestmentChart";
+import MyInvestment from "~/components/uncommon/investment/MyInvestment";
+import TrendingStock from "~/components/uncommon/investment/TrendingStock";
 import { getInvestment, getRevenue } from "~/data/investment/mockedData";
 
 export const loader = async () => {

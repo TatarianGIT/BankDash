@@ -1,5 +1,5 @@
 import { DonutChart } from "@mantine/charts";
-import CardContainer from "../common/CardContainer";
+import CardContainer from "../../common/CardContainer";
 import { SimpleGrid } from "@mantine/core";
 import { cn } from "~/utils/cn";
 

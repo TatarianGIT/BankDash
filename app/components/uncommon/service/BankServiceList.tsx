@@ -6,7 +6,7 @@ import {
   ShieldPlus,
   User,
 } from "lucide-react";
-import CardContainer from "../common/CardContainer";
+import CardContainer from "../../common/CardContainer";
 import React from "react";
 import { Button, Grid, Text } from "@mantine/core";
 import { cn } from "~/utils/cn";

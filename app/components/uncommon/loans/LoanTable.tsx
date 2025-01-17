@@ -1,7 +1,7 @@
 import { Button, Checkbox, NumberFormatter, Table, Text } from "@mantine/core";
 import React, { useState } from "react";
 import { LoanTableElementType } from "~/data/loan/mockedData";
-import CardContainer from "../common/CardContainer";
+import CardContainer from "../../common/CardContainer";
 import { RotateCcw } from "lucide-react";
 
 type LoanTableProps = {

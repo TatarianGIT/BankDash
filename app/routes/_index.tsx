@@ -5,11 +5,11 @@ import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
-import BalanceHistory from "~/components/dashboard/BalanceHistory";
-import ExpenseRoundChart from "~/components/dashboard/ExpenseRoundChart";
-import QuickTransfer from "~/components/dashboard/QuickTransfer";
-import RecentTransaction from "~/components/dashboard/RecentTransaction";
-import RecentTransChart from "~/components/dashboard/RecentTransChart";
+import BalanceHistory from "~/components/uncommon/dashboard/BalanceHistory";
+import ExpenseRoundChart from "~/components/uncommon/dashboard/ExpenseRoundChart";
+import QuickTransfer from "~/components/uncommon/dashboard/QuickTransfer";
+import RecentTransaction from "~/components/uncommon/dashboard/RecentTransaction";
+import RecentTransChart from "~/components/uncommon/dashboard/RecentTransChart";
 import { getCard } from "~/data/common/creditCard";
 import { getAllContacts } from "~/data/dashboard/contacts.js";
 import {

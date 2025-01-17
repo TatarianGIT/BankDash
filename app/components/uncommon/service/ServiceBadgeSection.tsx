@@ -1,5 +1,5 @@
 import { ShieldCheck, ShoppingBag, Stethoscope } from "lucide-react";
-import ItemBadgeContainer, { ItemBadge } from "../common/ItemBadge";
+import ItemBadgeContainer, { ItemBadge } from "../../common/ItemBadge";
 
 const ServiceBadgeSection = () => {
   return (

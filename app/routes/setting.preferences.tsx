@@ -1,7 +1,7 @@
 import { ActionFunctionArgs } from "@remix-run/node";
 import { defer, json, useFetchers, useLoaderData } from "@remix-run/react";
 import LoadingItem from "~/components/common/LoadingItem";
-import PreferencesTab from "~/components/setting/PreferencesTab";
+import PreferencesTab from "~/components/uncommon/setting/PreferencesTab";
 import { getPreferences, updatePreferences } from "~/data/setting/mockedData";
 
 export const loader = async () => {
