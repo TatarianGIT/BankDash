@@ -29,14 +29,22 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export const Preferences = () => {
   const { ...data } = useLoaderData<typeof loader>();
+  const fetchers = useFetchers();
+  const isLoading = fetchers[0]?.state === "loading";
 
   return (
+    <>
+      {isLoading ? (
+        <PreferencesTab isLoading={true} />
+      ) : (
         <LoadingItem
           data={data.preferences}
           fallback={<PreferencesTab isLoading={true} />}
         >
           {(response) => <PreferencesTab data={response} />}
         </LoadingItem>
+      )}
+    </>
   );
 };
 

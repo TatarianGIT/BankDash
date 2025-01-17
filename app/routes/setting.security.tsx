@@ -32,8 +32,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export const Security = () => {
   const { ...data } = useLoaderData<typeof loader>();
+  const fetchers = useFetchers();
+  const isLoading = fetchers[0]?.state === "loading";
 
   return (
+    <>
+      {isLoading ? (
+        <SecurityTab isLoading={true} password={data.password} />
+      ) : (
         <LoadingItem
           data={data.security}
           fallback={<SecurityTab isLoading={true} password={data.password} />}
@@ -42,6 +48,8 @@ export const Security = () => {
             <SecurityTab data={response} password={data.password} />
           )}
         </LoadingItem>
+      )}
+    </>
   );
 };
 

@@ -39,8 +39,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export const Profile = () => {
   const { ...data } = useLoaderData<typeof loader>();
+  const fetchers = useFetchers();
+  const isLoading = fetchers[0]?.state === "loading";
 
   return (
+    <>
+      {isLoading ? (
+        <ProfileTab isLoading={true} password={data.password} />
+      ) : (
         <LoadingItem
           data={data.profile}
           fallback={<ProfileTab isLoading={true} password={data.password} />}
@@ -49,6 +55,8 @@ export const Profile = () => {
             <ProfileTab data={response} password={data.password} />
           )}
         </LoadingItem>
+      )}
+    </>
   );
 };
 
