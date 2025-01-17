@@ -1,20 +1,54 @@
-import { defer, useLoaderData } from "@remix-run/react";
+import { ActionFunctionArgs } from "@remix-run/node";
+import { defer, json, useFetchers, useLoaderData } from "@remix-run/react";
 import LoadingItem from "~/components/common/LoadingItem";
 import ProfileTab from "~/components/setting/ProfileTab";
-import { getProfile } from "~/data/setting/mockedData";
+import {
+  getPassword,
+  getProfile,
+  updateProfile,
+} from "~/data/setting/mockedData";
 
 export const loader = async () => {
   const profile = getProfile();
-  return defer({ profile });
+  const password = await getPassword();
+  return defer({ profile, password });
+};
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+
+  const updatedProfile = {
+    fullName: formData.get("fullName"),
+    username: formData.get("username"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    birthDate: formData.get("birthDate"),
+    presentAddress: formData.get("presentAddress"),
+    permaAddress: formData.get("permaAddress"),
+    city: formData.get("city"),
+    postalCode: formData.get("postalCode"),
+    country: formData.get("country"),
+  };
+
+  const response = await updateProfile(updatedProfile);
+
+  console.log(response);
+
+  return json({ message: "ok" });
 };
 
 export const Profile = () => {
   const { ...data } = useLoaderData<typeof loader>();
 
   return (
-    <LoadingItem data={data.profile} fallback={<ProfileTab isLoading={true} />}>
-      {(response) => <ProfileTab data={response} />}
-    </LoadingItem>
+        <LoadingItem
+          data={data.profile}
+          fallback={<ProfileTab isLoading={true} password={data.password} />}
+        >
+          {(response) => (
+            <ProfileTab data={response} password={data.password} />
+          )}
+        </LoadingItem>
   );
 };
 
