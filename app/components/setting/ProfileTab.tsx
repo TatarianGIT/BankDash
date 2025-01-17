@@ -8,9 +8,9 @@ import SaveButton from "./SaveButton";
 
 type ProfileTabProps = WithLoading<{
   data?: ProfileType;
-}>;
+}> & { password: string };
 
-const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
+const ProfileTab = ({ data, password, isLoading }: ProfileTabProps) => {
   const fetcher = useFetcher();
 
   return (
@@ -44,6 +44,8 @@ const ProfileTab = ({ data, isLoading }: ProfileTabProps) => {
             placeholder="charlenereed@gmail.com"
           />
           <FormInput
+            withAuthFiller
+            password={password}
             name={"password"}
             isLoading={isLoading}
             label="Password"

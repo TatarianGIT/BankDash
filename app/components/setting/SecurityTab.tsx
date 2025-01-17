@@ -8,9 +8,9 @@ import { useFetcher } from "@remix-run/react";
 
 type SecurityTabProps = WithLoading<{
   data?: SecurityType;
-}>;
+}> & { password: string };
 
-const SecurityTab = ({ data, isLoading }: SecurityTabProps) => {
+const SecurityTab = ({ data, isLoading, password }: SecurityTabProps) => {
   const fetcher = useFetcher();
 
   return (
@@ -31,6 +31,8 @@ const SecurityTab = ({ data, isLoading }: SecurityTabProps) => {
       <div className="md:w-1/2 sm:w-3/5 w-full max-w-96 flex flex-col gap-3">
         <Text>Change Password</Text>
         <FormInput
+          withAuthFiller
+          password={password}
           name={"currentPassword"}
           isLoading={isLoading}
           type="password"
