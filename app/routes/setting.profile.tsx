@@ -5,13 +5,15 @@ import ProfileTab from "~/components/uncommon/setting/ProfileTab";
 import {
   getPassword,
   getProfile,
+  getUsername,
   updateProfile,
 } from "~/data/setting/mockedData";
 
 export const loader = async () => {
   const profile = getProfile();
   const password = await getPassword();
-  return defer({ profile, password });
+  const username = await getUsername();
+  return defer({ profile, password, username });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -45,14 +47,28 @@ export const Profile = () => {
   return (
     <>
       {isLoading ? (
-        <ProfileTab isLoading={true} password={data.password} />
+        <ProfileTab
+          isLoading={true}
+          password={data.password}
+          username={data.username}
+        />
       ) : (
         <LoadingItem
           data={data.profile}
-          fallback={<ProfileTab isLoading={true} password={data.password} />}
+          fallback={
+            <ProfileTab
+              isLoading={true}
+              password={data.password}
+              username={data.username}
+            />
+          }
         >
           {(response) => (
-            <ProfileTab data={response} password={data.password} />
+            <ProfileTab
+              data={response}
+              password={data.password}
+              username={data.username}
+            />
           )}
         </LoadingItem>
       )}

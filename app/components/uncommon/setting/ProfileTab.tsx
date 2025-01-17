@@ -8,14 +8,18 @@ import SaveButton from "./SaveButton";
 
 type ProfileTabProps = WithLoading<{
   data?: ProfileType;
-}> & { password: string };
+}> & { password: string; username: string };
 
-const ProfileTab = ({ data, password, isLoading }: ProfileTabProps) => {
-  const fetcher = useFetcher();
+const ProfileTab = ({
+  data,
+  password,
+  username,
+  isLoading,
+}: ProfileTabProps) => {
 
   return (
     <div className="flex md:flex-row flex-col pt-10 items-center md:items-start">
-      <UserAvatar />
+      <UserAvatar username={username} />
 
       <fetcher.Form method="POST" className="w-full px-0 md:px-6">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
