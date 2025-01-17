@@ -118,12 +118,12 @@ const ProfileTab = ({
 
 export default ProfileTab;
 
-const UserAvatar = () => {
+const UserAvatar = ({ username }: { username: string }) => {
   return (
     <div className="mb-5">
       <div className="relative w-28 h-28">
         <Avatar
-          src={"https://i.pravatar.cc/300"}
+          src={`https://i.pravatar.cc/150?u=${username}`}
           alt="Profile avatar"
           className={"w-28 h-28 relative border-2"}
         />
