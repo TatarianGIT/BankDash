@@ -25,9 +25,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const response = await updateSecurity(updatedSecurity);
 
-  console.log(response);
-
-  return json({ message: "ok" });
+  return json(response);
 };
 
 export const Security = () => {

@@ -22,9 +22,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const response = await updatePreferences(newPreferences);
 
-  console.log(JSON.stringify(response, null, 2));
-
-  return json({ message: "ok" });
+  return json(response);
 };
 
 export const Preferences = () => {

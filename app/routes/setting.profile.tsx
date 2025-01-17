@@ -34,9 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const response = await updateProfile(updatedProfile);
 
-  console.log(response);
-
-  return json({ message: "ok" });
+  return json(response);
 };
 
 export const Profile = () => {
