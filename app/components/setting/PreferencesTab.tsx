@@ -57,7 +57,10 @@ const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
         </div>
       </div>
       <div className="flex justify-end w-full">
-        <SaveButton isLoading={isLoading} />
+        <SaveButton
+          isLoading={isLoading}
+          isSubmitting={fetcher.state === "submitting"}
+        />
       </div>
     </fetcher.Form>
   );
