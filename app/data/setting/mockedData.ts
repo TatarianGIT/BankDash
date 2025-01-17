@@ -1,4 +1,85 @@
+import { z } from "zod";
+import { Override } from "~/types";
 import { wait } from "~/utils/wait";
+
+export type ProfileType = z.infer<typeof ProfileSchema>;
+export type PreferencesType = z.infer<typeof PreferencesSchema>;
+export type SecurityType = Omit<z.infer<typeof SecuritySchema>, "newPassword">;
+
+type FormValue = FormDataEntryValue | null;
+
+type UnknownRequest<T> = {
+  [K in keyof T]: FormValue | boolean;
+};
+
+type IncomingProfile = UnknownRequest<ProfileType> & {
+  password: FormValue;
+};
+
+type IncomingPreferences = UnknownRequest<PreferencesType>;
+
+type IncomingSecurity = Override<
+  UnknownRequest<SecurityType>,
+  { twoFa: boolean }
+> & {
+  newPassword: unknown;
+};
+
+export type SettingResponse = {
+  status: "success" | "error";
+  message: string;
+};
+
+export const ProfileSchema = z.object({
+  fullName: z.string().min(5),
+  username: z.string().min(5),
+  email: z.string().email().min(5),
+  city: z.string().min(5),
+  birthDate: z.string(),
+  country: z.string().min(2),
+  permaAddress: z.string().min(3),
+  postalCode: z.number().min(0),
+  presentAddress: z.string().min(3),
+});
+
+export const PreferencesSchema = z.object({
+  currency: z.string().min(3).max(3),
+  timeZone: z.string().min(5),
+  digitalCurrency: z.boolean(),
+  merchantOrder: z.boolean(),
+  recommendation: z.boolean(),
+});
+
+export const SecuritySchema = z.object({
+  newPassword: z.string().min(5).max(50),
+  currentPassword: z.string().min(5).max(50),
+  twoFa: z.boolean(),
+});
+
+const initProfile: ProfileType = {
+  fullName: "Marcus Dawson",
+  username: "mdawson98",
+  email: "marcus.dawson@example.com",
+  birthDate: "1998-05-15",
+  presentAddress: "Seattle, Washington, USA",
+  permaAddress: "Tacoma, Washington, USA",
+  city: "Seattle",
+  postalCode: 98101,
+  country: "USA",
+};
+
+const initPreferences: PreferencesType = {
+  currency: "EUR",
+  timeZone: "UTC-05:00 New York, Toronto, Havana, Lima, Bogotá",
+  digitalCurrency: true,
+  merchantOrder: false,
+  recommendation: true,
+};
+
+const initSecurity: SecurityType = {
+  twoFa: true,
+  currentPassword: "password1234!",
+};
 
 export const getProfile = async () => {
   await wait(500);
@@ -15,58 +96,45 @@ export const getSecurity = async () => {
   return settings.getSecurity();
 };
 
-export type ProfileType = {
-  fullName: string;
-  username: string;
-  email: string;
-  // birthDate: Date;
-  birthDate: string;
-  presentAddress: string;
-  permaAddress: string;
-  city: string;
-  postalCode: number;
-  country: string;
+export const getPassword = async (): Promise<string> => {
+  return settings.security.currentPassword;
 };
 
-export type PreferencesType = {
-  currency: string;
-  timeZone: string;
-  digitalCurrency: boolean;
-  merchantOrder: boolean;
-  recommendation: boolean;
+export const getUsername = async (): Promise<string> => {
+  return settings.profile.username;
 };
 
-export type SecurityType = {
-  twoFa: boolean;
-  currentPassword: string;
+export const updateProfile = async (newProfile: IncomingProfile) => {
+  await wait(1100);
+  return settings.updateProfile(newProfile);
+};
+
+export const updatePreferences = async (
+  newPreferences: IncomingPreferences
+) => {
+  await wait(1100);
+  return settings.updatePreferences(newPreferences);
+};
+
+export const updateSecurity = async (newSecurity: IncomingSecurity) => {
+  await wait(1100);
+  return settings.updateSecurity(newSecurity);
 };
 
 export const settings = {
-  profile: {
-    fullName: "Marcus Dawson",
-    username: "mdawson98",
-    email: "marcus.dawson@example.com",
-    // birthDate: new Date("1998-05-15"),
-    birthDate: "1998-05-15",
-    presentAddress: "Seattle, Washington, USA",
-    permaAddress: "Tacoma, Washington, USA",
-    city: "Seattle",
-    postalCode: 98101,
-    country: "USA",
-  } as ProfileType,
+  profile: { ...initProfile } as ProfileType,
 
-  preferences: {
-    currency: "EUR",
-    timeZone: "UTC-05:00 New York, Toronto, Havana, Lima, Bogotá",
-    digitalCurrency: true,
-    merchantOrder: false,
-    recommendation: true,
-  } as PreferencesType,
+  preferences: { ...initPreferences } as PreferencesType,
 
-  security: {
-    twoFa: true,
-    currentPassword: "password1234!",
-  } as SecurityType,
+  security: { ...initSecurity } as SecurityType,
+
+  async getPassword(): Promise<string> {
+    return this.security.currentPassword;
+  },
+
+  async getUsername(): Promise<string> {
+    return this.profile.username;
+  },
 
   async getProfile(): Promise<ProfileType> {
     return this.profile;
@@ -80,29 +148,116 @@ export const settings = {
     return this.security;
   },
 
-  async updateProfile(
-    update: Partial<ProfileType> & { password: string }
-  ): Promise<void> {
-    if (update.password !== this.security.currentPassword) {
-      console.log("incorrect password!");
-      return;
+  async updateProfile(update: IncomingProfile): Promise<SettingResponse> {
+    const newProfile = {
+      ...update,
+      postalCode: Number(update.postalCode),
+    } as ProfileType;
+
+    const profileResult = ProfileSchema.safeParse(newProfile);
+    const passwordResult = SecuritySchema.shape.currentPassword.safeParse(
+      update.password
+    );
+
+    if (!update.password) {
+      return {
+        status: "error",
+        message: "Password is required to edit profile",
+      };
     }
 
-    this.profile = { ...this.profile, ...update };
-    console.log("profile updated!");
-    return;
+    if (!passwordResult.success || !profileResult.success) {
+      console.log(JSON.stringify(passwordResult.error?.format(), null, 2));
+      console.log("\n");
+      console.log(JSON.stringify(profileResult.error?.format(), null, 2));
+      return { status: "error", message: "Unexpected error" };
+    }
+
+    const parsedProfile = profileResult.data;
+    const parsedPassword = passwordResult.data;
+
+    if (parsedPassword !== this.security.currentPassword) {
+      return { status: "error", message: "Wrong password" };
+    }
+
+    this.profile = { ...parsedProfile };
+    return { status: "success", message: "Profile saved successfully!" };
   },
 
-  async updatePreferences(update: Partial<PreferencesType>): Promise<void> {
-    this.preferences = { ...this.preferences, ...update };
-    console.log("preferences updated!");
-    return;
+  async updatePreferences(
+    update: IncomingPreferences
+  ): Promise<SettingResponse> {
+    const parseResult = PreferencesSchema.safeParse(update);
+
+    if (!parseResult.success) {
+      console.log(JSON.stringify(parseResult.error, null, 2));
+      return { status: "error", message: "Unexpected error" };
+    }
+
+    const parsedNewPreferences = parseResult.data;
+
+    this.preferences = { ...parsedNewPreferences };
+    return { status: "success", message: "Preferences saved successfully!" };
   },
 
-  async updateSecurity(update: Partial<SecurityType>): Promise<void> {
-    this.security = { ...this.security, ...update };
-    console.log("security updated!");
-    return;
+  async updateSecurity(update: IncomingSecurity): Promise<SettingResponse> {
+    const parsedTwoFa = SecuritySchema.shape.twoFa.safeParse(update.twoFa);
+    const prevTwoFa = settings.security.twoFa;
+
+    if (!parsedTwoFa.success) {
+      return { status: "error", message: "Unexpected error" };
+    }
+
+    if (!update.currentPassword && !update.newPassword) {
+      settings.security = { ...settings.security, twoFa: parsedTwoFa.data };
+      return {
+        status: "success",
+        message: "Two factor authentication saved.",
+      };
+    }
+
+    const parsedPasswords = SecuritySchema.omit({ twoFa: true }).safeParse(
+      update
+    );
+
+    if (!parsedPasswords.success) {
+      return { status: "error", message: "Unexprected error" };
+    }
+
+    if (
+      settings.security.currentPassword !== parsedPasswords.data.currentPassword
+    ) {
+      return {
+        status: "error",
+        message: "Wrong password",
+      };
+    }
+
+    if (
+      settings.security.currentPassword === parsedPasswords.data.newPassword
+    ) {
+      return {
+        status: "error",
+        message: "New password must be different from current one",
+      };
+    }
+
+    settings.security = {
+      ...settings.security,
+      currentPassword: parsedPasswords.data.newPassword,
+    };
+
+    if (prevTwoFa !== parsedTwoFa.data) {
+      return {
+        status: "success",
+        message: "Security options saved successfully!",
+      };
+    }
+
+    return {
+      status: "success",
+      message: "New password has been set!",
+    };
   },
 };
 
