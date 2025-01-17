@@ -2,64 +2,100 @@ import { Button, Input, Select, Skeleton, Text } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { Undo2 } from "lucide-react";
 import { ReactNode, useState } from "react";
+import { Override } from "~/types";
 import { WithLoading } from "~/types";
 
 type BaseInputProps = {
   label: string;
   name: string;
+  type: "text" | "email" | "number" | "date" | "select" | "password";
+  isLoading?: boolean;
   placeholder?: string;
+  value?: string | number | undefined;
+  data?: string[] | undefined;
+  date?: Date | null | undefined;
+  select?: string | undefined | null;
+  withAuthFiller?: boolean | undefined;
+  username?: string | undefined;
+  password?: string | undefined;
 };
 
-type TextOrEmailInputProps = {
-  type: "text" | "email";
-  value: string | undefined;
-  data?: undefined;
-  date?: null;
-  select?: null;
-};
-
-type NumberInputProps = {
-  type: "number";
-  value: number | undefined;
-  data?: undefined;
-  date?: null;
-  select?: null;
-};
-
-type DateInputProps = {
-  type: "date";
-  date: Date | null | undefined;
-  value?: undefined;
-  data?: undefined;
-  select?: null;
-};
-
-type SelectInputProps = {
-  type: "select";
-  data: string[];
-  value?: undefined;
-  date?: null;
-  select: string | undefined;
-};
-
-type PasswordInputProps = {
-  type: "password";
-  value?: undefined;
-  data?: undefined;
-  date?: null;
-  select?: null;
-};
-
-type FormInputProps = WithLoading<
-  BaseInputProps &
-    (
-      | TextOrEmailInputProps
-      | NumberInputProps
-      | DateInputProps
-      | SelectInputProps
-      | PasswordInputProps
-    )
+type TextInputProps = Override<
+  BaseInputProps,
+  {
+    type: "text";
+    value: string | undefined;
+  } & (
+    | {
+        withAuthFiller?: true;
+        username: string;
+      }
+    | {
+        withAuthFiller?: false;
+        username?: undefined;
+      }
+  )
 >;
+
+type EmailInputProps = Override<
+  BaseInputProps,
+  {
+    type: "email";
+    value: string | undefined;
+    withAuthFiller?: true;
+  }
+>;
+
+type NumberInputProps = Override<
+  BaseInputProps,
+  {
+    type: "number";
+    value: number | undefined;
+  }
+>;
+
+type DateInputProps = Override<
+  BaseInputProps,
+  {
+    type: "date";
+    date: Date | null | undefined;
+  }
+>;
+
+type SelectInputProps = Override<
+  BaseInputProps,
+  {
+    type: "select";
+    data: string[];
+    select: string | undefined;
+  }
+>;
+
+type PasswordInputProps = Override<
+  BaseInputProps,
+  {
+    type: "password";
+  } & (
+    | {
+        withAuthFiller?: true;
+        password: string;
+      }
+    | {
+        withAuthFiller?: false;
+        password?: undefined;
+      }
+  )
+>;
+
+type FormInputProps = BaseInputProps &
+  (
+    | TextInputProps
+    | EmailInputProps
+    | NumberInputProps
+    | DateInputProps
+    | SelectInputProps
+    | PasswordInputProps
+  );
 
 const FormInput = ({
   type,
@@ -71,6 +107,9 @@ const FormInput = ({
   date = null,
   select = null,
   isLoading = false,
+  withAuthFiller = false,
+  password = undefined,
+  username = undefined,
 }: FormInputProps) => {
   const initialInputValue = value;
   const initialDateValue = date;
