@@ -5,13 +5,16 @@ import SaveButton from "./SaveButton";
 import { SecurityType } from "~/data/setting/mockedData";
 import { WithLoading } from "~/types";
 import { useFetcher } from "@remix-run/react";
+import { action } from "~/routes/setting.security";
+import useNotification from "~/hooks/useNotification";
 
 type SecurityTabProps = WithLoading<{
   data?: SecurityType;
 }> & { password: string };
 
 const SecurityTab = ({ data, isLoading, password }: SecurityTabProps) => {
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<typeof action>({ key: "securityFetcher" });
+  useNotification({ id: "security", fetcher });
 
   return (
     <fetcher.Form

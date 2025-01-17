@@ -2,6 +2,8 @@ import { Avatar, Button } from "@mantine/core";
 import { useFetcher } from "@remix-run/react";
 import { Pencil } from "lucide-react";
 import { ProfileType } from "~/data/setting/mockedData";
+import useNotification from "~/hooks/useNotification";
+import { action } from "~/routes/setting.profile";
 import { WithLoading } from "~/types";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
@@ -16,6 +18,9 @@ const ProfileTab = ({
   username,
   isLoading,
 }: ProfileTabProps) => {
+  const fetcher = useFetcher<typeof action>({ key: "profileFetcher" });
+
+  useNotification({ id: "profile", fetcher });
 
   return (
     <div className="flex md:flex-row flex-col pt-10 items-center md:items-start">

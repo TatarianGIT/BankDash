@@ -4,13 +4,17 @@ import { WithLoading } from "~/types";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import SwitchOption from "./SwitchOption";
+import useNotification from "~/hooks/useNotification";
+import { action } from "~/routes/setting.preferences";
 
 type PreferencesTabProps = WithLoading<{
   data?: PreferencesType;
 }>;
 
 const PreferencesTab = ({ data, isLoading }: PreferencesTabProps) => {
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<typeof action>({ key: "preferencesFetcher" });
+
+  useNotification({ id: "preferences", fetcher });
 
   return (
     <fetcher.Form method="POST" className="pt-10 px-1 md:px-6">
