@@ -3,6 +3,7 @@ import "@mantine/charts/styles.css";
 import "@mantine/carousel/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/spotlight/styles.css";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import type { LinksFunction } from "@remix-run/node";
