@@ -9,7 +9,7 @@ import BalanceHistory from "~/components/uncommon/dashboard/BalanceHistory";
 import ExpenseRoundChart from "~/components/uncommon/dashboard/ExpenseRoundChart";
 import QuickTransfer from "~/components/uncommon/dashboard/QuickTransfer";
 import RecentTransaction from "~/components/uncommon/dashboard/RecentTransaction";
-import RecentTransChart from "~/components/uncommon/dashboard/RecentTransChart";
+import RecentTransChart from "~/components/uncommon/dashboard/WeeklyActivity";
 import { getCard } from "~/data/common/creditCard";
 import { getAllContacts } from "~/data/dashboard/contacts.js";
 import {
@@ -77,7 +77,7 @@ export default function Index() {
         <RecentTransaction />
       </Item>
 
-      <Item size="medium" leftHeading="Expense Statistics">
+      <Item size="medium" leftHeading="Weekly Activity">
         <LoadingItem data={data.transactionData}>
           {(response) => <RecentTransChart data={response} />}
         </LoadingItem>

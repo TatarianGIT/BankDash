@@ -1,7 +1,7 @@
 import { BarChart } from "@mantine/charts";
 import { Card } from "@mantine/core";
 
-type RecentTransChartProps = {
+type WeeklyActivityProps = {
   data: {
     day: string;
     Deposit: number;
@@ -9,7 +9,7 @@ type RecentTransChartProps = {
   }[];
 };
 
-const RecentTransChart = ({ data }: RecentTransChartProps) => {
+const WeeklyActivity = ({ data }: WeeklyActivityProps) => {
   return (
     <Card shadow="md" radius={"lg"} withBorder className="p-6 w-full">
       <BarChart
@@ -28,4 +28,4 @@ const RecentTransChart = ({ data }: RecentTransChartProps) => {
   );
 };
 
-export default RecentTransChart;
+export default WeeklyActivity;
