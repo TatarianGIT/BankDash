@@ -1,4 +1,4 @@
-import { Center, Input, ScrollArea, Text, UnstyledButton } from "@mantine/core";
+import { Center, ScrollArea, Text, UnstyledButton } from "@mantine/core";
 import {
   Spotlight as MantineSpotlight,
   spotlight,
@@ -6,7 +6,7 @@ import {
 } from "@mantine/spotlight";
 import { Link } from "@remix-run/react";
 import { Search } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export interface CustomSpotlightActionData extends SpotlightActionData {
   label: string;
@@ -20,7 +20,6 @@ export interface CustomSpotlightActionGroupData {
 }
 
 function Spotlight() {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
   const lowerCaseQuery = query.toLowerCase();
 
