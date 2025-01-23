@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 import { useLocation } from "@remix-run/react";
 import NavBar, { navList } from "./NavBar.js";
 import AppLogo from "./AppLogo.js";
+import Spotlight from "./Spotlight.js";
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -48,6 +49,7 @@ function AppLayout({ children }: AppLayoutProps) {
             size={"md"}
             lineSize={2}
           />
+          <Spotlight />
           <Text className="text-2xl">{header}</Text>
           <ThemeSwticher className="w-10 h-10 p-2" />
         </Group>
