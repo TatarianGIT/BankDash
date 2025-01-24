@@ -32,28 +32,39 @@ function AppLayout({ children }: AppLayoutProps) {
   return (
     <AppShell
       layout="alt"
-      header={{ height: { base: 60, md: 85, lg: 100 } }}
+      header={{ height: { base: 60, sm: 70, md: 80, lg: 90 } }}
       navbar={{
         width: { sm: "220px", md: "260px", lg: "300px", xl: "360px" },
         breakpoint: "sm",
         collapsed: { mobile: !opened },
       }}
-      padding="md"
+      padding={"md"}
     >
       <AppShell.Header>
-        <Group h="100%" px="md" className="flex justify-between">
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            hiddenFrom="sm"
-            size={"md"}
-            lineSize={2}
-          />
-          <Spotlight />
-          <Text className="text-2xl">{header}</Text>
-          <ThemeSwticher className="w-10 h-10 p-2" />
-        </Group>
+        <div className="flex justify-between items-center h-full px-4">
+          <div className="flex gap-2 items-center sm:hidden">
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+              lineSize={2}
+            />
+            <div className="h-10 w-10 invisible sm:hidden"></div>
+          </div>
+
+          <Text className="text-2xl shrink-0">{header}</Text>
+
+          <Spotlight size={"lg"} className="hidden md:flex" />
+          <Spotlight size={"md"} className="hidden sm:flex md:hidden" />
+
+          <div className="flex items-center gap-2">
+            <Spotlight size={"sm"} className="inline-block sm:hidden" />
+            <ThemeSwticher className="w-10 h-10 p-2" />
+          </div>
+        </div>
       </AppShell.Header>
+
       <AppShell.Navbar>
         <Group h={100}>
           <Burger
@@ -72,7 +83,7 @@ function AppLayout({ children }: AppLayoutProps) {
       </AppShell.Navbar>
       <AppShell.Main className="bg-gray-50 dark:bg-stone-800">
         <Grid
-          className="p-2 gap-7 max-w-[1300px] w-full mx-auto"
+          className="gap-7 max-w-[1300px] w-full mx-auto"
           align="stretch"
           justify="center"
         >
