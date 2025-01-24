@@ -1,4 +1,10 @@
-import { Center, ScrollArea, Text, UnstyledButton } from "@mantine/core";
+import {
+  Center,
+  ScrollArea,
+  Text,
+  UnstyledButton,
+  UnstyledButtonProps,
+} from "@mantine/core";
 import {
   Spotlight as MantineSpotlight,
   spotlight,
@@ -6,7 +12,8 @@ import {
 } from "@mantine/spotlight";
 import { Link } from "@remix-run/react";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
+import { cn } from "~/utils/cn";
 
 export interface CustomSpotlightActionData extends SpotlightActionData {
   label: string;
@@ -19,7 +26,12 @@ export interface CustomSpotlightActionGroupData {
   actions: CustomSpotlightActionData[];
 }
 
-function Spotlight() {
+type SpotlightProps = {
+  className?: string;
+  size: SpotlightButtonProps["size"];
+};
+
+function Spotlight({ size, className, ...rest }: SpotlightProps) {
   const [query, setQuery] = useState("");
   const lowerCaseQuery = query.toLowerCase();
 
@@ -40,25 +52,17 @@ function Spotlight() {
 
   return (
     <>
-      <UnstyledButton
-        className="bg-mantineColorDark6 rounded-full"
+      <SpotlightButton
+        size={size}
         onClick={spotlight.open}
-      >
-        <div
-          style={{ backgroundColor: "var(--input-bg)" }}
-          className="flex gap-2 border-2 border-gray-500 border-opacity-40 p-2 rounded-full "
-        >
-          <Search className="h-5 w-5 md:ml-1 opacity-40" />
-          <p className="mr-4 lg:mr-6 hidden md:inline opacity-40">
-            Search <span className="hidden lg:inline">for something</span>...
-          </p>
-        </div>
-      </UnstyledButton>
+        className={className}
+      />
 
       <MantineSpotlight.Root
         query={query}
         onQueryChange={setQuery}
         radius={"lg"}
+        {...rest}
       >
         <MantineSpotlight.Search
           placeholder="Search..."
@@ -102,6 +106,92 @@ function Spotlight() {
 }
 
 export default Spotlight;
+
+type SpotlightButtonProps = {
+  size: "sm" | "md" | "lg";
+} & Pick<SpotlightButtonContainerProps, "onClick" | "className">;
+
+const SpotlightButton = ({
+  size,
+  onClick,
+  className,
+  ...rest
+}: SpotlightButtonProps) => {
+  if (size === "sm") {
+    return (
+      <SpotlightButtonContainer
+        className={className}
+        onClick={onClick}
+        {...rest}
+      />
+    );
+  }
+
+  if (size === "md") {
+    return (
+      <>
+        <SpotlightButtonContainer
+          className={className}
+          innerDivClassName="flex gap-2 items-center"
+          iconClassName="ml-1"
+          onClick={onClick}
+          {...rest}
+        >
+          <p className="mr-8 inline opacity-40">Search...</p>
+        </SpotlightButtonContainer>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <SpotlightButtonContainer
+        className={className}
+        innerDivClassName="flex gap-2 items-center"
+        iconClassName="ml-1"
+        onClick={onClick}
+        {...rest}
+      >
+        <p className="mr-12 inline opacity-40">Search for something...</p>
+      </SpotlightButtonContainer>
+    </>
+  );
+};
+
+type SpotlightButtonContainerProps = {
+  onClick: () => void;
+  className?: string;
+  children?: ReactNode;
+  innerDivClassName?: string;
+  iconClassName?: string;
+} & UnstyledButtonProps;
+
+const SpotlightButtonContainer = ({
+  className,
+  children,
+  onClick,
+  iconClassName,
+  innerDivClassName,
+  ...rest
+}: SpotlightButtonContainerProps) => {
+  return (
+    <UnstyledButton
+      onClick={onClick}
+      className={cn("dark:bg-mantineColorDark6 rounded-full", className)}
+      {...rest}
+    >
+      <div
+        className={cn(
+          "border-2 border-gray-500 border-opacity-40 p-2 rounded-full",
+          innerDivClassName
+        )}
+      >
+        <Search className={cn("h-5 w-5 opacity-40", iconClassName)} />
+        {children}
+      </div>
+    </UnstyledButton>
+  );
+};
 
 const actions: CustomSpotlightActionGroupData[] = [
   {
