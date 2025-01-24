@@ -121,6 +121,8 @@ const SpotlightButton = ({
     return (
       <SpotlightButtonContainer
         className={className}
+        innerDivClassName="rounded-md"
+        iconClassName="opacity-90"
         onClick={onClick}
         {...rest}
       />
@@ -177,16 +179,24 @@ const SpotlightButtonContainer = ({
   return (
     <UnstyledButton
       onClick={onClick}
-      className={cn("dark:bg-mantineColorDark6 rounded-full", className)}
+      className={cn(
+        "dark:bg-mantineColorDark6 sm:rounded-full rounded-md",
+        className
+      )}
       {...rest}
     >
       <div
         className={cn(
-          "border-2 border-gray-500 border-opacity-40 p-2 rounded-full",
+          "border-[1px] border-gray-500 border-opacity-40 p-2 rounded-full",
           innerDivClassName
         )}
       >
-        <Search className={cn("h-5 w-5 opacity-40", iconClassName)} />
+        <Search
+          className={cn(
+            "max-md:h-full max-md:w-full opacity-40",
+            iconClassName
+          )}
+        />
         {children}
       </div>
     </UnstyledButton>
