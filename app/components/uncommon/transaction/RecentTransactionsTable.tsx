@@ -8,6 +8,7 @@ import {
 } from "@mantine/core";
 import { useSearchParams } from "@remix-run/react";
 import { CircleArrowDown, CircleArrowUp, Download } from "lucide-react";
+import { ReactNode } from "react";
 import {
   AllowedOperations,
   RecentTransactionsType,
@@ -23,25 +24,194 @@ const RecentTransactionsTable = ({
   data,
   isLoading = false,
 }: RecentTransactionsTableProps) => {
+  const [searchParams] = useSearchParams();
+  const limit = parseInt(searchParams.get("limit") || "5", 10);
+
+  const loadingRows = Array.from({ length: limit }, (_, index) => (
+    <TableRowData key={index} isLoading={true} />
+  ));
+
+  const rows = data?.map((element) => (
+    <TableRowData
+      key={element.transactionId}
+      isLoading={false}
+      data={element}
+    />
+  ));
+
   return (
     <>
       <LimitSelect />
-      <DesktopView
-        isLoading={isLoading}
-        data={data ?? []}
-        className="hidden lg:block"
-      />
-      <TabletView
-        isLoading={isLoading}
-        data={data ?? []}
-        className="hidden xs:block lg:hidden"
-      />
-      <MobileView
-        isLoading={isLoading}
-        data={data ?? []}
-        className="block xs:hidden"
-      />
+      <TransactionTabs />
+      <Card withBorder shadow="md" radius={"lg"}>
+        <Table>
+          <TableHeadings />
+          <Table.Tbody>{isLoading ? loadingRows : rows}</Table.Tbody>
+        </Table>
+      </Card>
     </>
+  );
+};
+
+const TableHeadings = () => {
+  return (
+    <Table.Thead className="max-md:hidden">
+      <Table.Tr>
+        <Table.Th>Description</Table.Th>
+        <Table.Th>Transaction ID</Table.Th>
+        <Table.Th className="max-lg:hidden">Type</Table.Th>
+        <Table.Th className="max-lg:hidden">Card</Table.Th>
+        <Table.Th className="max-md:hidden">Date</Table.Th>
+        <Table.Th>Amount</Table.Th>
+        <Table.Th>Receipt</Table.Th>
+      </Table.Tr>
+    </Table.Thead>
+  );
+};
+
+type TableRowDataProps =
+  | { key: string | number; isLoading: true }
+  | { key: string | number; isLoading: false; data: RecentTransactionsType };
+
+const TableRowData = ({ ...props }: TableRowDataProps) => {
+  const { key, isLoading } = props;
+
+  if (isLoading) {
+    return (
+      <Table.Tr key={key}>
+        <DescriptionTd
+          isLoading={true}
+          data={{ operation: "all", description: "", date: "", amount: 0 }}
+        />
+        <TransactionIdTd isLoading={true} data={{ transactionId: "" }} />
+        <TypeTd isLoading={true} data={{ type: "" }} />
+        <CardTd isLoading={true} data={{ last4Digits: "" }} />
+        <DateTd isLoading={true} data={{ date: "" }} />
+        <AmountTd isLoading={true} data={{ amount: 0, operation: "all" }} />
+        <ReceiptTd isLoading={true} />
+      </Table.Tr>
+    );
+  }
+
+  const { data } = props;
+
+  return (
+    <Table.Tr key={key}>
+      <DescriptionTd isLoading={false} data={data} />
+      <TransactionIdTd isLoading={false} data={data} />
+      <TypeTd isLoading={false} data={data} />
+      <CardTd isLoading={false} data={data} />
+      <DateTd isLoading={false} data={data} />
+      <AmountTd isLoading={false} data={data} />
+      <ReceiptTd isLoading={false} />
+    </Table.Tr>
+  );
+};
+
+type TableDataContainerProps = {
+  isLoading: boolean;
+  className?: string;
+  children: ReactNode;
+};
+
+type TableDataProps<K extends keyof RecentTransactionsType> = {
+  isLoading: boolean;
+  data: Pick<RecentTransactionsType, K>;
+};
+
+const TableDataContainer = ({
+  isLoading = false,
+  className,
+  children,
+}: TableDataContainerProps) => {
+  if (isLoading)
+    return (
+      <Table.Td className={className}>
+        <Skeleton className="h-9 w-full" />
+      </Table.Td>
+    );
+
+  return <Table.Td className={className}>{children}</Table.Td>;
+};
+
+const DescriptionTd = ({
+  isLoading,
+  data,
+}: TableDataProps<"operation" | "description" | "date" | "amount">) => {
+  return (
+    <TableDataContainer
+      isLoading={isLoading}
+      className="flex md:gap-1 gap-4 items-center"
+    >
+      {data.operation === "expense" ? (
+        <CircleArrowUp className="max-md:w-8 max-md:h-8" />
+      ) : (
+        <CircleArrowDown className="max-md:w-8 max-md:h-8" />
+      )}
+
+      <div className="flex flex-col">
+        {data.description}
+        <div className="md:hidden">{data.date}</div>
+      </div>
+
+      <div className="md:hidden ml-auto">
+        <AmountText amount={data.amount} operation={data.operation} />
+      </div>
+    </TableDataContainer>
+  );
+};
+
+const TransactionIdTd = ({
+  isLoading,
+  data,
+}: TableDataProps<"transactionId">) => {
+  return (
+    <TableDataContainer isLoading={isLoading} className="max-md:hidden">
+      {data.transactionId}
+    </TableDataContainer>
+  );
+};
+
+const TypeTd = ({ isLoading, data }: TableDataProps<"type">) => {
+  return (
+    <TableDataContainer isLoading={isLoading} className="max-lg:hidden">
+      {data.type}
+    </TableDataContainer>
+  );
+};
+
+const CardTd = ({ isLoading, data }: TableDataProps<"last4Digits">) => {
+  return (
+    <TableDataContainer isLoading={isLoading} className="max-lg:hidden">
+      {data.last4Digits}
+    </TableDataContainer>
+  );
+};
+
+const DateTd = ({ isLoading, data }: TableDataProps<"date">) => {
+  return (
+    <TableDataContainer isLoading={isLoading} className="max-md:hidden">
+      {data.date}
+    </TableDataContainer>
+  );
+};
+
+const AmountTd = ({
+  isLoading,
+  data,
+}: TableDataProps<"amount" | "operation">) => {
+  return (
+    <TableDataContainer isLoading={isLoading} className="max-md:hidden">
+      <AmountText amount={data.amount} operation={data.operation} />
+    </TableDataContainer>
+  );
+};
+
+const ReceiptTd = ({ isLoading }: { isLoading: boolean }) => {
+  return (
+    <TableDataContainer isLoading={isLoading} className="max-md:hidden">
+      <DownloadButton />
+    </TableDataContainer>
   );
 };
 
@@ -156,265 +326,265 @@ const LimitSelect = () => {
   );
 };
 
-type DeviceViewProps = {
-  data: RecentTransactionsType[];
-  className: string;
-  isLoading: boolean;
-};
+// type DeviceViewProps = {
+//   data: RecentTransactionsType[];
+//   className: string;
+//   isLoading: boolean;
+// };
 
-const DesktopView = ({ data, className, isLoading }: DeviceViewProps) => {
-  const [searchParams] = useSearchParams();
-  const limit = parseInt(searchParams.get("limit") || "5", 10);
+// const DesktopView = ({ data, className, isLoading }: DeviceViewProps) => {
+//   const [searchParams] = useSearchParams();
+//   const limit = parseInt(searchParams.get("limit") || "5", 10);
 
-  const loadingRows = Array.from({ length: limit }, (_, index) => (
-    <Table.Tr key={index}>
-      <Table.Td className="flex gap-1 items-center">
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-    </Table.Tr>
-  ));
+//   const loadingRows = Array.from({ length: limit }, (_, index) => (
+//     <Table.Tr key={index}>
+//       <Table.Td className="flex gap-1 items-center">
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//     </Table.Tr>
+//   ));
 
-  const rows = data.map((element) => (
-    <Table.Tr key={element.transactionId}>
-      <Table.Td className="flex gap-1 items-center">
-        {element.operation === "expense" ? (
-          <CircleArrowUp />
-        ) : (
-          <CircleArrowDown />
-        )}
-        {element.description}
-      </Table.Td>
-      <Table.Td>{element.transactionId}</Table.Td>
-      <Table.Td>{element.type}</Table.Td>
-      <Table.Td>{["****", element.last4Digits].join(" ")}</Table.Td>
-      <Table.Td>{element.date}</Table.Td>
-      <Table.Td>
-        <AmountText amount={element.amount} operation={element.operation} />
-      </Table.Td>
-      <Table.Td>
-        <DownloadButton />
-      </Table.Td>
-    </Table.Tr>
-  ));
+//   const rows = data.map((element) => (
+//     <Table.Tr key={element.transactionId}>
+//       <Table.Td className="flex gap-1 items-center">
+//         {element.operation === "expense" ? (
+//           <CircleArrowUp />
+//         ) : (
+//           <CircleArrowDown />
+//         )}
+//         {element.description}
+//       </Table.Td>
+//       <Table.Td>{element.transactionId}</Table.Td>
+//       <Table.Td>{element.type}</Table.Td>
+//       <Table.Td>{["****", element.last4Digits].join(" ")}</Table.Td>
+//       <Table.Td>{element.date}</Table.Td>
+//       <Table.Td>
+//         <AmountText amount={element.amount} operation={element.operation} />
+//       </Table.Td>
+//       <Table.Td>
+//         <DownloadButton />
+//       </Table.Td>
+//     </Table.Tr>
+//   ));
 
-  if (isLoading)
-    return (
-      <div className={className}>
-        <TransactionTabs />
-        <Card withBorder shadow="md" radius={"lg"}>
-          <Table>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Description</Table.Th>
-                <Table.Th>Transaction ID</Table.Th>
-                <Table.Th>Type</Table.Th>
-                <Table.Th>Card</Table.Th>
-                <Table.Th>Date</Table.Th>
-                <Table.Th>Amount</Table.Th>
-                <Table.Th>Receipt</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{loadingRows}</Table.Tbody>
-          </Table>
-        </Card>
-      </div>
-    );
+//   if (isLoading)
+//     return (
+//       <div className={className}>
+//         <TransactionTabs />
+//         <Card withBorder shadow="md" radius={"lg"}>
+//           <Table>
+//             <Table.Thead>
+//               <Table.Tr>
+//                 <Table.Th>Description</Table.Th>
+//                 <Table.Th>Transaction ID</Table.Th>
+//                 <Table.Th>Type</Table.Th>
+//                 <Table.Th>Card</Table.Th>
+//                 <Table.Th>Date</Table.Th>
+//                 <Table.Th>Amount</Table.Th>
+//                 <Table.Th>Receipt</Table.Th>
+//               </Table.Tr>
+//             </Table.Thead>
+//             <Table.Tbody>{loadingRows}</Table.Tbody>
+//           </Table>
+//         </Card>
+//       </div>
+//     );
 
-  return (
-    <div className={className}>
-      <TransactionTabs />
-      <Card withBorder shadow="md" radius={"lg"}>
-        <Table>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Description</Table.Th>
-              <Table.Th>Transaction ID</Table.Th>
-              <Table.Th>Type</Table.Th>
-              <Table.Th>Card</Table.Th>
-              <Table.Th>Date</Table.Th>
-              <Table.Th>Amount</Table.Th>
-              <Table.Th>Receipt</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-      </Card>
-    </div>
-  );
-};
+//   return (
+//     <div className={className}>
+//       <TransactionTabs />
+//       <Card withBorder shadow="md" radius={"lg"}>
+//         <Table>
+//           <Table.Thead>
+//             <Table.Tr>
+//               <Table.Th>Description</Table.Th>
+//               <Table.Th>Transaction ID</Table.Th>
+//               <Table.Th>Type</Table.Th>
+//               <Table.Th>Card</Table.Th>
+//               <Table.Th>Date</Table.Th>
+//               <Table.Th>Amount</Table.Th>
+//               <Table.Th>Receipt</Table.Th>
+//             </Table.Tr>
+//           </Table.Thead>
+//           <Table.Tbody>{rows}</Table.Tbody>
+//         </Table>
+//       </Card>
+//     </div>
+//   );
+// };
 
-const TabletView = ({ data, className, isLoading }: DeviceViewProps) => {
-  const [searchParams] = useSearchParams();
-  const limit = parseInt(searchParams.get("limit") || "5", 10);
+// const TabletView = ({ data, className, isLoading }: DeviceViewProps) => {
+//   const [searchParams] = useSearchParams();
+//   const limit = parseInt(searchParams.get("limit") || "5", 10);
 
-  const loadingRows = Array.from({ length: limit }, (_, index) => (
-    <Table.Tr key={index}>
-      <Table.Td className="flex gap-1 items-center">
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-9 w-full" />
-      </Table.Td>
-    </Table.Tr>
-  ));
+//   const loadingRows = Array.from({ length: limit }, (_, index) => (
+//     <Table.Tr key={index}>
+//       <Table.Td className="flex gap-1 items-center">
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-9 w-full" />
+//       </Table.Td>
+//     </Table.Tr>
+//   ));
 
-  const rows = data.map((element) => (
-    <Table.Tr key={element.transactionId}>
-      <Table.Td className="flex gap-1 items-center">
-        {element.operation === "expense" ? (
-          <CircleArrowUp />
-        ) : (
-          <CircleArrowDown />
-        )}
-        {element.description}
-      </Table.Td>
-      <Table.Td>{element.transactionId}</Table.Td>
-      <Table.Td>{element.date}</Table.Td>
-      <Table.Td>
-        <AmountText amount={element.amount} operation={element.operation} />
-      </Table.Td>
-      <Table.Td>
-        <DownloadButton />
-      </Table.Td>
-    </Table.Tr>
-  ));
+//   const rows = data.map((element) => (
+//     <Table.Tr key={element.transactionId}>
+//       <Table.Td className="flex gap-1 items-center">
+//         {element.operation === "expense" ? (
+//           <CircleArrowUp />
+//         ) : (
+//           <CircleArrowDown />
+//         )}
+//         {element.description}
+//       </Table.Td>
+//       <Table.Td>{element.transactionId}</Table.Td>
+//       <Table.Td>{element.date}</Table.Td>
+//       <Table.Td>
+//         <AmountText amount={element.amount} operation={element.operation} />
+//       </Table.Td>
+//       <Table.Td>
+//         <DownloadButton />
+//       </Table.Td>
+//     </Table.Tr>
+//   ));
 
-  if (isLoading)
-    return (
-      <div className={className}>
-        <TransactionTabs />
-        <Card withBorder shadow="md" radius={"lg"}>
-          <Table>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Description</Table.Th>
-                <Table.Th>Transaction ID</Table.Th>
-                <Table.Th>Date</Table.Th>
-                <Table.Th>Amount</Table.Th>
-                <Table.Th>Receipt</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{loadingRows}</Table.Tbody>
-          </Table>
-        </Card>
-      </div>
-    );
+//   if (isLoading)
+//     return (
+//       <div className={className}>
+//         <TransactionTabs />
+//         <Card withBorder shadow="md" radius={"lg"}>
+//           <Table>
+//             <Table.Thead>
+//               <Table.Tr>
+//                 <Table.Th>Description</Table.Th>
+//                 <Table.Th>Transaction ID</Table.Th>
+//                 <Table.Th>Date</Table.Th>
+//                 <Table.Th>Amount</Table.Th>
+//                 <Table.Th>Receipt</Table.Th>
+//               </Table.Tr>
+//             </Table.Thead>
+//             <Table.Tbody>{loadingRows}</Table.Tbody>
+//           </Table>
+//         </Card>
+//       </div>
+//     );
 
-  return (
-    <div className={className}>
-      <TransactionTabs />
-      <Card withBorder shadow="md" radius={"lg"}>
-        <Table>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Description</Table.Th>
-              <Table.Th>Transaction ID</Table.Th>
-              <Table.Th>Date</Table.Th>
-              <Table.Th>Amount</Table.Th>
-              <Table.Th>Receipt</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-      </Card>
-    </div>
-  );
-};
+//   return (
+//     <div className={className}>
+//       <TransactionTabs />
+//       <Card withBorder shadow="md" radius={"lg"}>
+//         <Table>
+//           <Table.Thead>
+//             <Table.Tr>
+//               <Table.Th>Description</Table.Th>
+//               <Table.Th>Transaction ID</Table.Th>
+//               <Table.Th>Date</Table.Th>
+//               <Table.Th>Amount</Table.Th>
+//               <Table.Th>Receipt</Table.Th>
+//             </Table.Tr>
+//           </Table.Thead>
+//           <Table.Tbody>{rows}</Table.Tbody>
+//         </Table>
+//       </Card>
+//     </div>
+//   );
+// };
 
-const MobileView = ({ data, className, isLoading }: DeviceViewProps) => {
-  const [searchParams] = useSearchParams();
-  const limit = parseInt(searchParams.get("limit") || "5", 10);
+// const MobileView = ({ data, className, isLoading }: DeviceViewProps) => {
+//   const [searchParams] = useSearchParams();
+//   const limit = parseInt(searchParams.get("limit") || "5", 10);
 
-  const loadingRows = Array.from({ length: limit }, (_, index) => (
-    <Table.Tr key={index}>
-      <Table.Td className="flex gap-3">
-        <div className="w-auto h-full">
-          <Skeleton className="h-7 w-7 rounded-full mt-auto flex justify-center items-center" />
-        </div>
-        <div className="flex flex-col gap-1 w-full h-full">
-          <Skeleton className="h-5 w-3/4" />
-          <br />
-          <Skeleton className="h-5 w-1/2" />
-        </div>
-      </Table.Td>
-      <Table.Td>
-        <Skeleton className="h-5 w-full" />
-      </Table.Td>
-    </Table.Tr>
-  ));
+//   const loadingRows = Array.from({ length: limit }, (_, index) => (
+//     <Table.Tr key={index}>
+//       <Table.Td className="flex gap-3">
+//         <div className="w-auto h-full">
+//           <Skeleton className="h-7 w-7 rounded-full mt-auto flex justify-center items-center" />
+//         </div>
+//         <div className="flex flex-col gap-1 w-full h-full">
+//           <Skeleton className="h-5 w-3/4" />
+//           <br />
+//           <Skeleton className="h-5 w-1/2" />
+//         </div>
+//       </Table.Td>
+//       <Table.Td>
+//         <Skeleton className="h-5 w-full" />
+//       </Table.Td>
+//     </Table.Tr>
+//   ));
 
-  const rows = data.map((element) => (
-    <Table.Tr key={element.transactionId}>
-      <Table.Td className="flex gap-3">
-        <div>
-          {element.operation === "expense" ? (
-            <CircleArrowUp className="h-full" />
-          ) : (
-            <CircleArrowDown className="h-full" />
-          )}
-        </div>
-        <div className="flex flex-col gap-1">
-          {element.description}
-          <br />
-          {element.date}
-        </div>
-      </Table.Td>
-      <Table.Td>
-        <AmountText amount={element.amount} operation={element.operation} />
-      </Table.Td>
-    </Table.Tr>
-  ));
+//   const rows = data.map((element) => (
+//     <Table.Tr key={element.transactionId}>
+//       <Table.Td className="flex gap-3">
+//         <div>
+//           {element.operation === "expense" ? (
+//             <CircleArrowUp className="h-full" />
+//           ) : (
+//             <CircleArrowDown className="h-full" />
+//           )}
+//         </div>
+//         <div className="flex flex-col gap-1">
+//           {element.description}
+//           <br />
+//           {element.date}
+//         </div>
+//       </Table.Td>
+//       <Table.Td>
+//         <AmountText amount={element.amount} operation={element.operation} />
+//       </Table.Td>
+//     </Table.Tr>
+//   ));
 
-  if (isLoading)
-    return (
-      <div className={className}>
-        <TransactionTabs />
-        <Card withBorder shadow="md" radius={"lg"}>
-          <Table>
-            <Table.Tbody>{loadingRows}</Table.Tbody>
-          </Table>
-        </Card>
-      </div>
-    );
+//   if (isLoading)
+//     return (
+//       <div className={className}>
+//         <TransactionTabs />
+//         <Card withBorder shadow="md" radius={"lg"}>
+//           <Table>
+//             <Table.Tbody>{loadingRows}</Table.Tbody>
+//           </Table>
+//         </Card>
+//       </div>
+//     );
 
-  return (
-    <div className={className}>
-      <TransactionTabs />
-      <Card withBorder shadow="md" radius={"lg"}>
-        <Table>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-      </Card>
-    </div>
-  );
-};
+//   return (
+//     <div className={className}>
+//       <TransactionTabs />
+//       <Card withBorder shadow="md" radius={"lg"}>
+//         <Table>
+//           <Table.Tbody>{rows}</Table.Tbody>
+//         </Table>
+//       </Card>
+//     </div>
+//   );
+// };
 
 export default RecentTransactionsTable;
 
