@@ -4,10 +4,11 @@ import { AppShell, Burger, Grid, Group, ScrollArea, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import ThemeSwticher from "./ThemeSwitcher.js";
 import { ReactNode } from "react";
-import { useLocation } from "@remix-run/react";
+import { useLocation, useNavigate, useNavigation } from "@remix-run/react";
 import NavBar, { navList } from "./NavBar.js";
 import AppLogo from "./AppLogo.js";
 import Spotlight from "./Spotlight.js";
+import { LoaderCircle } from "lucide-react";
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -17,6 +18,11 @@ function AppLayout({ children }: AppLayoutProps) {
   const [opened, { toggle }] = useDisclosure();
 
   const location = useLocation();
+  const navigation = useNavigation();
+
+  const isLoading =
+    navigation.state === "loading" &&
+    navigation.location.pathname !== "/transaction";
 
   const currentPath =
     location.pathname === "/" ? "/" : location.pathname.split("/")[1];
@@ -81,17 +87,27 @@ function AppLayout({ children }: AppLayoutProps) {
           <NavBar navBarClick={toggleNavBar} />
         </ScrollArea>
       </AppShell.Navbar>
-      <AppShell.Main className="bg-gray-50 dark:bg-stone-800">
-        <Grid
-          className="gap-7 max-w-[1300px] w-full mx-auto"
-          align="stretch"
-          justify="center"
-        >
-          {children}
-        </Grid>
+      <AppShell.Main className="bg-gray-50 dark:bg-stone-800 flex">
+        {isLoading ? (
+          <div className="flex-1 justify-center items-center flex">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <Grid
+            className="gap-7 max-w-[1300px] w-full mx-auto"
+            align="stretch"
+            justify="center"
+          >
+            {children}
+          </Grid>
+        )}
       </AppShell.Main>
     </AppShell>
   );
 }
+
+const LoadingSpinner = () => {
+  return <LoaderCircle className="w-10 h-10 animate-spin" />;
+};
 
 export default AppLayout;
