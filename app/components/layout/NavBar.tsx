@@ -21,7 +21,7 @@ const NavBar = ({ navBarClick }: { navBarClick: () => void }) => {
   return (
     <>
       {navList.length ? (
-        <ul className="flex flex-col gap-9 py-4">
+        <ul className="flex flex-col gap-4 md:gap-6 lg:gap-9 py-4">
           {navList.map((element) => (
             <li key={element.id}>
               <NavBarElement
