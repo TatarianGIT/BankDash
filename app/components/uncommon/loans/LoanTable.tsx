@@ -83,12 +83,14 @@ const DataTable = ({ loansData }: DataTableProps) => {
             moneyLeft={totalMoneyLeft}
             installment={totalInstallment}
           />
-          <TableFooter
-            heading="Selected"
-            money={selectedMoneyTotal}
-            moneyLeft={selectedMoneyLeftTotal}
-            installment={selectedInstallmentTotal}
-          />
+          {selectedRows.length > 0 && (
+            <TableFooter
+              heading="Selected"
+              money={selectedMoneyTotal}
+              moneyLeft={selectedMoneyLeftTotal}
+              installment={selectedInstallmentTotal}
+            />
+          )}
         </Table.Tfoot>
       </Table>
     </>
@@ -197,12 +199,13 @@ const TableFooter = ({
         <Table.Th>
           <FormatedNumber value={moneyLeft.toFixed(2)} />
         </Table.Th>
-        <Table.Th className="hidden md:table-cell"></Table.Th>
-        <Table.Th className="hidden md:table-cell"></Table.Th>
-        <Table.Th className="hidden sm:table-cell">
+        <Table.Th className="max-md:hidden"></Table.Th>
+        <Table.Th className="max-md:hidden"></Table.Th>
+        <Table.Th className="max-md:hidden"></Table.Th>
+        <Table.Th className="max-sm:hidden">
           <FormatedNumber value={installment.toFixed(2)} /> {" / mo"}
         </Table.Th>
-        <Table.Th className="hidden md:table-cell"></Table.Th>
+        <Table.Th className="max-md:hidden"></Table.Th>
       </Table.Tr>
     </>
   );
