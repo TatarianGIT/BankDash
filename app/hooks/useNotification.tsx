@@ -1,11 +1,11 @@
 import { notifications } from "@mantine/notifications";
 import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect } from "react";
-import { SettingResponse } from "~/data/setting/mockedData";
+import { NotificationResponse } from "~/types";
 
 type UseNotificationProps = {
   id: string;
-  fetcher: FetcherWithComponents<SettingResponse>;
+  fetcher: FetcherWithComponents<NotificationResponse>;
 };
 
 const useNotification = ({ fetcher, id }: UseNotificationProps) => {
