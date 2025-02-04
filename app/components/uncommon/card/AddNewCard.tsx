@@ -67,6 +67,21 @@ const AddNewCard = () => {
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleNumberChange = (text: string) => {
+    if (typeof text !== "string") return;
+    const cleanedValue = text.replace(/\D/g, "").slice(0, 16);
+    handleChange("number", cleanedValue);
+  };
+
+  const formatCardNumber = (value: string): string => {
+    return (
+      value
+        .match(/.{1,4}/g)
+        ?.join(" ")
+        .trim() || ""
+    );
+  };
+
   return (
     <CardContainer>
       <Text className="text-sm py-4">
@@ -109,14 +124,14 @@ const AddNewCard = () => {
             name="number"
             type="text"
             label="Card Number"
-            placeholder="**** **** **** ****"
+            placeholder="____  ____  ____  ____"
             error={
               fetcher.data?.response.status === "error"
                 ? fetcher.data?.response.message.number?._errors
                 : undefined
             }
-            value={formValues.number}
-            onChange={(value) => handleChange("number", value)}
+            value={formatCardNumber(formValues.number)}
+            onChange={(value) => handleNumberChange(value as string)}
           />
 
           <FormElement
