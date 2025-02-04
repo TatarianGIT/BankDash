@@ -17,6 +17,8 @@ import {
   getExpenseStatistics,
   getRecentTransactions,
 } from "~/data/dashboard/mockedData.js";
+import { NotificationResponse } from "~/types";
+import { wait } from "~/utils/wait";
 
 export const loader = async () => {
   const transactionData = getRecentTransactions();
@@ -32,6 +34,16 @@ export const loader = async () => {
     balanceHistory,
     creditCards,
   });
+};
+
+export const action = async (): Promise<NotificationResponse> => {
+  await wait(2500);
+
+  const randomValue = Math.random();
+  if (randomValue < 0.3)
+    return { status: "error", message: "An unexpected error occurred!" };
+
+  return { status: "success", message: "Quick transfer completed!" };
 };
 
 export const meta: MetaFunction = () => {
