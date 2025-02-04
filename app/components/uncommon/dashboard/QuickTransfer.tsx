@@ -26,6 +26,8 @@ const QuickTransfer = ({ data }: QuickTransferProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedContact = data.find((_, index) => index === selectedIndex);
 
+  const [shouldClear, setShouldClear] = useState<boolean>(false);
+
   const fetcher = useFetcher<typeof action>();
 
   const [value, setValue] = useState<number>(0);
@@ -36,22 +38,32 @@ const QuickTransfer = ({ data }: QuickTransferProps) => {
   useNotification({ id: "quickTransfer", fetcher: fetcher });
 
   useEffect(() => {
-    if (opened && fetcher.data?.status === "success") {
+    if (
+      opened &&
+      fetcher.data?.status === "success" &&
+      fetcher.state === "idle" &&
+      shouldClear
+    ) {
       setValue(0);
       close();
+      setShouldClear(false);
     }
-  }, [close, fetcher.data?.status, opened]);
+  }, [close, fetcher.data?.status, fetcher.state, opened, shouldClear]);
 
   return (
     <Card shadow="md" radius={"lg"} withBorder className="p-0 flex-col w-full">
       {data.length ? (
         <>
           <Modal opened={opened} onClose={close} title={"Confirm action"}>
-            <fetcher.Form method="POST" className="flex flex-col gap-4">
+            <fetcher.Form
+              onSubmit={() => setShouldClear(true)}
+              method="POST"
+              className="flex flex-col gap-4"
+            >
               <Text size="lg">
                 {`Are you sure, that You want to send `}
                 {formatedValue}
-                {` to ${selectedContact?.firstName} ${selectedContact?.lastName}`}
+                {` to ${selectedContact?.firstName} ${selectedContact?.lastName}?`}
               </Text>
               <div className="flex justify-between w-full">
                 <Button color="red" onClick={close} size="md">
@@ -77,7 +89,6 @@ const QuickTransfer = ({ data }: QuickTransferProps) => {
               </div>
             </fetcher.Form>
           </Modal>
-
           <Carousel
             loop
             slideGap={"sm"}
