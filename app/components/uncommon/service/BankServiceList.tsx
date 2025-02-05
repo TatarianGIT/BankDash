@@ -68,7 +68,7 @@ const ServiceElement = ({ ...props }: ServiceElementProps) => {
 
         <Grid.Col span={"content"} className="">
           <Button variant="outline" className="rounded-full">
-            <span className="hidden md:inline-block">View</span>
+            <span className="hidden md:inline-block pr-1">View</span>
             Details
           </Button>
         </Grid.Col>
