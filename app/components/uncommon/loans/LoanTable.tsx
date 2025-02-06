@@ -86,6 +86,7 @@ const DataTable = ({ loansData }: DataTableProps) => {
           {selectedRows.length > 0 && (
             <TableFooter
               heading="Selected"
+              selectedRows={selectedRows}
               money={selectedMoneyTotal}
               moneyLeft={selectedMoneyLeftTotal}
               installment={selectedInstallmentTotal}
@@ -138,7 +139,7 @@ const TableRowData = ({
         <FormatedNumber value={loan.installment} /> {" / mo"}
       </Table.Td>
       <Table.Td className="flex justify-center">
-        <RepayButton />
+        <RepayButton isDisabled={isRowSelected} />
       </Table.Td>
     </Table.Tr>
   );
@@ -176,6 +177,7 @@ type TableFooterProps = {
   money: number;
   moneyLeft: number;
   installment: number;
+  selectedRows?: LoanTableElementType[];
 };
 
 const TableFooter = ({
@@ -183,6 +185,7 @@ const TableFooter = ({
   installment,
   money,
   moneyLeft,
+  selectedRows = [],
 }: TableFooterProps) => {
   return (
     <>
@@ -193,6 +196,7 @@ const TableFooter = ({
       </Table.Tr>
       <Table.Tr>
         <Table.Th></Table.Th>
+        <Table.Th className="max-md:hidden"></Table.Th>
         <Table.Th>
           <FormatedNumber value={money.toFixed(2)} />
         </Table.Th>
@@ -201,33 +205,47 @@ const TableFooter = ({
         </Table.Th>
         <Table.Th className="max-md:hidden"></Table.Th>
         <Table.Th className="max-md:hidden"></Table.Th>
-        <Table.Th className="max-md:hidden"></Table.Th>
         <Table.Th className="max-sm:hidden">
           <FormatedNumber value={installment.toFixed(2)} /> {" / mo"}
         </Table.Th>
-        <Table.Th className="max-md:hidden"></Table.Th>
+        <Table.Th className="flex justify-center">
+          {selectedRows.length > 0 && (
+            <RepayButton rightSection={selectedRows.length.toString()} />
+          )}
+        </Table.Th>
       </Table.Tr>
     </>
   );
 };
 
-const RepayButton = () => {
+type RepayButtonProps = {
+  isDisabled?: boolean;
+  rightSection?: string;
+};
+
+const RepayButton = ({
+  isDisabled = false,
+  rightSection,
+}: RepayButtonProps) => {
   return (
     <>
       <Button
+        disabled={isDisabled}
         variant="outline"
         className="hidden md:inline-block rounded-full"
         aria-label="Repay loan"
       >
-        Repay
+        Repay {rightSection}
       </Button>
 
       <Button
+        disabled={isDisabled}
         variant="outline"
-        className="md:hidden rounded-full p-1"
+        className="md:hidden rounded-full p-1 w-full"
         aria-label="Repay loan"
       >
         <RotateCcw />
+        {rightSection && <span className="px-2">{rightSection}</span>}
       </Button>
     </>
   );
