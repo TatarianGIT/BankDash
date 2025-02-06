@@ -1,6 +1,8 @@
-import { Button, Text } from "@mantine/core";
-import { Link } from "@remix-run/react";
-import { type MetaFunction } from "@remix-run/node";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  type MetaFunction,
+} from "@remix-run/node";
 import { defer, useLoaderData } from "@remix-run/react";
 import CardRouteLinkWrapper from "~/components/common/CardRouteLinkWrapper";
 import CreditCard from "~/components/common/CreditCard";
@@ -22,7 +24,8 @@ import {
 import { NotificationResponse } from "~/types";
 import { wait } from "~/utils/wait";
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+
   const transactionData = getRecentTransactions();
   const expenseStatistics = getExpenseStatistics();
   const contacts = getAllContacts();
@@ -38,7 +41,9 @@ export const loader = async () => {
   });
 };
 
-export const action = async (): Promise<NotificationResponse> => {
+export const action = async ({
+  request,
+}: ActionFunctionArgs): Promise<NotificationResponse> => {
   await wait(2500);
 
   const randomValue = Math.random();
@@ -58,14 +63,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const { ...data } = useLoaderData<typeof loader>();
 
-
-const Index = () => {
   return (
-    <div className="max-w-3xl flex flex-col gap-10 p-4">
-      <h1 className="text-center text-2xl">
-        Modern Banking Analytics Dashboard
-      </h1>
-
     <>
       <Item
         leftHeading="My Cards"
@@ -93,30 +91,6 @@ const Index = () => {
           </LoadingItem>
         </CreditCardContainer>
       </Item>
-
-      <Text className="flex items-center gap-2">
-        To view project&apos;s source code, visit this
-        <Button
-          variant="default"
-          className="flex justify-center items-center gap-3"
-        >
-          <GitHubIcon />
-          Github Repo
-        </Button>
-      </Text>
-      <Text className="flex items-center gap-2">
-        My GitHub page
-        <Button
-          variant="default"
-          className="flex justify-center items-center gap-3"
-        >
-          <GitHubIcon />
-          TatarianGIT
-        </Button>
-      </Text>
-    </div>
-  );
-};
 
       <Item size="small" leftHeading="Recent Transaction">
         <RecentTransaction />
@@ -148,5 +122,3 @@ const Index = () => {
     </>
   );
 }
-
-export default Index;

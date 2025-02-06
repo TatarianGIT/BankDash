@@ -15,7 +15,7 @@ import { Loader, Send } from "lucide-react";
 import { useEffect, useState } from "react";
 import { UserData } from "~/data/dashboard/contacts.js";
 import useNotification from "~/hooks/useNotification";
-import { action } from "~/routes/_index";
+import { action } from "~/routes/dashboard";
 
 type QuickTransferProps = {
   data: UserData[];

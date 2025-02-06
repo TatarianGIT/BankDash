@@ -48,8 +48,7 @@ type NavBarElementProps = {
 const NavBarElement = ({ element, navBarClick }: NavBarElementProps) => {
   const location = useLocation();
 
-  const currentPath =
-    location.pathname === "/" ? "/" : location.pathname.slice(1);
+  const currentPath = location.pathname.slice(1);
   const isActive = currentPath === element.value;
 
   const handleClick = () => {
@@ -89,7 +88,7 @@ export const navList: NavElementType[] = [
   {
     id: 1,
     label: "Dashboard",
-    value: "/",
+    value: "dashboard",
     icon: <House />,
   },
   {
