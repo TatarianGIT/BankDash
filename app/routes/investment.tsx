@@ -1,4 +1,6 @@
+import { LoaderFunctionArgs } from "@remix-run/node";
 import { defer, useLoaderData } from "@remix-run/react";
+import { requireAuth } from "~/auth/auth";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
 import InvestmentBadgeSection from "~/components/uncommon/investment/InvestmentBadgeSection";
@@ -7,7 +9,9 @@ import MyInvestment from "~/components/uncommon/investment/MyInvestment";
 import TrendingStock from "~/components/uncommon/investment/TrendingStock";
 import { getInvestment, getRevenue } from "~/data/investment/mockedData";
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await requireAuth(request);
+
   const ivestments = getInvestment();
   const revenue = getRevenue();
 

@@ -8,6 +8,7 @@ import {
   useSearchParams,
 } from "@remix-run/react";
 import { Suspense } from "react";
+import { requireAuth } from "~/auth/auth";
 import CardRouteLinkWrapper from "~/components/common/CardRouteLinkWrapper";
 import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
@@ -26,6 +27,8 @@ import {
 } from "~/data/transaction/recentTransations.js";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await requireAuth(request);
+
   const url = new URL(request.url);
 
   const getLimit = url.searchParams.get("limit");

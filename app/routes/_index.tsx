@@ -1,58 +1,10 @@
 import { Button, Text } from "@mantine/core";
+import { LoaderFunctionArgs } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import { type MetaFunction } from "@remix-run/node";
-import { defer, useLoaderData } from "@remix-run/react";
-import CardRouteLinkWrapper from "~/components/common/CardRouteLinkWrapper";
-import CreditCard from "~/components/common/CreditCard";
-import CreditCardContainer from "~/components/common/CreditCardContainer";
-import Item from "~/components/common/Item";
-import LoadingItem from "~/components/common/LoadingItem";
-import BalanceHistory from "~/components/uncommon/dashboard/BalanceHistory";
-import ExpenseRoundChart from "~/components/uncommon/dashboard/ExpenseRoundChart";
-import QuickTransfer from "~/components/uncommon/dashboard/QuickTransfer";
-import RecentTransaction from "~/components/uncommon/dashboard/RecentTransaction";
-import RecentTransChart from "~/components/uncommon/dashboard/WeeklyActivity";
-import { getCard } from "~/data/common/creditCard";
-import { getAllContacts } from "~/data/dashboard/contacts.js";
-import {
-  getBalanceHistory,
-  getExpenseStatistics,
-  getRecentTransactions,
-} from "~/data/dashboard/mockedData.js";
-import { NotificationResponse } from "~/types";
-import { wait } from "~/utils/wait";
+import { redirectIfLoggedIn } from "~/auth/auth";
 
-export const loader = async () => {
-  const transactionData = getRecentTransactions();
-  const expenseStatistics = getExpenseStatistics();
-  const contacts = getAllContacts();
-  const balanceHistory = getBalanceHistory();
-  const creditCards = getCard(2);
-
-  return defer({
-    transactionData,
-    expenseStatistics,
-    contacts,
-    balanceHistory,
-    creditCards,
-  });
-};
-
-export const action = async (): Promise<NotificationResponse> => {
-  await wait(2500);
-
-  const randomValue = Math.random();
-  if (randomValue < 0.3)
-    return { status: "error", message: "An unexpected error occurred!" };
-
-  return { status: "success", message: "Quick transfer completed!" };
-};
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: "BankDash" },
-    { name: "description", content: "Welcome to BusinessApp!" },
-  ];
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  return redirectIfLoggedIn(request);
 };
 
 export default function Index() {

@@ -12,8 +12,12 @@ import Item from "~/components/common/Item";
 import ItemBadgeContainer, { ItemBadge } from "~/components/common/ItemBadge";
 import LoadingItem from "~/components/common/LoadingItem";
 import { getCard } from "~/data/common/creditCard";
+import { requireAuth } from "~/auth/auth";
+import { LoaderFunctionArgs } from "@remix-run/node";
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await requireAuth(request);
+
   const creditCard = getCard(1);
 
   return defer({ creditCard });

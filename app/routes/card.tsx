@@ -1,4 +1,4 @@
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { defer, json, useLoaderData } from "@remix-run/react";
 import AddNewCard from "~/components/uncommon/card/AddNewCard";
 import CardList from "~/components/uncommon/card/CardList";
@@ -9,14 +9,19 @@ import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
 import { addNewCard, CardData, getAllCards } from "~/data/card/addNewCard";
+import { requireAuth } from "~/auth/auth";
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await requireAuth(request);
+
   const cards = getAllCards();
 
   return defer({ cards });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  await requireAuth(request);
+
   const form = await request.formData();
 
   const newCard: CardData = {

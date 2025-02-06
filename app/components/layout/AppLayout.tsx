@@ -4,7 +4,8 @@ import { AppShell, Burger, Grid, Group, ScrollArea, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import ThemeSwticher from "./ThemeSwitcher.js";
 import { ReactNode } from "react";
-import { useLocation, useNavigate, useNavigation } from "@remix-run/react";
+import { useLoaderData, useLocation, useNavigation } from "@remix-run/react";
+import { loader } from "~/root.js";
 import NavBar, { navList } from "./NavBar.js";
 import AppLogo from "./AppLogo.js";
 import Spotlight from "./Spotlight.js";
@@ -15,6 +16,8 @@ type AppLayoutProps = {
 };
 
 function AppLayout({ children }: AppLayoutProps) {
+  const userId = useLoaderData<typeof loader>();
+
   const [opened, { toggle }] = useDisclosure();
 
   const location = useLocation();

@@ -4,6 +4,7 @@ import {
   type MetaFunction,
 } from "@remix-run/node";
 import { defer, useLoaderData } from "@remix-run/react";
+import { requireAuth } from "~/auth/auth";
 import CardRouteLinkWrapper from "~/components/common/CardRouteLinkWrapper";
 import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
@@ -25,6 +26,7 @@ import { NotificationResponse } from "~/types";
 import { wait } from "~/utils/wait";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await requireAuth(request);
 
   const transactionData = getRecentTransactions();
   const expenseStatistics = getExpenseStatistics();
@@ -44,6 +46,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const action = async ({
   request,
 }: ActionFunctionArgs): Promise<NotificationResponse> => {
+  await requireAuth(request);
   await wait(2500);
 
   const randomValue = Math.random();

@@ -1,7 +1,13 @@
 import { Tabs, Text } from "@mantine/core";
+import { LoaderFunctionArgs } from "@remix-run/node";
 
 import { Link, Outlet, useLocation } from "@remix-run/react";
+import { requireAuth } from "~/auth/auth";
 import CardContainer from "~/components/common/CardContainer";
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  return await requireAuth(request);
+};
 
 const SettingLayout = () => {
   const location = useLocation();

@@ -1,5 +1,6 @@
 import { ActionFunctionArgs } from "@remix-run/node";
 import { defer, json, useFetchers, useLoaderData } from "@remix-run/react";
+import { requireAuth } from "~/auth/auth";
 import LoadingItem from "~/components/common/LoadingItem";
 import ProfileTab from "~/components/uncommon/setting/ProfileTab";
 import {
@@ -17,6 +18,8 @@ export const loader = async () => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  await requireAuth(request);
+
   const formData = await request.formData();
 
   const updatedProfile = {
