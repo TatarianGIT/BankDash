@@ -6,6 +6,7 @@ import ThemeSwticher from "./ThemeSwitcher.js";
 import { ReactNode } from "react";
 import { useLoaderData, useLocation, useNavigation } from "@remix-run/react";
 import { loader } from "~/root.js";
+import AuthButton from "./AuthButton.js";
 import NavBar, { navList } from "./NavBar.js";
 import AppLogo from "./AppLogo.js";
 import Spotlight from "./Spotlight.js";
@@ -31,8 +32,7 @@ function AppLayout({ children }: AppLayoutProps) {
     location.pathname === "/" ? "/" : location.pathname.split("/")[1];
 
   const header =
-    navList.find((item) => item.value === currentPath)?.label ||
-    "Unknown pathname";
+    navList.find((item) => item.value === currentPath)?.label || "";
 
   const toggleNavBar = () => {
     toggle();
@@ -43,7 +43,9 @@ function AppLayout({ children }: AppLayoutProps) {
       layout="alt"
       header={{ height: { base: 60, sm: 70, md: 80, lg: 90 } }}
       navbar={{
-        width: { sm: "220px", md: "260px", lg: "300px", xl: "360px" },
+        width: userId
+          ? { sm: "220px", md: "260px", lg: "300px", xl: "360px" }
+          : { base: "0px" },
         breakpoint: "sm",
         collapsed: { mobile: !opened },
       }}
@@ -51,45 +53,60 @@ function AppLayout({ children }: AppLayoutProps) {
     >
       <AppShell.Header>
         <div className="flex justify-between items-center h-full px-4">
-          <div className="flex gap-2 items-center sm:hidden">
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="sm"
-              size="sm"
-              lineSize={2}
-            />
-            <div className="h-10 w-10 invisible sm:hidden"></div>
-          </div>
+          {userId ? (
+            <>
+              <div className="flex gap-2 items-center sm:hidden">
+                <Burger
+                  opened={opened}
+                  onClick={toggle}
+                  hiddenFrom="sm"
+                  size="sm"
+                  lineSize={2}
+                />
+                <div className="h-10 w-10 invisible sm:hidden"></div>
+              </div>
 
-          <Text className="text-2xl shrink-0">{header}</Text>
+              <Text className="text-2xl shrink-0">{header}</Text>
 
-          <Spotlight size={"lg"} className="hidden md:flex" />
-          <Spotlight size={"md"} className="hidden sm:flex md:hidden" />
+              <Spotlight size={"lg"} className="hidden md:flex" />
+              <Spotlight size={"md"} className="hidden sm:flex md:hidden" />
+            </>
+          ) : (
+            <div>
+              <AppLogo />
+            </div>
+          )}
 
           <div className="flex items-center gap-2">
-            <Spotlight size={"sm"} className="inline-block sm:hidden" />
+            {userId && (
+              <Spotlight size={"sm"} className="inline-block sm:hidden" />
+            )}
+
             <ThemeSwticher className="w-10 h-10 p-2" />
+            <AuthButton userId={userId} className="w-10 h-10" />
           </div>
         </div>
       </AppShell.Header>
 
-      <AppShell.Navbar>
-        <Group h={100}>
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            hiddenFrom="sm"
-            className={`${opened ? "absolute right-10" : ""}`}
-            size={"md"}
-            lineSize={2}
-          />
-          <AppLogo />
-        </Group>
-        <ScrollArea type="auto">
-          <NavBar navBarClick={toggleNavBar} />
-        </ScrollArea>
-      </AppShell.Navbar>
+      {userId && (
+        <AppShell.Navbar>
+          <Group h={100}>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              className={`${opened ? "absolute right-10" : ""}`}
+              size={"md"}
+              lineSize={2}
+            />
+            <AppLogo />
+          </Group>
+          <ScrollArea type="auto">
+            <NavBar navBarClick={toggleNavBar} />
+          </ScrollArea>
+        </AppShell.Navbar>
+      )}
+
       <AppShell.Main className="bg-gray-50 dark:bg-stone-800 flex">
         {isLoading ? (
           <div className="flex-1 justify-center items-center flex">
