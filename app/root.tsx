@@ -6,16 +6,19 @@ import "@mantine/notifications/styles.css";
 import "@mantine/spotlight/styles.css";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
   Meta,
   Outlet,
+  redirect,
   Scripts,
   ScrollRestoration,
+  ShouldRevalidateFunctionArgs,
 } from "@remix-run/react";
 import { Notifications } from "@mantine/notifications";
 
+import { getAuthFromRequest } from "./auth/auth";
 import "./tailwind.css";
 import AppLayout from "./components/layout/AppLayout.js";
 
@@ -31,6 +34,18 @@ export const links: LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const authId = await getAuthFromRequest(request);
+  if (authId && new URL(request.url).pathname === "/") {
+    throw redirect("/home");
+  }
+  return authId;
+}
+
+export function shouldRevalidate({ formAction }: ShouldRevalidateFunctionArgs) {
+  return formAction && ["/login", "/logout"].includes(formAction);
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
