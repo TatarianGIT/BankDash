@@ -4,6 +4,7 @@ import {
   useComputedColorScheme,
 } from "@mantine/core";
 import { Moon, Sun } from "lucide-react";
+import { cn } from "~/utils/cn";
 
 type ThemeSwitcherProps = {
   className?: string;
@@ -24,9 +25,8 @@ function ThemeSwticher({ className }: ThemeSwitcherProps) {
     <ActionIcon
       onClick={handleColorSchemeChange}
       variant="default"
-      size="lg"
       aria-label="Toggle color scheme"
-      className={className}
+      className={cn("rounded-md", className)}
     >
       <Sun className="dark:hidden inline-block" />
       <Moon className="hidden dark:inline-block" />
