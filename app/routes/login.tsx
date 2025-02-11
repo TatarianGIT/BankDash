@@ -98,7 +98,7 @@ const Login = () => {
           </Button>
         </fetcher.Form>
 
-        <Text className="mt-6 mb-3">
+        <Text className="mt-6 mb-3 flex items-center gap-1">
           If you don&apos;t have an accout,{" "}
           <Tooltip label={"Not implemented yet."}>
             <Button
