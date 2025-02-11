@@ -54,25 +54,48 @@ const Index = () => {
           </Button>
         </Link>
       </Text>
-      <Text className="flex items-center gap-2">
-        To view project&apos;s source code, visit this
-        <Button variant="default">
-          <div className="w-full flex  items-center gap-2 justify-center">
-            <GithubIcon size="25" />
+
+      <div className="flex flex-col gap-1">
+        <div className="flex gap-1 items-center">
+          To view project&apos;s source code, visit:
+          <GitHubButton href="https://github.com/TatarianGIT/BankDash">
             GitHub repo
-          </div>
-        </Button>
-      </Text>
-      <Text className="flex items-center gap-2">
-        My GitHub page
-        <Button variant="default">
-          <div className="w-full flex  items-center gap-2 justify-center">
-            <GithubIcon size="25" />
+          </GitHubButton>
+        </div>
+        <div className="flex gap-1 items-center">
+          My GitHub page:
+          <GitHubButton href="https://github.com/TatarianGIT">
             TatarianGIT
-          </div>
-        </Button>
-      </Text>
+          </GitHubButton>
+        </div>
+      </div>
     </div>
+  );
+};
+
+type GitHubButtonProps = {
+  href: string;
+  children: string;
+};
+
+const GitHubButton = ({ children, href }: GitHubButtonProps) => {
+  return (
+    <a
+      target="_blank"
+      rel="noreferrer"
+      href={href}
+      className="flex items-center"
+    >
+      <Button
+        variant="transparent"
+        className="text-gray-800 hover:text-gray-600 hover:bg-gray-100 px-2 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-700 "
+      >
+        <div className="flex items-center gap-2">
+          <GithubIcon size="25" />
+          {children}
+        </div>
+      </Button>
+    </a>
   );
 };
 
