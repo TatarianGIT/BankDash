@@ -1,11 +1,11 @@
-import { ActionIcon, Button, Card, Input, Text, Tooltip } from "@mantine/core";
+import { Button, Card, Input, Text, Tooltip } from "@mantine/core";
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect, useFetcher, useLoaderData } from "@remix-run/react";
 import { SVGProps, useState } from "react";
 import { redirectIfLoggedIn } from "~/auth/auth";
 import { authCookie, LoginResponseType, loginUser } from "~/auth/login";
+import AuthFiller from "~/components/common/AuthFiller";
 import { getPassword, getUsername } from "~/data/setting/mockedData";
-import { cn } from "~/utils/cn";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await redirectIfLoggedIn(request);
@@ -61,7 +61,7 @@ const Login = () => {
       <Card shadow="md" radius={"lg"} className="p-6">
         <fetcher.Form method="POST" className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <CredentialsFiller
+            <AuthFiller
               handleClick={handleFillCredentials}
               className="ml-auto -my-2"
             />
@@ -129,28 +129,6 @@ const ErrorText = ({ error }: { error: string | string[] }) => {
     );
 
   return <Text className="text-red-600 text-center">{error}</Text>;
-};
-
-type CredentialsFillerProps = {
-  handleClick: () => void;
-  className?: string;
-};
-
-const CredentialsFiller = ({
-  handleClick,
-  className,
-}: CredentialsFillerProps) => {
-  return (
-    <Tooltip label={"Fill credentials"} onClick={handleClick}>
-      <ActionIcon
-        variant="subtle"
-        aria-label="Fill credentials"
-        className={cn("flex justify-center items-center", className)}
-      >
-        <PasswordSolid />
-      </ActionIcon>
-    </Tooltip>
-  );
 };
 
 export function PasswordSolid(props: SVGProps<SVGSVGElement>) {
