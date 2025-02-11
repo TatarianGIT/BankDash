@@ -1,8 +1,9 @@
-import { Badge, BadgeProps, Button, Text } from "@mantine/core";
+import { Badge, BadgeProps, Button, Text, Tooltip } from "@mantine/core";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import { ComponentProps } from "react";
+import { ComponentProps, useState } from "react";
 import { redirectIfLoggedIn } from "~/auth/auth";
+import { cn } from "~/utils/cn";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   return redirectIfLoggedIn(request);
@@ -19,12 +20,18 @@ const Index = () => {
         <br />
         dashboard application.
       </h1>
-      <Text size="lg" className="text-justify">
-        BankDash is a full-stack web application demonstrating modern web
-        development practices. Built with Remix v2, this dashboard offers
-        real-time financial insights, transaction management, and user
-        customization features while implementing security best practices.
-      </Text>
+
+      <div className="relative">
+        <Text size="lg" className="text-justify">
+          BankDash is a full-stack web application demonstrating modern web
+          development practices. Built with Remix v2, this dashboard offers
+          real-time financial insights, transaction management, and user
+          customization features while implementing security best practices.
+        </Text>
+
+        <DescriptionInfo className="cursor-pointer absolute -top-7 -right-3" />
+      </div>
+
       <Text size="lg" className="text-justify">
         BankDash is my personal playground for growth as a developer. I built it
         to deepen my expertise in React and Remix—not just by following
@@ -70,6 +77,27 @@ const Index = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+type DescriptionInfoProps = {
+  className?: string;
+};
+
+const DescriptionInfo = ({ className }: DescriptionInfoProps) => {
+  const [opened, setOpened] = useState(false);
+
+  return (
+    <Tooltip label="Totally not ChatGPT generated :-)" opened={opened}>
+      <Text
+        className={cn("w-fit text-red-600 text-4xl", className)}
+        onClick={() => setOpened((o) => !o)}
+        onMouseOver={() => setOpened(true)}
+        onMouseOut={() => setOpened(false)}
+      >
+        *
+      </Text>
+    </Tooltip>
   );
 };
 
