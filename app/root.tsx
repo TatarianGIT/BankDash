@@ -38,7 +38,7 @@ export const links: LinksFunction = () => [
 export async function loader({ request }: LoaderFunctionArgs) {
   const authId = await getAuthFromRequest(request);
   if (authId && new URL(request.url).pathname === "/") {
-    throw redirect("/home");
+    throw redirect("/dashboard");
   }
   return authId;
 }
