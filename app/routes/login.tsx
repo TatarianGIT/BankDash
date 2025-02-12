@@ -57,7 +57,9 @@ const Login = () => {
 
   return (
     <div className="flex flex-col md:w-1/2 sm:w-3/4 w-full mx-3 sm:mx-0">
-      <Text className="text-center my-10">Sign in</Text>
+      <Text className="text-center my-10 text-lg md:text-xl lg:text-2xl">
+        Sign in
+      </Text>
       <Card shadow="md" radius={"lg"} className="p-6">
         <fetcher.Form method="POST" className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
