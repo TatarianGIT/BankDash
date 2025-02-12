@@ -78,11 +78,15 @@ function AppLayout({ children }: AppLayoutProps) {
           )}
 
           <div className="flex items-center gap-2">
-            {userId && (
-              <Spotlight size={"sm"} className="inline-block sm:hidden" />
+            {userId ? (
+              <>
+                <Spotlight size={"sm"} className="inline-block sm:hidden" />
+                <ThemeSwticher className="w-10 h-10 p-2 max-md:hidden" />
+              </>
+            ) : (
+              <ThemeSwticher className="w-10 h-10 p-2" />
             )}
 
-            <ThemeSwticher className="w-10 h-10 p-2" />
             <AuthButton userId={userId} className="w-10 h-10" />
           </div>
         </div>

@@ -11,6 +11,7 @@ import {
 import { Form, Link } from "@remix-run/react";
 import { LogIn, LogOut, Settings } from "lucide-react";
 import { cn } from "~/utils/cn";
+import ThemeSwticher from "./ThemeSwitcher";
 
 type AuthButtonProps = {
   userId: string | null;
@@ -48,7 +49,17 @@ const AuthButton = ({ className, userId }: AuthButtonProps) => {
         </UnstyledButton>
       </Combobox.Target>
 
-      <Combobox.Dropdown className="flex flex-col gap-2 justify-center items-center py-2">
+      <Combobox.Dropdown className="flex flex-col gap-2 justify-center items-center py-3">
+        <ComboboxOption value="settings" className="w-full md:hidden">
+          <ThemeSwticher
+            withText
+            text="Switch theme"
+            className="flex gap-2 w-full justify-center py-1"
+          />
+        </ComboboxOption>
+
+        <ComboboxDivider className="md:hidden" />
+
         <ComboboxOption value="settings" className="w-full">
           <Link
             to={"/setting"}
@@ -60,9 +71,7 @@ const AuthButton = ({ className, userId }: AuthButtonProps) => {
           </Link>
         </ComboboxOption>
 
-        <ComboboxOption value="xd" className="w-full my-0 py-0">
-          <Divider variant="solid" orientation="horizontal" size={"sm"} />
-        </ComboboxOption>
+        <ComboboxDivider />
 
         <ComboboxOption value="logout" className="w-full">
           <Form method="POST" action="/logout" className="w-full">
@@ -79,6 +88,14 @@ const AuthButton = ({ className, userId }: AuthButtonProps) => {
         </ComboboxOption>
       </Combobox.Dropdown>
     </Combobox>
+  );
+};
+
+const ComboboxDivider = ({ className }: { className?: string }) => {
+  return (
+    <ComboboxOption value={""} className={cn("w-full my-0 py-0", className)}>
+      <Divider variant="solid" orientation="horizontal" size={"sm"} />
+    </ComboboxOption>
   );
 };
 
