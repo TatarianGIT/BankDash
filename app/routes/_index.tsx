@@ -12,9 +12,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 const Index = () => {
   return (
     <div className="max-w-3xl flex flex-col gap-10 p-4">
-      <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium">
+      <h1 className="text-3xl md:text-4xl font-medium">
         A simple and modern <br />
-        <span className="text-mantinePrimaryColor7 text-5xl md:text-6xl lg:text-7xl font-semibold">
+        <span className="text-mantinePrimaryColor7 text-4xl md:text-5xl font-semibold">
           Banking Analytics
         </span>{" "}
         <br />
