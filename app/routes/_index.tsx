@@ -12,7 +12,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 const Index = () => {
   return (
     <div className="max-w-3xl flex flex-col gap-10 p-4">
-      <h1 className="lg:text-6xl md:text-5xl text-4xl font-medium">
+      <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium">
         A simple and modern <br />
         <span className="text-mantinePrimaryColor7 text-5xl md:text-6xl lg:text-7xl font-semibold">
           Banking Analytics
@@ -22,7 +22,7 @@ const Index = () => {
       </h1>
 
       <div className="relative">
-        <Text size="lg" className="text-justify">
+        <Text className="text-justify text-base sm:text-lg md:text-xl ">
           BankDash is a full-stack web application demonstrating modern web
           development practices. Built with Remix v2, this dashboard offers
           real-time financial insights, transaction management, and user
@@ -32,7 +32,7 @@ const Index = () => {
         <DescriptionInfo className="cursor-pointer absolute -top-7 -right-3" />
       </div>
 
-      <Text size="lg" className="text-justify">
+      <Text className="text-justify text-base sm:text-lg md:text-xl ">
         BankDash is my personal playground for growth as a developer. I built it
         to deepen my expertise in React and Remix—not just by following
         tutorials, but by creating something real from the ground up. Throughout
@@ -53,7 +53,7 @@ const Index = () => {
         <TechBadge leftSection={<MantineIcon size="20" />}>Mantine</TechBadge>
         <TechBadge leftSection={<ZodIcon size="20" />}>Zod</TechBadge>
       </div>
-      <Text className="flex items-center gap-2">
+      <Text className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
         To explore futher more, simply
         <Link to="/login">
           <Button variant="transparent" className="inline-block p-0">
@@ -63,13 +63,13 @@ const Index = () => {
       </Text>
 
       <div className="flex flex-col gap-1">
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-1 items-center flex-wrap text-sm sm:text-base md:text-lg">
           To view project&apos;s source code, visit:
           <GitHubButton href="https://github.com/TatarianGIT/BankDash">
             GitHub repo
           </GitHubButton>
         </div>
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-1 items-center text-sm sm:text-base md:text-lg">
           My GitHub page:
           <GitHubButton href="https://github.com/TatarianGIT">
             TatarianGIT
