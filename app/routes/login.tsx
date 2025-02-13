@@ -27,15 +27,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     password,
   });
 
-  if (loginResult.success === true) {
-    const user = loginResult.profile;
-    throw redirect("/dashboard", {
-      headers: {
-        "Set-Cookie": await authCookie.serialize(user.username),
-      },
-    });
-  }
-
   if (loginResult.success === false && loginResult.errors) {
     return loginResult.errors;
   }
