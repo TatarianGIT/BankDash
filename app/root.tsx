@@ -15,12 +15,14 @@ import {
   Scripts,
   ScrollRestoration,
   ShouldRevalidateFunctionArgs,
+  useLoaderData,
 } from "@remix-run/react";
 import { Notifications } from "@mantine/notifications";
 
 import { getAuthFromRequest } from "./auth/auth";
 import "./tailwind.css";
 import AppLayout from "./components/layout/AppLayout.js";
+import UserContext from "./context/userContext";
 import { getUserData } from "./data/setting/mockedData";
 
 export const links: LinksFunction = () => [
@@ -53,7 +55,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export function shouldRevalidate({ formAction }: ShouldRevalidateFunctionArgs) {
-  return formAction && ["/login", "/logout"].includes(formAction);
+  return (
+    formAction && ["/login", "/logout", "/setting/profile"].includes(formAction)
+  );
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -79,9 +83,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const user = useLoaderData<typeof loader>();
+
   return (
-    <AppLayout>
-      <Outlet />
-    </AppLayout>
+    <UserContext.Provider value={user}>
+      <AppLayout>
+        <Outlet />
+      </AppLayout>
+    </UserContext.Provider>
   );
 }
