@@ -2,22 +2,22 @@ import "@mantine/core/styles.css";
 
 import { AppShell, Burger, Grid, Group, ScrollArea, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import ThemeSwticher from "./ThemeSwitcher.js";
+import { useLocation, useNavigation } from "@remix-run/react";
+import { LoaderCircle } from "lucide-react";
 import { ReactNode } from "react";
-import { useLoaderData, useLocation, useNavigation } from "@remix-run/react";
-import { loader } from "~/root.js";
+import { useUser } from "~/context/userContext.js";
+import AppLogo from "./AppLogo.js";
 import AuthButton from "./AuthButton.js";
 import NavBar, { navList } from "./NavBar.js";
-import AppLogo from "./AppLogo.js";
 import Spotlight from "./Spotlight.js";
-import { LoaderCircle } from "lucide-react";
+import ThemeSwticher from "./ThemeSwitcher.js";
 
 type AppLayoutProps = {
   children: ReactNode;
 };
 
 function AppLayout({ children }: AppLayoutProps) {
-  const userId = useLoaderData<typeof loader>();
+  const user = useUser();
 
   const [opened, { toggle }] = useDisclosure();
 
@@ -43,7 +43,7 @@ function AppLayout({ children }: AppLayoutProps) {
       layout="alt"
       header={{ height: { base: 60, sm: 70, md: 80, lg: 90 } }}
       navbar={{
-        width: userId
+        width: user
           ? { sm: "220px", md: "260px", lg: "300px", xl: "360px" }
           : { base: "0px" },
         breakpoint: "sm",
@@ -53,7 +53,7 @@ function AppLayout({ children }: AppLayoutProps) {
     >
       <AppShell.Header>
         <div className="flex justify-between items-center h-full px-4">
-          {userId ? (
+          {user ? (
             <>
               <div className="flex gap-2 items-center sm:hidden">
                 <Burger
@@ -78,7 +78,7 @@ function AppLayout({ children }: AppLayoutProps) {
           )}
 
           <div className="flex items-center gap-2">
-            {userId ? (
+            {user ? (
               <>
                 <Spotlight size={"sm"} className="inline-block sm:hidden" />
                 <ThemeSwticher className="w-10 h-10 p-2 max-md:hidden" />
@@ -87,12 +87,12 @@ function AppLayout({ children }: AppLayoutProps) {
               <ThemeSwticher className="w-10 h-10 p-2" />
             )}
 
-            <AuthButton userId={userId} className="w-10 h-10" />
+            <AuthButton className="w-10 h-10" />
           </div>
         </div>
       </AppShell.Header>
 
-      {userId && (
+      {user && (
         <AppShell.Navbar>
           <Group h={100}>
             <Burger

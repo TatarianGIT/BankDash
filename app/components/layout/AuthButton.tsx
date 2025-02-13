@@ -10,20 +10,21 @@ import {
 } from "@mantine/core";
 import { Form, Link } from "@remix-run/react";
 import { LogIn, LogOut, Settings } from "lucide-react";
+import { useUser } from "~/context/userContext";
 import { cn } from "~/utils/cn";
 import ThemeSwticher from "./ThemeSwitcher";
 
 type AuthButtonProps = {
-  userId: string | null;
   className?: string;
 };
 
-const AuthButton = ({ className, userId }: AuthButtonProps) => {
+const AuthButton = ({ className }: AuthButtonProps) => {
+  const user = useUser();
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
 
-  if (!userId)
+  if (!user)
     return (
       <Link to={"/login"}>
         <ActionIcon
@@ -44,7 +45,7 @@ const AuthButton = ({ className, userId }: AuthButtonProps) => {
           <Avatar
             className={cn("rounded-md border-[1px] border-gray-600", className)}
             onClick={() => combobox.toggleDropdown()}
-            src={`https://i.pravatar.cc/150?u=${userId}`}
+            src={`https://i.pravatar.cc/150?u=${user?.username}`}
           />
         </UnstyledButton>
       </Combobox.Target>
