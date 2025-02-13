@@ -5,6 +5,7 @@ import { wait } from "~/utils/wait";
 export type ProfileType = z.infer<typeof ProfileSchema>;
 export type PreferencesType = z.infer<typeof PreferencesSchema>;
 export type SecurityType = Omit<z.infer<typeof SecuritySchema>, "newPassword">;
+export type UserType = z.infer<typeof UserSchema>;
 
 type FormValue = FormDataEntryValue | null;
 
@@ -29,6 +30,8 @@ export type SettingResponse = {
   status: "success" | "error";
   message: string;
 };
+
+export const UserSchema = z.string().uuid();
 
 export const ProfileSchema = z.object({
   fullName: z.string().min(5),
@@ -121,12 +124,39 @@ export const updateSecurity = async (newSecurity: IncomingSecurity) => {
   return settings.updateSecurity(newSecurity);
 };
 
+export const getUserData = async (userId: string) => {
+  await wait(200);
+  return await settings.getUserData(userId);
+};
+
 export const settings = {
+  userId: crypto.randomUUID(),
+
   profile: { ...initProfile } as ProfileType,
 
   preferences: { ...initPreferences } as PreferencesType,
 
   security: { ...initSecurity } as SecurityType,
+
+  async getUserData(userId: string): Promise<{
+    userId: UserType;
+    username: ProfileType["username"];
+  } | null> {
+    if (!userId) return null;
+
+    const parseResult = UserSchema.safeParse(userId);
+
+    if (!parseResult.success) {
+      return null;
+    }
+
+    if (parseResult.data !== this.userId) return null;
+
+    return {
+      userId: this.userId,
+      username: this.profile.username,
+    };
+  },
 
   async getPassword(): Promise<string> {
     return this.security.currentPassword;
