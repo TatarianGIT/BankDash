@@ -21,6 +21,7 @@ import { Notifications } from "@mantine/notifications";
 import { getAuthFromRequest } from "./auth/auth";
 import "./tailwind.css";
 import AppLayout from "./components/layout/AppLayout.js";
+import { getUserData } from "./data/setting/mockedData";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -37,10 +38,18 @@ export const links: LinksFunction = () => [
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const authId = await getAuthFromRequest(request);
-  if (authId && new URL(request.url).pathname === "/") {
+
+  if (!authId) return null;
+
+  const user = await getUserData(authId);
+
+  if (!user) return null;
+
+  if (user && new URL(request.url).pathname === "/") {
     throw redirect("/dashboard");
   }
-  return authId;
+
+  return user;
 }
 
 export function shouldRevalidate({ formAction }: ShouldRevalidateFunctionArgs) {
