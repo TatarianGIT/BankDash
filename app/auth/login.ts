@@ -70,9 +70,10 @@ export async function loginUser({
     parsedUsername === settings.profile.username &&
     parsedPassword === settings.security.currentPassword
   ) {
+    const userId = settings.userId;
     throw redirect("/dashboard", {
       headers: {
-        "Set-Cookie": await authCookie.serialize(parsedUsername),
+        "Set-Cookie": await authCookie.serialize(userId),
       },
     });
   }
