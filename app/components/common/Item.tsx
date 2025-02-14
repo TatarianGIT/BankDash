@@ -5,6 +5,7 @@ type ItemCardProps = {
   children: ReactNode;
   leftHeading: string;
   className?: string;
+  withCardContainer?: boolean;
   size: "small" | "medium" | "full" | "half";
 } & (
   | { variant?: "default"; rightHeading?: string; CustomWrapper?: undefined }
@@ -23,6 +24,7 @@ const Item = ({
   variant = "default",
   className,
   CustomWrapper = Fragment,
+  withCardContainer = true,
 }: ItemCardProps) => {
   return (
     <Grid.Col
@@ -50,9 +52,14 @@ const Item = ({
           )}
         </div>
 
+        {withCardContainer ? (
           <Card withBorder shadow="md" radius={"lg"} className="h-full">
             {children}
           </Card>
+        ) : (
+          <div className="h-full">{children}</div>
+        )}
+      </div>
     </Grid.Col>
   );
 };
