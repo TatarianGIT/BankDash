@@ -16,7 +16,7 @@ const BalanceHistory = ({ data }: BalanceHistoryProps) => {
       withGradient
       series={[{ name: "Balance", color: "violet" }]}
       areaProps={{ isAnimationActive: true }}
-      className="h-full"
+      className="h-full my-auto py-0"
     />
   );
 };

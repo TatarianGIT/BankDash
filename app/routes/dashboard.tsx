@@ -101,25 +101,25 @@ export default function Index() {
       </Item>
 
       <Item size="medium" leftHeading="Weekly Activity">
-        <LoadingItem data={data.transactionData}>
+        <LoadingItem data={data.transactionData} className="min-h-72">
           {(response) => <RecentTransChart data={response} />}
         </LoadingItem>
       </Item>
 
       <Item size="small" leftHeading="Expense Statistics">
-        <LoadingItem data={data.expenseStatistics}>
+        <LoadingItem data={data.expenseStatistics} className="min-h-72">
           {(response) => <ExpenseRoundChart data={response} />}
         </LoadingItem>
       </Item>
 
       <Item size="small" leftHeading="Quick Transfer">
-        <LoadingItem data={data.contacts}>
+        <LoadingItem data={data.contacts} className="min-h-96">
           {(response) => <QuickTransfer data={response} />}
         </LoadingItem>
       </Item>
 
       <Item size="medium" leftHeading="Balance History">
-        <LoadingItem data={data.balanceHistory}>
+        <LoadingItem data={data.balanceHistory} className="min-h-96">
           {(response) => <BalanceHistory data={response} />}
         </LoadingItem>
       </Item>

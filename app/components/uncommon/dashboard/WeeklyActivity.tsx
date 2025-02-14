@@ -10,7 +10,7 @@ type WeeklyActivityProps = {
 
 const WeeklyActivity = ({ data }: WeeklyActivityProps) => {
   return (
-    <div className="p-6 w-full">
+    <div className="w-full px-0">
       <BarChart
         h={300}
         data={data}

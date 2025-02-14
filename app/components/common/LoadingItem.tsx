@@ -28,10 +28,12 @@ const LoadingItem = <T,>({
 
 export const SkeletonContainer = ({ className }: { className?: string }) => {
   return (
-    <div className={cn("p-0 w-full h-80 relative", className)}>
-      <Skeleton className="w-full h-full" />
-      <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        <Loader2Icon className="animate-spin" />
+    <div className={className}>
+      <div className={"inset-0 absolute"}>
+        <Skeleton className="w-full h-full rounded-xl" />
+        <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+          <Loader2Icon className="animate-spin" />
+        </div>
       </div>
     </div>
   );

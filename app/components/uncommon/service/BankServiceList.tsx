@@ -32,7 +32,7 @@ type ServiceElementProps = {
 
 const ServiceElement = ({ ...props }: ServiceElementProps) => {
   return (
-    <div className="my-4">
+    <div className="my-4 w-full">
       <Grid justify="center" align="center">
         <Grid.Col span={"content"}>
           <div className={cn("rounded-2xl", props.iconBackground)}>

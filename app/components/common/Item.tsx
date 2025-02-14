@@ -53,7 +53,12 @@ const Item = ({
         </div>
 
         {withCardContainer ? (
-          <Card withBorder shadow="md" radius={"lg"} className="h-full">
+          <Card
+            withBorder
+            shadow="md"
+            radius={"lg"}
+            className="h-full flex items-center justify-center relative"
+          >
             {children}
           </Card>
         ) : (

@@ -22,7 +22,7 @@ export default CardSetting;
 
 const CardSettingOptions = ({ data }: { data: CardSettingDataType[] }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       {data.map((setting) => (
         <div key={setting.id} className="flex gap-2 cursor-pointer my-1">
           <div

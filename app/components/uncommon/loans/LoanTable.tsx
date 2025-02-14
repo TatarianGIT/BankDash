@@ -9,7 +9,7 @@ type LoanTableProps = {
 
 const LoanTable = ({ loansData }: LoanTableProps) => {
   return (
-    <div className="p-0 md:p-3">
+    <div className="p-0 md:p-3 w-full">
       <DataTable loansData={loansData} />
     </div>
   );

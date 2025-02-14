@@ -23,7 +23,7 @@ const Invoice = ({
   backgroundColor,
 }: InvoiceProps) => {
   return (
-    <div className="flex flex-row h-full w-full gap-4">
+    <div className="flex flex-row h-full w-full gap-4 items-center">
       <div
         className={cn(
           "flex justify-center items-center w-11 h-11 rounded-xl",

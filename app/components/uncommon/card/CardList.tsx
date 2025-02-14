@@ -3,7 +3,7 @@ import { CreditCard } from "lucide-react";
 
 const CardList = () => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-full">
       {cardListData.length ? (
         cardListData.map((card) => (
           <div key={card.id}>

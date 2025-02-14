@@ -26,13 +26,13 @@ const Investment = () => {
       <InvestmentBadgeSection />
 
       <Item leftHeading="Yearly Total Investment" size="half">
-        <LoadingItem data={data.ivestments}>
+        <LoadingItem data={data.ivestments} className="min-h-80">
           {(response) => <InvestmentChart type="investment" data={response} />}
         </LoadingItem>
       </Item>
 
       <Item leftHeading="Monthly Revenue" size="half">
-        <LoadingItem data={data.revenue}>
+        <LoadingItem data={data.revenue} className="min-h-80">
           {(response) => <InvestmentChart type="revenue" data={response} />}
         </LoadingItem>
       </Item>

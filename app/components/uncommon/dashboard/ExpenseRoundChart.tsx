@@ -10,14 +10,14 @@ type ExpenseRoundChartProps = {
 
 const ExpenseRoundChart = ({ data }: ExpenseRoundChartProps) => {
   return (
-    <div className="p-4 flex justify-center items-center w-full">
+    <div className="flex justify-center items-center w-full h-full">
       <PieChart
         withLabelsLine
         labelsPosition="inside"
         labelsType="percent"
         withLabels
         data={data}
-        size={250}
+        size={280}
         strokeWidth={7}
         withTooltip
         tooltipDataSource="segment"

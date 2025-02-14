@@ -44,19 +44,17 @@ const TrendingStock = () => {
   ));
 
   return (
-    <div>
-      <Table>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>SL No.</Table.Th>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Price</Table.Th>
-            <Table.Th>Return</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </div>
+    <Table className="w-full">
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>SL No.</Table.Th>
+          <Table.Th>Name</Table.Th>
+          <Table.Th>Price</Table.Th>
+          <Table.Th>Return</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>{rows}</Table.Tbody>
+    </Table>
   );
 };
 

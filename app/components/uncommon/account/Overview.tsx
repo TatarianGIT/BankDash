@@ -15,6 +15,7 @@ const Overview = () => {
       withXAxis={false}
       withYAxis={false}
       barProps={{ radius: 10 }}
+      className="p-2"
     />
   );
 };
