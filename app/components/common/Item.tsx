@@ -1,6 +1,5 @@
-import { Grid, Text } from "@mantine/core";
+import { Card, Grid, Text } from "@mantine/core";
 import { ElementType, Fragment, ReactNode } from "react";
-import { cn } from "~/utils/cn.js";
 
 type ItemCardProps = {
   children: ReactNode;
@@ -27,7 +26,7 @@ const Item = ({
 }: ItemCardProps) => {
   return (
     <Grid.Col
-      className={cn("w-full h-full", className)}
+      className={className}
       span={
         size === "full"
           ? { base: 12, lg: 12 }
@@ -40,17 +39,20 @@ const Item = ({
           : { base: 12, lg: 12 }
       }
     >
-      <div className="flex justify-between items-center p-1">
-        <Text className="text-2xl">{leftHeading}</Text>
+      <div className="h-full flex flex-col">
+        <div className="flex justify-between items-center p-1">
+          <Text className="text-2xl">{leftHeading}</Text>
 
-        {variant === "alt" && (
-          <CustomWrapper>
-            <Text>{rightHeading}</Text>
-          </CustomWrapper>
-        )}
-      </div>
+          {variant === "alt" && (
+            <CustomWrapper>
+              <Text>{rightHeading}</Text>
+            </CustomWrapper>
+          )}
+        </div>
 
-      {children}
+          <Card withBorder shadow="md" radius={"lg"} className="h-full">
+            {children}
+          </Card>
     </Grid.Col>
   );
 };
