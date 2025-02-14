@@ -1,4 +1,4 @@
-import { Card, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
 import React from "react";
 import { BsCashCoin } from "react-icons/bs";
 import { SlPaypal } from "react-icons/sl";
@@ -10,12 +10,7 @@ const RecentTransaction = () => {
     RecentTransactionData[RecentTransactionData.length - 1].id;
 
   return (
-    <Card
-      shadow="md"
-      radius={"lg"}
-      withBorder
-      className="flex justify-center items-center p-1 w-full"
-    >
+    <div className="flex flex-col justify-center items-center p-1 w-full">
       {RecentTransactionData?.length ? (
         RecentTransactionData.map((transaction: TransactionType) => (
           <React.Fragment key={transaction.id}>
@@ -33,7 +28,7 @@ const RecentTransaction = () => {
       ) : (
         <Text>No recent transaction</Text>
       )}
-    </Card>
+    </div>
   );
 };
 

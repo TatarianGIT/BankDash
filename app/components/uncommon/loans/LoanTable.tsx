@@ -1,8 +1,7 @@
 import { Button, Checkbox, NumberFormatter, Table, Text } from "@mantine/core";
+import { RotateCcw } from "lucide-react";
 import React, { useState } from "react";
 import { LoanTableElementType } from "~/data/loan/mockedData";
-import CardContainer from "../../common/CardContainer";
-import { RotateCcw } from "lucide-react";
 
 type LoanTableProps = {
   loansData: LoanTableElementType[];
@@ -10,9 +9,9 @@ type LoanTableProps = {
 
 const LoanTable = ({ loansData }: LoanTableProps) => {
   return (
-    <CardContainer className="p-0 md:p-3">
+    <div className="p-0 md:p-3">
       <DataTable loansData={loansData} />
-    </CardContainer>
+    </div>
   );
 };
 

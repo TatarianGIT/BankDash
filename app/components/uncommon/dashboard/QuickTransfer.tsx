@@ -2,7 +2,6 @@ import { Carousel, CarouselSlide } from "@mantine/carousel";
 import {
   Avatar,
   Button,
-  Card,
   Container,
   Modal,
   NumberFormatter,
@@ -51,7 +50,7 @@ const QuickTransfer = ({ data }: QuickTransferProps) => {
   }, [close, fetcher.data?.status, fetcher.state, opened, shouldClear]);
 
   return (
-    <Card shadow="md" radius={"lg"} withBorder className="p-0 flex-col w-full">
+    <div className="p-0 flex-col w-full">
       {data.length ? (
         <>
           <Modal opened={opened} onClose={close} title={"Confirm action"}>
@@ -117,7 +116,7 @@ const QuickTransfer = ({ data }: QuickTransferProps) => {
         <Text>No contacts found</Text>
       )}
       <AmountInput open={open} value={value} setValue={setValue} />
-    </Card>
+    </div>
   );
 };
 

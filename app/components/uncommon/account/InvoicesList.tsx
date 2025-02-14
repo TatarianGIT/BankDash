@@ -1,17 +1,13 @@
-import { Card, NumberFormatter, Text } from "@mantine/core";
+import { NumberFormatter, Text } from "@mantine/core";
 import { Apple, Gamepad2, UserRound } from "lucide-react";
 import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
 const InvoicesList = () => {
-  return (
-    <Card shadow="sm" withBorder radius={"lg"} className="flex flex-col gap-4">
-      {InvoicesData ? (
-        InvoicesData.map((invoice) => <Invoice key={invoice.id} {...invoice} />)
-      ) : (
-        <Text>You don`&apos;`t have any invoices sent</Text>
-      )}
-    </Card>
+  return InvoicesData ? (
+    InvoicesData.map((invoice) => <Invoice key={invoice.id} {...invoice} />)
+  ) : (
+    <Text>You don`&apos;`t have any invoices sent</Text>
   );
 };
 

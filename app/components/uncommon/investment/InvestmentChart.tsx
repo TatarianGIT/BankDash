@@ -1,5 +1,4 @@
 import { LineChart } from "@mantine/charts";
-import { Card } from "@mantine/core";
 import { InvestmentDataType } from "~/data/investment/mockedData";
 
 type InvestmentChartProps = {
@@ -14,7 +13,7 @@ const InvestmentChart = ({ type, data }: InvestmentChartProps) => {
     type === "investment" ? "linear" : type === "revenue" ? "bump" : undefined;
 
   return (
-    <Card withBorder shadow="sm" radius={"lg"} className="w-full">
+    <div className="w-full">
       <LineChart
         className="pt-3 pr-2"
         h={300}
@@ -28,7 +27,7 @@ const InvestmentChart = ({ type, data }: InvestmentChartProps) => {
         }
         lineProps={{ isAnimationActive: true }}
       />
-    </Card>
+    </div>
   );
 };
 

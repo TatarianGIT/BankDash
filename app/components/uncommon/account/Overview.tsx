@@ -1,24 +1,21 @@
 import { BarChart } from "@mantine/charts";
-import { Card } from "@mantine/core";
 
 const Overview = () => {
   return (
-    <Card withBorder shadow="sm" radius={"lg"}>
-      <BarChart
-        h={300}
-        data={data}
-        dataKey="month"
-        withLegend
-        series={[
-          { name: "Debit", color: "violet.6" },
-          { name: "Credit", color: "blue.6" },
-        ]}
-        tickLine="y"
-        withXAxis={false}
-        withYAxis={false}
-        barProps={{ radius: 10 }}
-      />
-    </Card>
+    <BarChart
+      h={300}
+      data={data}
+      dataKey="month"
+      withLegend
+      series={[
+        { name: "Debit", color: "violet.6" },
+        { name: "Credit", color: "blue.6" },
+      ]}
+      tickLine="y"
+      withXAxis={false}
+      withYAxis={false}
+      barProps={{ radius: 10 }}
+    />
   );
 };
 

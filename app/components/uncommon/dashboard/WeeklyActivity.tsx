@@ -1,5 +1,4 @@
 import { BarChart } from "@mantine/charts";
-import { Card } from "@mantine/core";
 
 type WeeklyActivityProps = {
   data: {
@@ -11,7 +10,7 @@ type WeeklyActivityProps = {
 
 const WeeklyActivity = ({ data }: WeeklyActivityProps) => {
   return (
-    <Card shadow="md" radius={"lg"} withBorder className="p-6 w-full">
+    <div className="p-6 w-full">
       <BarChart
         h={300}
         data={data}
@@ -24,7 +23,7 @@ const WeeklyActivity = ({ data }: WeeklyActivityProps) => {
         tickLine="y"
         withLegend
       />
-    </Card>
+    </div>
   );
 };
 

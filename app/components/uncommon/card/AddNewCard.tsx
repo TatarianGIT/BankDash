@@ -7,12 +7,11 @@ import {
   useMatches,
 } from "@mantine/core";
 import { MonthPickerInput } from "@mantine/dates";
+import { notifications } from "@mantine/notifications";
 import { useFetcher } from "@remix-run/react";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { action } from "~/routes/card";
-import CardContainer from "../../common/CardContainer";
-import { notifications } from "@mantine/notifications";
 
 const AddNewCard = () => {
   const fetcher = useFetcher<typeof action>();
@@ -83,7 +82,7 @@ const AddNewCard = () => {
   };
 
   return (
-    <CardContainer>
+    <div>
       <Text className="text-sm py-4">
         Credit Card generally means a plastic card issued by Scheduled
         Commercial Banks assigned to a Cardholder, with a credit limit, that can
@@ -154,7 +153,7 @@ const AddNewCard = () => {
           </Button>
         </div>
       </fetcher.Form>
-    </CardContainer>
+    </div>
   );
 };
 

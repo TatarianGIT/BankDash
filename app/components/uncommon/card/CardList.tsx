@@ -1,5 +1,4 @@
 import { Button, Grid, Text, useMatches } from "@mantine/core";
-import CardContainer from "../../common/CardContainer";
 import { CreditCard } from "lucide-react";
 
 const CardList = () => {
@@ -7,7 +6,7 @@ const CardList = () => {
     <div className="flex flex-col gap-4">
       {cardListData.length ? (
         cardListData.map((card) => (
-          <CardContainer key={card.id}>
+          <div key={card.id}>
             <Grid align="center">
               <Grid.Col
                 span={"content"}
@@ -49,7 +48,7 @@ const CardList = () => {
                 </Button>
               </Grid.Col>
             </Grid>
-          </CardContainer>
+          </div>
         ))
       ) : (
         <Text>No cards found</Text>

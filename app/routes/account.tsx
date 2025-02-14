@@ -78,6 +78,7 @@ const Account = () => {
         variant="alt"
         size="small"
         CustomWrapper={CardRouteLinkWrapper}
+        withCardContainer={false}
       >
         <CreditCardContainer>
           <LoadingItem

@@ -1,5 +1,4 @@
 import { NumberFormatter, Table, Text } from "@mantine/core";
-import CardContainer from "../../common/CardContainer";
 import { cn } from "~/utils/cn";
 
 const TrendingStock = () => {
@@ -45,7 +44,7 @@ const TrendingStock = () => {
   ));
 
   return (
-    <CardContainer>
+    <div>
       <Table>
         <Table.Thead>
           <Table.Tr>
@@ -57,7 +56,7 @@ const TrendingStock = () => {
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
-    </CardContainer>
+    </div>
   );
 };
 

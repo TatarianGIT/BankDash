@@ -75,6 +75,7 @@ const Transaction = () => {
         rightHeading="+ Add Card"
         size="medium"
         CustomWrapper={CardRouteLinkWrapper}
+        withCardContainer={false}
       >
         <CreditCardContainer>
           <LoadingItem
@@ -104,6 +105,7 @@ const Transaction = () => {
         leftHeading="Recent Transactions"
         size="full"
         className="col-span-1"
+        withCardContainer={false}
       >
         {isLoading ? (
           <RecentTransactionsTable isLoading={true} data={[]} />

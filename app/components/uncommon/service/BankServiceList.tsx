@@ -1,3 +1,4 @@
+import { Button, Grid, Text } from "@mantine/core";
 import {
   BriefcaseBusiness,
   ChartNoAxesColumn,
@@ -6,9 +7,7 @@ import {
   ShieldPlus,
   User,
 } from "lucide-react";
-import CardContainer from "../../common/CardContainer";
 import React from "react";
-import { Button, Grid, Text } from "@mantine/core";
 import { cn } from "~/utils/cn";
 
 const BankServiceList = () => {
@@ -33,7 +32,7 @@ type ServiceElementProps = {
 
 const ServiceElement = ({ ...props }: ServiceElementProps) => {
   return (
-    <CardContainer className="my-4">
+    <div className="my-4">
       <Grid justify="center" align="center">
         <Grid.Col span={"content"}>
           <div className={cn("rounded-2xl", props.iconBackground)}>
@@ -73,7 +72,7 @@ const ServiceElement = ({ ...props }: ServiceElementProps) => {
           </Button>
         </Grid.Col>
       </Grid>
-    </CardContainer>
+    </div>
   );
 };
 

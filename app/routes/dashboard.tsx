@@ -74,6 +74,7 @@ export default function Index() {
         rightHeading="See All"
         size="medium"
         CustomWrapper={CardRouteLinkWrapper}
+        withCardContainer={false}
       >
         <CreditCardContainer>
           <LoadingItem

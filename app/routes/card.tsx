@@ -41,7 +41,7 @@ const Card = () => {
   const { cards } = useLoaderData<typeof loader>();
   return (
     <>
-      <Item size="full" leftHeading="My Cards">
+      <Item size="full" leftHeading="My Cards" withCardContainer={false}>
         <CreditCardContainer>
           <LoadingItem
             fallback={

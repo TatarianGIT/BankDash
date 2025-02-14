@@ -1,7 +1,6 @@
+import { Grid, NumberFormatter, Text, useMatches } from "@mantine/core";
 import { ReactNode } from "react";
 import { SiApple, SiSamsung, SiTesla } from "react-icons/si";
-import { Grid, NumberFormatter, Text, useMatches } from "@mantine/core";
-import CardContainer from "../../common/CardContainer";
 import { cn } from "~/utils/cn";
 
 const MyInvestment = () => {
@@ -31,7 +30,7 @@ const MyInvestmentElement = ({ data }: MyInvestmentElementProps) => {
     sm: "",
   });
   return (
-    <CardContainer>
+    <div>
       <Grid align="center" justify="center" gutter={"lg"}>
         <Grid.Col
           span={"content"}
@@ -94,7 +93,7 @@ const MyInvestmentElement = ({ data }: MyInvestmentElementProps) => {
           </div>
         </Grid.Col>
       </Grid>
-    </CardContainer>
+    </div>
   );
 };
 

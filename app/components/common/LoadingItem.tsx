@@ -1,8 +1,7 @@
 import { Skeleton } from "@mantine/core";
-import { Loader2Icon } from "lucide-react";
-import CardContainer from "./CardContainer";
-import { ReactNode, Suspense } from "react";
 import { Await } from "@remix-run/react";
+import { Loader2Icon } from "lucide-react";
+import { ReactNode, Suspense } from "react";
 import { cn } from "~/utils/cn";
 
 type LoadingItemProps<T> = {
@@ -29,12 +28,12 @@ const LoadingItem = <T,>({
 
 export const SkeletonContainer = ({ className }: { className?: string }) => {
   return (
-    <CardContainer className={cn("p-0 w-full h-80 relative", className)}>
+    <div className={cn("p-0 w-full h-80 relative", className)}>
       <Skeleton className="w-full h-full" />
       <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
         <Loader2Icon className="animate-spin" />
       </div>
-    </CardContainer>
+    </div>
   );
 };
 

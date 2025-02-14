@@ -1,22 +1,17 @@
-import { Card, Grid, NumberFormatter, Text, useMatches } from "@mantine/core";
+import { Grid, NumberFormatter, Text, useMatches } from "@mantine/core";
 import { HandPlatter, ShoppingBasket, UserRound } from "lucide-react";
 import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
 const LatestTransation = () => {
   return (
-    <Card
-      withBorder
-      shadow="sm"
-      radius={"lg"}
-      className="flex flex-col col-span-12 gap-2"
-    >
+    <div className="flex flex-col col-span-12 gap-2">
       {Data ? (
         Data.map((item: DataType) => <TransationItem key={item.id} {...item} />)
       ) : (
         <p>You have no recent transactions.</p>
       )}
-    </Card>
+    </div>
   );
 };
 

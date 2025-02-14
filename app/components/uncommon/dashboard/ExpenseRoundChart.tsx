@@ -1,5 +1,4 @@
 import { PieChart } from "@mantine/charts";
-import { Card } from "@mantine/core";
 
 type ExpenseRoundChartProps = {
   data: {
@@ -11,12 +10,7 @@ type ExpenseRoundChartProps = {
 
 const ExpenseRoundChart = ({ data }: ExpenseRoundChartProps) => {
   return (
-    <Card
-      shadow="md"
-      withBorder
-      radius={"lg"}
-      className="p-4 flex justify-center items-center w-full"
-    >
+    <div className="p-4 flex justify-center items-center w-full">
       <PieChart
         withLabelsLine
         labelsPosition="inside"
@@ -29,7 +23,7 @@ const ExpenseRoundChart = ({ data }: ExpenseRoundChartProps) => {
         tooltipDataSource="segment"
         pieProps={{ isAnimationActive: true }}
       />
-    </Card>
+    </div>
   );
 };
 

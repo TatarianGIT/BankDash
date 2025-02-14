@@ -1,13 +1,12 @@
-import { ReactNode } from "react";
-import CardContainer from "../../common/CardContainer";
+import { Grid, Text } from "@mantine/core";
 import { LockKeyhole, Snowflake } from "lucide-react";
+import { ReactNode } from "react";
 import { FaApple, FaApplePay, FaGoogle } from "react-icons/fa";
 import { cn } from "~/utils/cn";
-import { Grid, Text } from "@mantine/core";
 
 const CardSetting = () => {
   return (
-    <CardContainer className="flex flex-col gap-5 py-6">
+    <div className="flex flex-col gap-5 py-6">
       {cardSettingData.length ? (
         <Grid>
           <CardSettingOptions data={cardSettingData} />
@@ -15,7 +14,7 @@ const CardSetting = () => {
       ) : (
         <Text className="mx-auto my-4">No settings found</Text>
       )}
-    </CardContainer>
+    </div>
   );
 };
 

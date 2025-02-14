@@ -1,11 +1,10 @@
 import { DonutChart } from "@mantine/charts";
-import CardContainer from "../../common/CardContainer";
 import { SimpleGrid } from "@mantine/core";
 import { cn } from "~/utils/cn";
 
 const ExpenseStatistics = () => {
   return (
-    <CardContainer className="flex justify-center items-center py-8">
+    <div className="flex justify-center items-center py-8">
       <DonutChart
         data={data}
         thickness={35}
@@ -27,7 +26,7 @@ const ExpenseStatistics = () => {
       ) : (
         <p>No data found</p>
       )}
-    </CardContainer>
+    </div>
   );
 };
 
