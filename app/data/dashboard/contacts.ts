@@ -22,10 +22,10 @@ type ContactRecord = UserData & {
 const fakeContacts = {
   records: {} as Record<string, UserData>,
 
-  async create(values: UserData): Promise<ContactRecord> {
+  async create({ ...values }: UserData): Promise<ContactRecord> {
     const id = values.id || Math.random().toString(36).substring(2, 9);
-    const avatar = `https://i.pravatar.cc/150`;
-    const newContact = { id, avatar, ...values };
+    const avatar = values.avatar || `https://i.pravatar.cc/150`;
+    const newContact = { ...values, id, avatar };
     fakeContacts.records[id] = newContact;
     return newContact;
   },
