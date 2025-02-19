@@ -15,8 +15,6 @@ export const getBalanceHistory = async () => {
   return balanceHistory;
 };
 
-// DATA:
-
 const transactionData = [
   { day: "Sat", Deposit: 1200, Withdraw: 900 },
   { day: "Sun", Deposit: 1900, Withdraw: 1200 },
