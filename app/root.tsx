@@ -1,11 +1,12 @@
-import "@mantine/core/styles.css";
-import "@mantine/charts/styles.css";
 import "@mantine/carousel/styles.css";
+import "@mantine/charts/styles.css";
+import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/spotlight/styles.css";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
@@ -16,14 +17,15 @@ import {
   ScrollRestoration,
   ShouldRevalidateFunctionArgs,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
-import { Notifications } from "@mantine/notifications";
 
 import { getAuthFromRequest } from "./auth/auth";
-import "./tailwind.css";
 import AppLayout from "./components/layout/AppLayout.js";
+import CustomErrorBoundary from "./components/layout/CustomErrorBoundary";
 import UserContext from "./context/userContext";
 import { getUserData } from "./data/setting/mockedData";
+import "./tailwind.css";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -84,7 +86,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const user = useLoaderData<typeof loader>();
-
   return (
     <UserContext.Provider value={user}>
       <AppLayout>
@@ -92,4 +93,10 @@ export default function App() {
       </AppLayout>
     </UserContext.Provider>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  return <CustomErrorBoundary error={error} />;
 }
