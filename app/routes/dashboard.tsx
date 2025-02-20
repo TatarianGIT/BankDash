@@ -76,24 +76,26 @@ export default function Index() {
         CustomWrapper={CardRouteLinkWrapper}
         withCardContainer={false}
       >
-        <CreditCardContainer>
-          <LoadingItem
-            fallback={
-              <>
+        <LoadingItem
+          fallback={
+            <>
+              <CreditCardContainer>
                 {Array.from({ length: 2 }, (_, index) => (
                   <CreditCard key={index} isLoading={true} />
                 ))}
-              </>
-            }
-            data={data.creditCards}
-          >
-            {(response) =>
-              response.map((creditCard) => (
+              </CreditCardContainer>
+            </>
+          }
+          data={data.creditCards}
+        >
+          {(response) => (
+            <CreditCardContainer>
+              {response.map((creditCard) => (
                 <CreditCard key={creditCard.id} {...creditCard} />
-              ))
-            }
-          </LoadingItem>
-        </CreditCardContainer>
+              ))}
+            </CreditCardContainer>
+          )}
+        </LoadingItem>
       </Item>
 
       <Item size="small" leftHeading="Recent Transaction">
