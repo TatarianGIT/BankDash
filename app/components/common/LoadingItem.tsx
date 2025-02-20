@@ -2,7 +2,6 @@ import { Skeleton } from "@mantine/core";
 import { Await } from "@remix-run/react";
 import { Loader2Icon } from "lucide-react";
 import { ReactNode, Suspense } from "react";
-import { cn } from "~/utils/cn";
 
 type LoadingItemProps<T> = {
   data: Promise<T> | undefined;
