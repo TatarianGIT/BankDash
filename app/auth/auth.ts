@@ -1,5 +1,6 @@
 import { redirect } from "@remix-run/node";
 import { authCookie } from "./login";
+import { getUserData } from "~/data/setting/mockedData";
 
 export async function getAuthFromRequest(
   request: Request
@@ -10,16 +11,19 @@ export async function getAuthFromRequest(
 
 export async function requireAuth(request: Request) {
   const userId = await getAuthFromRequest(request);
-  if (!userId) {
-    throw redirect("/login", {
-      headers: {
-        "Set-Cookie": await authCookie.serialize("", {
-          maxAge: 0,
-        }),
-      },
-    });
+
+  if (userId) {
+    const user = await getUserData(userId);
+    if (user) return user;
   }
-  return userId;
+
+  throw redirect("/login", {
+    headers: {
+      "Set-Cookie": await authCookie.serialize("", {
+        maxAge: 0,
+      }),
+    },
+  });
 }
 
 export async function redirectIfLoggedIn(request: Request) {
