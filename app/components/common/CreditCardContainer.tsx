@@ -8,7 +8,7 @@ type CreditCardContainerProps = {
 const CreditCardContainer = ({ children }: CreditCardContainerProps) => {
   return (
     <ScrollArea type="auto">
-      <div className="flex flex-row gap-3 pb-5">{children}</div>
+      <div className="flex flex-row gap-3 pb-5 justify-center">{children}</div>
     </ScrollArea>
   );
 };
