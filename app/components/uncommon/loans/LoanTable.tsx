@@ -20,21 +20,22 @@ type DataTableProps = {
 };
 
 const DataTable = ({ loansData }: DataTableProps) => {
+  const [data, setData] = useState<LoanTableElementType[]>(loansData);
   const [selectedRows, setSelectedRows] = useState<LoanTableElementType[]>([]);
 
   const allRowsChecked =
-    JSON.stringify(objSort(selectedRows)) == JSON.stringify(objSort(loansData));
+    JSON.stringify(objSort(selectedRows)) == JSON.stringify(objSort(data));
 
   const selectedMoneyTotal = reduceNumber(selectedRows, "money");
   const selectedMoneyLeftTotal = reduceNumber(selectedRows, "moneyLeft");
   const selectedInstallmentTotal = reduceNumber(selectedRows, "installment");
 
-  const totalMoney = reduceNumber(loansData, "money");
-  const totalMoneyLeft = reduceNumber(loansData, "moneyLeft");
-  const totalInstallment = reduceNumber(loansData, "installment");
+  const totalMoney = reduceNumber(data, "money");
+  const totalMoneyLeft = reduceNumber(data, "moneyLeft");
+  const totalInstallment = reduceNumber(data, "installment");
 
   const handleSelectAll = (rowsSelected: boolean) => {
-    return rowsSelected ? setSelectedRows([...loansData]) : setSelectedRows([]);
+    return rowsSelected ? setSelectedRows([...data]) : setSelectedRows([]);
   };
 
   const handleSelectRow = (
@@ -48,51 +49,81 @@ const DataTable = ({ loansData }: DataTableProps) => {
     );
   };
 
+  const handleRepay = (loan: LoanTableElementType) => {
+    if (selectedRows.includes(loan)) {
+      setSelectedRows((prevData) =>
+        prevData.filter((l) => l.SLNo !== loan.SLNo)
+      );
+    }
+
+    return setData((prevData) => prevData.filter((l) => l !== loan));
+  };
+
+  const handleMultipleRepay = (loans: LoanTableElementType[]) => {
+    const slNosToRemove = new Set(loans.map((loan) => loan.SLNo));
+    setData((prevData) =>
+      prevData.filter((loan) => !slNosToRemove.has(loan.SLNo))
+    );
+
+    setSelectedRows((prevData) =>
+      prevData.filter((loan) => !slNosToRemove.has(loan.SLNo))
+    );
+    return;
+  };
+
   return (
     <>
-      <Table striped withColumnBorders withRowBorders highlightOnHover>
-        <Table.Thead>
-          <TableHeader
-            handleSelectAll={handleSelectAll}
-            allRowsChecked={allRowsChecked}
-          />
-        </Table.Thead>
-        <Table.Tbody>
-          {loansData.map((loan) => {
-            const isRowSelected = selectedRows.some(
-              (item) => item.SLNo === loan.SLNo
-            );
-
-            return (
-              <React.Fragment key={loan.SLNo}>
-                <TableRowData
-                  loan={loan}
-                  isRowSelected={isRowSelected}
-                  handleRowSelect={handleSelectRow}
-                />
-              </React.Fragment>
-            );
-          })}
-        </Table.Tbody>
-
-        <Table.Tfoot>
-          <TableFooter
-            heading="Total"
-            money={totalMoney}
-            moneyLeft={totalMoneyLeft}
-            installment={totalInstallment}
-          />
-          {selectedRows.length > 0 && (
-            <TableFooter
-              heading="Selected"
-              selectedRows={selectedRows}
-              money={selectedMoneyTotal}
-              moneyLeft={selectedMoneyLeftTotal}
-              installment={selectedInstallmentTotal}
+      {data.length > 0 ? (
+        <Table striped withColumnBorders withRowBorders highlightOnHover>
+          <Table.Thead>
+            <TableHeader
+              handleSelectAll={handleSelectAll}
+              allRowsChecked={allRowsChecked}
             />
-          )}
-        </Table.Tfoot>
-      </Table>
+          </Table.Thead>
+          <Table.Tbody>
+            {data.map((loan) => {
+              const isRowSelected = selectedRows.some(
+                (item) => item.SLNo === loan.SLNo
+              );
+
+              return (
+                <React.Fragment key={loan.SLNo}>
+                  <TableRowData
+                    loan={loan}
+                    isRowSelected={isRowSelected}
+                    handleRowSelect={handleSelectRow}
+                    handleRepay={() => handleRepay(loan)}
+                  />
+                </React.Fragment>
+              );
+            })}
+          </Table.Tbody>
+
+          <Table.Tfoot>
+            <TableFooter
+              heading="Total"
+              money={totalMoney}
+              moneyLeft={totalMoneyLeft}
+              installment={totalInstallment}
+            />
+            {selectedRows.length > 0 && (
+              <TableFooter
+                heading="Selected"
+                selectedRows={selectedRows}
+                money={selectedMoneyTotal}
+                moneyLeft={selectedMoneyLeftTotal}
+                installment={selectedInstallmentTotal}
+                handleMultipleRepay={() => handleMultipleRepay(selectedRows)}
+              />
+            )}
+          </Table.Tfoot>
+        </Table>
+      ) : (
+        <Text className="text-center">
+          You don&apos;t have any active loans!
+        </Text>
+      )}
     </>
   );
 };
@@ -101,9 +132,11 @@ type TableRowDataProps = {
   isRowSelected: boolean;
   loan: LoanTableElementType;
   handleRowSelect: (isSelected: boolean, loan: LoanTableElementType) => void;
+  handleRepay: () => void;
 };
 
 const TableRowData = ({
+  handleRepay,
   handleRowSelect,
   isRowSelected,
   loan,
@@ -138,7 +171,7 @@ const TableRowData = ({
         <FormatedNumber value={loan.installment} /> {" / mo"}
       </Table.Td>
       <Table.Td className="flex justify-center">
-        <RepayButton isDisabled={isRowSelected} />
+        <RepayButton isDisabled={isRowSelected} handleClick={handleRepay} />
       </Table.Td>
     </Table.Tr>
   );
@@ -177,6 +210,7 @@ type TableFooterProps = {
   moneyLeft: number;
   installment: number;
   selectedRows?: LoanTableElementType[];
+  handleMultipleRepay?: () => void;
 };
 
 const TableFooter = ({
@@ -185,6 +219,7 @@ const TableFooter = ({
   money,
   moneyLeft,
   selectedRows = [],
+  handleMultipleRepay,
 }: TableFooterProps) => {
   return (
     <>
@@ -208,8 +243,11 @@ const TableFooter = ({
           <FormatedNumber value={installment.toFixed(2)} /> {" / mo"}
         </Table.Th>
         <Table.Th className="flex justify-center">
-          {selectedRows.length > 0 && (
-            <RepayButton rightSection={selectedRows.length.toString()} />
+          {selectedRows.length > 0 && handleMultipleRepay && (
+            <RepayButton
+              rightSection={selectedRows.length.toString()}
+              handleClick={handleMultipleRepay}
+            />
           )}
         </Table.Th>
       </Table.Tr>
@@ -220,11 +258,13 @@ const TableFooter = ({
 type RepayButtonProps = {
   isDisabled?: boolean;
   rightSection?: string;
+  handleClick: () => void;
 };
 
 const RepayButton = ({
   isDisabled = false,
   rightSection,
+  handleClick,
 }: RepayButtonProps) => {
   return (
     <>
@@ -233,6 +273,7 @@ const RepayButton = ({
         variant="outline"
         className="hidden md:inline-block rounded-full"
         aria-label="Repay loan"
+        onClick={handleClick}
       >
         Repay {rightSection}
       </Button>
@@ -242,6 +283,7 @@ const RepayButton = ({
         variant="outline"
         className="md:hidden rounded-full p-1 w-full"
         aria-label="Repay loan"
+        onClick={handleClick}
       >
         <RotateCcw />
         {rightSection && <span className="px-2">{rightSection}</span>}
