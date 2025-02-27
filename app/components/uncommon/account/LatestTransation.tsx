@@ -1,11 +1,12 @@
-import { Grid, NumberFormatter, Text, useMatches } from "@mantine/core";
+import { NumberFormatter, Text } from "@mantine/core";
+import { useResizeObserver } from "@mantine/hooks";
 import { HandPlatter, ShoppingBasket, UserRound } from "lucide-react";
-import { ReactNode } from "react";
+import React, { ComponentProps, ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
 const LatestTransation = () => {
   return (
-    <div className="flex flex-col col-span-12 gap-2">
+    <div className="grid grid-cols-[1fr,auto] sm:grid-cols-[1fr,1fr,auto] md:grid-cols-[auto,auto,auto,auto,auto] w-full gap-4">
       {Data ? (
         Data.map((item: DataType) => <TransationItem key={item.id} {...item} />)
       ) : (
@@ -30,18 +31,14 @@ const TransationItem = ({
   balance,
   iconBgColor,
 }: TransationItemProps) => {
-  const size: "auto" | "content" | number = useMatches({
-    base: "auto",
-    sm: 5,
-  });
+  const [containerRef, containerRect] = useResizeObserver();
+  const [measureRef, measureRect] = useResizeObserver();
+
+  const showAsterisks = measureRect.width + 10 <= containerRect.width;
 
   return (
-    <Grid className="h-full w-full" gutter={4}>
-      <MantineGridCol
-        hideOnMobile={false}
-        span={size}
-        className="flex flex-row gap-3"
-      >
+    <>
+      <Column className="flex flex-row gap-3">
         <div
           className={cn(
             "w-10 h-10 rounded-2xl flex justify-center items-center",
@@ -54,59 +51,55 @@ const TransationItem = ({
           <Text>{heading}</Text>
           <Text>{date}</Text>
         </div>
-      </MantineGridCol>
+      </Column>
 
-      <MantineGridCol hideOnMobile={true} span={"auto"}>
+      <Column className="max-sm:hidden">
         <Text>{type}</Text>
-      </MantineGridCol>
+      </Column>
 
-      <MantineGridCol hideOnMobile={true} span={2}>
+      <Column className="max-md:hidden" ref={containerRef}>
+        <span ref={measureRef} className="invisible text-nowrap absolute">
+          **** {card}
+        </span>
+        {showAsterisks && <Text className="pr-1">****</Text>}
         <Text>{card}</Text>
-      </MantineGridCol>
+      </Column>
 
-      <MantineGridCol hideOnMobile={true} span={"auto"}>
+      <Column className="max-md:hidden">
         <Text>{isCompleted ? "Completed" : "Pending"}</Text>
-      </MantineGridCol>
+      </Column>
 
-      <MantineGridCol hideOnMobile={false} span={"content"} className="ml-auto">
+      <Column>
         <Text
           className={cn(
-            operation === "expense" ? "text-red-600" : "text-green-600",
-            ""
+            operation === "expense" ? "text-red-600" : "text-green-600"
           )}
         >
           {operation === "expense" ? "-" : operation === "income" ? "+" : null}
           <NumberFormatter value={balance} prefix="$" thousandSeparator />
         </Text>
-      </MantineGridCol>
-    </Grid>
+      </Column>
+    </>
   );
 };
 
-const MantineGridCol = ({
-  span,
-  className,
-  children,
-  hideOnMobile,
-}: {
-  children: ReactNode;
-  span: number | "auto" | "content";
-  className?: string;
-  hideOnMobile: boolean;
-}) => {
-  return (
-    <Grid.Col
-      span={span}
-      className={cn(
-        className,
-        "flex items-center",
-        hideOnMobile ? "hidden sm:flex" : ""
-      )}
-    >
-      {children}
-    </Grid.Col>
-  );
-};
+type ColumnProps = ComponentProps<"div">;
+
+const Column = React.forwardRef<HTMLDivElement, ColumnProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        className={cn("flex items-center justify-start", className)}
+        {...props}
+        ref={ref}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+
+Column.displayName = "Column";
 
 export default LatestTransation;
 
@@ -131,7 +124,7 @@ const Data: DataType[] = [
     heading: "Spotify Subscription",
     date: "25 Jan 2021",
     type: "Shopping",
-    card: "**** 1234",
+    card: "1234",
     operation: "expense",
     isCompleted: false,
     balance: 150,
@@ -144,7 +137,7 @@ const Data: DataType[] = [
     heading: "Mobile Service",
     date: "25 Jan 2021",
     type: "Service",
-    card: "**** 1234",
+    card: "1234",
     operation: "expense",
     isCompleted: true,
     balance: 340,
@@ -157,7 +150,7 @@ const Data: DataType[] = [
     heading: "Emilly Wilson",
     date: "25 Jan 2021",
     type: "Transfer",
-    card: "**** 1234",
+    card: "1234",
     operation: "income",
     isCompleted: true,
     balance: 780,
