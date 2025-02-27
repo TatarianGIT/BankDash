@@ -14,7 +14,7 @@ const SettingLayout = () => {
   const currentLocation = location.pathname.split("/");
 
   return (
-    <CardContainer className="w-full max-w-[1000px] my-auto px-2 md:px-4">
+    <CardContainer className="w-full max-w-[1000px] px-2 md:px-4 m-2">
       <Tabs defaultValue={currentLocation[2]}>
         <Tabs.List className="flex justify-between md:justify-start">
           <Link to={"/setting/profile"}>
