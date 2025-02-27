@@ -211,6 +211,7 @@ const FormElement = ({
           />
         ) : type === "select" ? (
           <Select
+            allowDeselect={false}
             name={name}
             defaultValue={"Physical"}
             placeholder="Pick type of Credit Card"
