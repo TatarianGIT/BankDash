@@ -4,10 +4,18 @@ import { ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
 const InvoicesList = () => {
-  return InvoicesData ? (
-    InvoicesData.map((invoice) => <Invoice key={invoice.id} {...invoice} />)
-  ) : (
-    <Text>You don`&apos;`t have any invoices sent</Text>
+  return (
+    <>
+      {InvoicesData.length > 0 ? (
+        <div className="flex flex-col md:gap-0 gap-4 w-full h-full">
+          {InvoicesData.map((invoice) => (
+            <Invoice key={invoice.id} {...invoice} />
+          ))}
+        </div>
+      ) : (
+        <Text>You don&apos;t have any invoices sent</Text>
+      )}
+    </>
   );
 };
 
