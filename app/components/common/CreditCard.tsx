@@ -41,7 +41,7 @@ const CreditCard = ({
     <Card
       ref={ref}
       shadow="sm"
-      className="p-0 m-0 min-w-[300px] md:min-w-max w-full flex"
+      className="p-0 m-0 min-w-[300px] md:min-w-max w-full flex max-w-[500px]"
       radius={"lg"}
     >
       <div className="flex flex-col">
