@@ -47,11 +47,13 @@ export const action = async ({
   request,
 }: ActionFunctionArgs): Promise<NotificationResponse> => {
   await requireAuth(request);
-  await wait(2500);
+  await wait(500);
 
   const randomValue = Math.random();
-  if (randomValue < 0.3)
+  if (randomValue < 0.3) {
+    await wait(1000);
     return { status: "error", message: "An unexpected error occurred!" };
+  }
 
   return { status: "success", message: "Quick transfer completed!" };
 };
