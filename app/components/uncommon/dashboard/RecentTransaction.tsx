@@ -1,30 +1,18 @@
-import { Text } from "@mantine/core";
-import React from "react";
+import { Grid, NumberFormatter, Text } from "@mantine/core";
 import { BsCashCoin } from "react-icons/bs";
 import { SlPaypal } from "react-icons/sl";
 import { TbCreditCardPay } from "react-icons/tb";
 import { cn } from "~/utils/cn.js";
 
 const RecentTransaction = () => {
-  const lastElementId =
-    RecentTransactionData[RecentTransactionData.length - 1].id;
-
   return (
-    <div className="flex flex-col justify-center items-center p-1 w-full">
+    <div className="flex flex-col justify-center items-center md:p-1 w-full">
       {RecentTransactionData?.length ? (
-        RecentTransactionData.map((transaction: TransactionType) => (
-          <React.Fragment key={transaction.id}>
-            <Transaction
-              icon={transaction.icon}
-              title={transaction.title}
-              date={transaction.date}
-              operation={transaction.operation}
-              amount={transaction.amount}
-              accentColor={transaction.accentColor}
-              isLast={lastElementId === transaction.id}
-            />
-          </React.Fragment>
-        ))
+        <div className="w-full h-full grid grid-cols-[auto_1fr_auto] gap-y-1 gap-x-2 md:gap-y-2 md:gap-x-4 items-center">
+          {RecentTransactionData.map((transaction: TransactionType) => (
+            <Transaction key={transaction.id} {...transaction} />
+          ))}
+        </div>
       ) : (
         <Text>No recent transaction</Text>
       )}
@@ -39,44 +27,41 @@ type TransactionProps = {
   operation: "add" | "remove";
   amount: number;
   accentColor: string;
-  isLast: boolean;
 };
 
 const Transaction = ({ ...props }: TransactionProps) => {
   return (
-    <div className="flex flex-col justify-center items-center lg:min-w-full min-w-[min(100%,400px)]">
-      <div className="flex gap-4 p-2 justify-center items-center w-full">
-        <div
-          className={cn(
-            props.accentColor,
-            "min-w-14 min-h-14 p-3 rounded-full"
-          )}
-        >
-          {props.icon}
-        </div>
-        <div className="flex flex-col w-full ">
-          <Text className="text-base">{props.title}</Text>
-          <Text className="text-sm mr-auto ml-auto text-gray-400 ">
-            {props.date}
-          </Text>
-        </div>
-        <div
-          className={cn(
-            props.operation === "add" ? "text-green-600" : "text-red-600",
-            "flex gap-1 text-base ml-auto w-1/4 justify-center items-center "
-          )}
-        >
-          <Text>{props.operation === "add" ? "+" : "-"}</Text>
-          <Text>{"$" + props.amount}</Text>
-        </div>
+    <>
+      <div
+        className={cn(
+          props.accentColor,
+          "w-10 h-10 md:w-14 md:h-14 p-2 md:p-3 rounded-full flex items-center justify-center"
+        )}
+      >
+        {props.icon}
+      </div>
+      <div className="flex flex-wrap items-center">
+        <Text className="md:text-base text-sm text-nowrap mr-auto">
+          {props.title}
+        </Text>
+        <Text className="md:text-sm text-xs text-gray-400 text-nowrap pr-10 md:pr-6">
+          {props.date}
+        </Text>
       </div>
       <div
         className={cn(
-          props.isLast ? "hidden" : "",
-          "bg-gray-200 dark:bg-gray-600 h-[1px] w-3/5"
+          props.operation === "add" ? "text-green-600" : "text-red-600",
+          "flex gap-1 items-center justify-end"
         )}
-      />
-    </div>
+      >
+        <Text className="text-xs md:text-base">
+          {props.operation === "add" ? "+" : "-"}
+        </Text>
+        <Text className="text-xs md:text-base">
+          <NumberFormatter value={props.amount} prefix="$" thousandSeparator />
+        </Text>
+      </div>
+    </>
   );
 };
 
@@ -116,6 +101,15 @@ const RecentTransactionData: TransactionType[] = [
     date: "21 January 2024",
     operation: "add",
     amount: 5400,
+    accentColor: "bg-cyan-400/20",
+  },
+  {
+    id: 3,
+    icon: <BsCashCoin className="w-full h-full text-cyan-500" />,
+    title: "Jemi Wilson",
+    date: "21 January 2024",
+    operation: "remove",
+    amount: 5,
     accentColor: "bg-cyan-400/20",
   },
 ];
