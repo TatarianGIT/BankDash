@@ -216,7 +216,6 @@ const FormElement = ({
             defaultValue={"Physical"}
             placeholder="Pick type of Credit Card"
             data={["Physical", "Virtual"]}
-            onChange={() => console.log("first")}
           />
         ) : null}
 
