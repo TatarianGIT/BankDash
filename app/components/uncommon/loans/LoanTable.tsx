@@ -1,6 +1,6 @@
 import { Button, Checkbox, NumberFormatter, Table, Text } from "@mantine/core";
 import { RotateCcw } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { LoanTableElementType } from "~/data/loan/mockedData";
 
 type LoanTableProps = {
@@ -9,7 +9,7 @@ type LoanTableProps = {
 
 const LoanTable = ({ loansData }: LoanTableProps) => {
   return (
-    <div className="p-0 md:p-3 w-full">
+    <div className="p-0 w-full">
       <DataTable loansData={loansData} />
     </div>
   );
@@ -26,9 +26,9 @@ const DataTable = ({ loansData }: DataTableProps) => {
   const allRowsChecked =
     JSON.stringify(objSort(selectedRows)) == JSON.stringify(objSort(data));
 
-  const selectedMoneyTotal = reduceNumber(selectedRows, "money");
-  const selectedMoneyLeftTotal = reduceNumber(selectedRows, "moneyLeft");
-  const selectedInstallmentTotal = reduceNumber(selectedRows, "installment");
+  const selectedMoney = reduceNumber(selectedRows, "money");
+  const selectedMoneyLeft = reduceNumber(selectedRows, "moneyLeft");
+  const selectedInstallment = reduceNumber(selectedRows, "installment");
 
   const totalMoney = reduceNumber(data, "money");
   const totalMoneyLeft = reduceNumber(data, "moneyLeft");
@@ -39,11 +39,11 @@ const DataTable = ({ loansData }: DataTableProps) => {
   };
 
   const handleSelectRow = (
-    rowSelected: boolean,
+    isRowSelected: boolean,
     loan: LoanTableElementType
   ) => {
     return setSelectedRows(
-      rowSelected
+      isRowSelected
         ? [...selectedRows, loan]
         : selectedRows.filter((oldLoan) => oldLoan.SLNo !== loan.SLNo)
     );
@@ -59,8 +59,8 @@ const DataTable = ({ loansData }: DataTableProps) => {
     return setData((prevData) => prevData.filter((l) => l !== loan));
   };
 
-  const handleMultipleRepay = (loans: LoanTableElementType[]) => {
-    const slNosToRemove = new Set(loans.map((loan) => loan.SLNo));
+  const handleMultipleRepay = () => {
+    const slNosToRemove = new Set(selectedRows.map((loan) => loan.SLNo));
     setData((prevData) =>
       prevData.filter((loan) => !slNosToRemove.has(loan.SLNo))
     );
@@ -74,13 +74,19 @@ const DataTable = ({ loansData }: DataTableProps) => {
   return (
     <>
       {data.length > 0 ? (
-        <Table striped withColumnBorders withRowBorders highlightOnHover>
+        <Table
+          highlightOnHover
+          withColumnBorders
+          withTableBorder
+          className="text-xs md:text-sm lg:text-base max-w-[1000px] mx-auto"
+        >
           <Table.Thead>
             <TableHeader
-              handleSelectAll={handleSelectAll}
               allRowsChecked={allRowsChecked}
+              handleSelectAll={handleSelectAll}
             />
           </Table.Thead>
+
           <Table.Tbody>
             {data.map((loan) => {
               const isRowSelected = selectedRows.some(
@@ -88,35 +94,49 @@ const DataTable = ({ loansData }: DataTableProps) => {
               );
 
               return (
-                <React.Fragment key={loan.SLNo}>
-                  <TableRowData
-                    loan={loan}
-                    isRowSelected={isRowSelected}
-                    handleRowSelect={handleSelectRow}
-                    handleRepay={() => handleRepay(loan)}
-                  />
-                </React.Fragment>
+                <TableRow
+                  key={loan.SLNo}
+                  loan={loan}
+                  handleRepay={() => handleRepay(loan)}
+                  handleRowSelect={handleSelectRow}
+                  isRowSelected={isRowSelected}
+                />
               );
             })}
           </Table.Tbody>
 
-          <Table.Tfoot>
-            <TableFooter
-              heading="Total"
-              money={totalMoney}
-              moneyLeft={totalMoneyLeft}
-              installment={totalInstallment}
-            />
-            {selectedRows.length > 0 && (
-              <TableFooter
-                heading="Selected"
-                selectedRows={selectedRows}
-                money={selectedMoneyTotal}
-                moneyLeft={selectedMoneyLeftTotal}
-                installment={selectedInstallmentTotal}
-                handleMultipleRepay={() => handleMultipleRepay(selectedRows)}
+          {selectedRows.length > 0 && (
+            <Table.Tfoot>
+              <Table.Tr>
+                <Table.Td colSpan={3}>Selected</Table.Td>
+              </Table.Tr>
+              <TableRow
+                isSelectionFooter
+                key={"selected"}
+                footerData={{
+                  installment: selectedInstallment.toString(),
+                  money: selectedMoney,
+                  moneyLeft: selectedMoneyLeft,
+                }}
+                handleRepay={() => handleMultipleRepay()}
+                buttonRightSection={selectedRows.length.toString()}
               />
-            )}
+            </Table.Tfoot>
+          )}
+
+          <Table.Tfoot>
+            <Table.Tr>
+              <Table.Td colSpan={3}>Total</Table.Td>
+            </Table.Tr>
+            <TableRow
+              isTotalFooter={true}
+              key={"total"}
+              footerData={{
+                installment: totalInstallment.toString(),
+                money: totalMoney,
+                moneyLeft: totalMoneyLeft,
+              }}
+            />
           </Table.Tfoot>
         </Table>
       ) : (
@@ -128,130 +148,138 @@ const DataTable = ({ loansData }: DataTableProps) => {
   );
 };
 
-type TableRowDataProps = {
-  isRowSelected: boolean;
-  loan: LoanTableElementType;
-  handleRowSelect: (isSelected: boolean, loan: LoanTableElementType) => void;
-  handleRepay: () => void;
-};
-
-const TableRowData = ({
-  handleRepay,
-  handleRowSelect,
-  isRowSelected,
-  loan,
-}: TableRowDataProps) => {
-  return (
-    <Table.Tr
-      key={loan.SLNo}
-      bg={isRowSelected ? "var(--mantine-color-blue-light)" : undefined}
-      style={{ borderBottom: "1px solid var(--mantine-color-default-border)" }}
-    >
-      <Table.Td>
-        <Checkbox
-          aria-label="Select row"
-          checked={isRowSelected}
-          onChange={(event) =>
-            handleRowSelect(event.currentTarget.checked, loan)
-          }
-        />
-      </Table.Td>
-      <Table.Td className="md:table-cell hidden">#{loan.SLNo}</Table.Td>
-      <Table.Td>
-        <FormatedNumber value={loan.money} />
-      </Table.Td>
-      <Table.Td>
-        <FormatedNumber value={loan.moneyLeft} />
-      </Table.Td>
-      <Table.Td className="md:table-cell hidden">
-        {loan.duration} months
-      </Table.Td>
-      <Table.Td className="md:table-cell hidden">{loan.rate}%</Table.Td>
-      <Table.Td className="sm:table-cell hidden">
-        <FormatedNumber value={loan.installment} /> {" / mo"}
-      </Table.Td>
-      <Table.Td className="flex justify-center">
-        <RepayButton isDisabled={isRowSelected} handleClick={handleRepay} />
-      </Table.Td>
-    </Table.Tr>
-  );
-};
-
 type TableHeaderProps = {
   allRowsChecked: boolean;
   handleSelectAll: (rowsSelected: boolean) => void;
 };
 
-const TableHeader = ({ allRowsChecked, handleSelectAll }: TableHeaderProps) => {
+const TableHeader = ({ ...props }: TableHeaderProps) => {
   return (
     <Table.Tr>
       <Table.Th>
         <Checkbox
-          checked={allRowsChecked}
-          variant="outline"
-          aria-label="Select all rows"
-          onChange={(event) => handleSelectAll(event.currentTarget.checked)}
+          className="flex justify-center"
+          checked={props.allRowsChecked}
+          onChange={(event) =>
+            props.handleSelectAll(event.currentTarget.checked)
+          }
         />
       </Table.Th>
-      <Table.Th className="md:table-cell hidden">SL No</Table.Th>
+      <Table.Th className="max-sm:hidden">SL No</Table.Th>
       <Table.Th>Loan Money</Table.Th>
       <Table.Th>Left to repay</Table.Th>
-      <Table.Th className="md:table-cell hidden">Duration</Table.Th>
-      <Table.Th className="md:table-cell hidden">Intrest rate</Table.Th>
-      <Table.Th className="sm:table-cell hidden">Installment</Table.Th>
+      <Table.Th className="max-md:hidden">Duration</Table.Th>
+      <Table.Th className="max-md:hidden">Intrest rate</Table.Th>
+      <Table.Th className="max-sm:hidden">Installment</Table.Th>
       <Table.Th>Repay</Table.Th>
     </Table.Tr>
   );
 };
 
-type TableFooterProps = {
-  heading: string;
-  money: number;
-  moneyLeft: number;
-  installment: number;
-  selectedRows?: LoanTableElementType[];
-  handleMultipleRepay?: () => void;
-};
+type FooterData = Pick<
+  LoanTableElementType,
+  "money" | "installment" | "moneyLeft"
+>;
 
-const TableFooter = ({
-  heading,
-  installment,
-  money,
-  moneyLeft,
-  selectedRows = [],
-  handleMultipleRepay,
-}: TableFooterProps) => {
+type TableRowProps = {
+  key: string | number;
+  className?: string;
+} & (
+  | {
+      isSelectionFooter?: false;
+      isTotalFooter?: false;
+      loan: LoanTableElementType;
+      footerData?: undefined;
+      isRowSelected: boolean;
+      handleRowSelect: (checked: boolean, loan: LoanTableElementType) => void;
+      handleRepay: () => void;
+      buttonRightSection?: undefined;
+    }
+  | {
+      isSelectionFooter: true;
+      isTotalFooter?: false;
+      handleRepay: () => void;
+      footerData: FooterData;
+      loan?: undefined;
+      handleRowSelect?: undefined;
+      isRowSelected?: undefined;
+      buttonRightSection: string;
+    }
+  | {
+      isTotalFooter: true;
+      isSelectionFooter?: false;
+      footerData: FooterData;
+      loan?: undefined;
+      handleRepay?: undefined;
+      handleRowSelect?: undefined;
+      isRowSelected?: undefined;
+      buttonRightSection?: undefined;
+    }
+);
+
+const TableRow = ({
+  isSelectionFooter = false,
+  isTotalFooter = false,
+  ...props
+}: TableRowProps) => {
   return (
-    <>
-      <Table.Tr>
-        <Table.Td colSpan={8}>
-          <Text className="font-medium text-red-600">{heading}</Text>
-        </Table.Td>
-      </Table.Tr>
-      <Table.Tr>
-        <Table.Th></Table.Th>
-        <Table.Th className="max-md:hidden"></Table.Th>
-        <Table.Th>
-          <FormatedNumber value={money.toFixed(2)} />
-        </Table.Th>
-        <Table.Th>
-          <FormatedNumber value={moneyLeft.toFixed(2)} />
-        </Table.Th>
-        <Table.Th className="max-md:hidden"></Table.Th>
-        <Table.Th className="max-md:hidden"></Table.Th>
-        <Table.Th className="max-sm:hidden">
-          <FormatedNumber value={installment.toFixed(2)} /> {" / mo"}
-        </Table.Th>
-        <Table.Th className="flex justify-center">
-          {selectedRows.length > 0 && handleMultipleRepay && (
-            <RepayButton
-              rightSection={selectedRows.length.toString()}
-              handleClick={handleMultipleRepay}
-            />
-          )}
-        </Table.Th>
-      </Table.Tr>
-    </>
+    <Table.Tr
+      key={props.key}
+      bg={props.isRowSelected ? "var(--mantine-color-blue-light)" : undefined}
+      style={{ borderBottom: "1px solid var(--mantine-color-default-border)" }}
+      className={props.className}
+    >
+      <Table.Td>
+        {!isSelectionFooter && !isTotalFooter && (
+          <Checkbox
+            className="flex justify-center"
+            checked={props.isRowSelected}
+            onChange={(event) =>
+              props.handleRowSelect &&
+              props.handleRowSelect(event.currentTarget.checked, props.loan)
+            }
+          />
+        )}
+      </Table.Td>
+      <Table.Td className="max-sm:hidden">
+        {props.loan?.SLNo ? "#" + props.loan?.SLNo : ""}
+      </Table.Td>
+      <Table.Td>
+        <FormatedNumber
+          value={(props.loan?.money || props.footerData?.money)!}
+        />
+      </Table.Td>
+      <Table.Td>
+        <FormatedNumber
+          value={(props.loan?.moneyLeft || props.footerData?.moneyLeft)!}
+        />
+      </Table.Td>
+      <Table.Td className="max-md:hidden">
+        {props.loan?.duration ? props.loan?.duration + " months" : ""}
+      </Table.Td>
+      <Table.Td className="max-md:hidden">
+        {props.loan?.rate && (
+          <>
+            <FormatedNumber value={props.loan?.rate || ""} /> {"/mo"}
+          </>
+        )}
+      </Table.Td>
+      <Table.Td className="max-sm:hidden">
+        <FormatedNumber
+          value={(props.loan?.installment || props.footerData?.installment)!}
+        />
+        /mo
+      </Table.Td>
+      <Table.Td className="flex justify-center">
+        {!isTotalFooter && props.handleRepay && (
+          <RepayButton
+            rightSection={props.buttonRightSection}
+            handleClick={props.handleRepay}
+            isDisabled={props.isRowSelected}
+          />
+        )}
+      </Table.Td>
+    </Table.Tr>
   );
 };
 
@@ -271,7 +299,7 @@ const RepayButton = ({
       <Button
         disabled={isDisabled}
         variant="outline"
-        className="hidden md:inline-block rounded-full"
+        className="hidden md:inline-block rounded-full md:w-28"
         aria-label="Repay loan"
         onClick={handleClick}
       >
@@ -281,12 +309,20 @@ const RepayButton = ({
       <Button
         disabled={isDisabled}
         variant="outline"
-        className="md:hidden rounded-full p-1 w-full"
+        className="md:hidden rounded-full md:w-28 relative"
         aria-label="Repay loan"
         onClick={handleClick}
       >
-        <RotateCcw />
-        {rightSection && <span className="px-2">{rightSection}</span>}
+        {rightSection ? (
+          <>
+            <span className="px-2 text-xs">{rightSection}</span>
+            <div className="absolute inset-0">
+              <RotateCcw size={32} strokeWidth={1} className="m-auto h-full" />
+            </div>
+          </>
+        ) : (
+          <RotateCcw />
+        )}
       </Button>
     </>
   );
