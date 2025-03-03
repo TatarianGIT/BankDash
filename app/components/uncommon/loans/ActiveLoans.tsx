@@ -3,11 +3,11 @@ import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 import { LoanTableElementType } from "~/data/loan/mockedData";
 
-type LoanTableProps = {
+type ActiveLoansProps = {
   loansData: LoanTableElementType[];
 };
 
-const LoanTable = ({ loansData }: LoanTableProps) => {
+const ActiveLoans = ({ loansData }: ActiveLoansProps) => {
   return (
     <div className="p-0 w-full">
       <DataTable loansData={loansData} />
@@ -352,4 +352,4 @@ const objSort = (objArray: LoanTableElementType[]) => {
   return [...objArray].sort((a, b) => a.SLNo - b.SLNo);
 };
 
-export default LoanTable;
+export default ActiveLoans;

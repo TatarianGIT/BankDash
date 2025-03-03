@@ -4,7 +4,7 @@ import { requireAuth } from "~/auth/auth";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
 import LoanBadgeSection from "~/components/uncommon/loans/LoanBadgeSection";
-import LoanTable from "~/components/uncommon/loans/LoanTable";
+import ActiveLoans from "~/components/uncommon/loans/ActiveLoans";
 import { getLoansData } from "~/data/loan/mockedData";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -24,7 +24,7 @@ const Loan = () => {
 
       <Item leftHeading="Active Loans Overview" size="full">
         <LoadingItem data={loansData} className="h-[600px]">
-          {(reponse) => <LoanTable loansData={reponse} />}
+          {(reponse) => <ActiveLoans loansData={reponse} />}
         </LoadingItem>
       </Item>
     </>
