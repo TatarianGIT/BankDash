@@ -4,7 +4,7 @@ import { requireAuth } from "~/auth/auth";
 import Item from "~/components/common/Item";
 import LoadingItem from "~/components/common/LoadingItem";
 import LoanBadgeSection from "~/components/uncommon/loans/LoanBadgeSection";
-import ActiveLoans from "~/components/uncommon/loans/ActiveLoans";
+import ActiveLoans from "~/components/uncommon/loans/ActiveLoans/ActiveLoans";
 import { getLoansData } from "~/data/loan/mockedData";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
