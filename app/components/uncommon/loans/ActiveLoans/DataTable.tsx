@@ -1,9 +1,10 @@
+import { Table, Text } from "@mantine/core";
 import { useState } from "react";
 import { LoanTableElementType } from "~/data/loan/mockedData";
-import { objSort, reduceNumber } from "./utils";
-import { Table, Text } from "@mantine/core";
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
+import useReduceLoan from "./hooks/useReduceLoan";
+import { objSort } from "./utils";
 
 type DataTableProps = {
   loansData: LoanTableElementType[];
@@ -16,13 +17,8 @@ const DataTable = ({ loansData }: DataTableProps) => {
   const allRowsChecked =
     JSON.stringify(objSort(selectedRows)) == JSON.stringify(objSort(data));
 
-  const selectedMoney = reduceNumber(selectedRows, "money");
-  const selectedMoneyLeft = reduceNumber(selectedRows, "moneyLeft");
-  const selectedInstallment = reduceNumber(selectedRows, "installment");
-
-  const totalMoney = reduceNumber(data, "money");
-  const totalMoneyLeft = reduceNumber(data, "moneyLeft");
-  const totalInstallment = reduceNumber(data, "installment");
+  const reducedSelected = useReduceLoan(selectedRows);
+  const reducedTotal = useReduceLoan(selectedRows);
 
   const handleSelectAll = (rowsSelected: boolean) => {
     return rowsSelected ? setSelectedRows([...data]) : setSelectedRows([]);
@@ -104,9 +100,9 @@ const DataTable = ({ loansData }: DataTableProps) => {
                 isSelectionFooter
                 key={"selected"}
                 footerData={{
-                  installment: selectedInstallment.toString(),
-                  money: selectedMoney,
-                  moneyLeft: selectedMoneyLeft,
+                  installment: reducedSelected.installment.toString(),
+                  money: reducedSelected.money,
+                  moneyLeft: reducedSelected.moneyLeft,
                 }}
                 handleRepay={() => handleMultipleRepay()}
                 buttonRightSection={selectedRows.length.toString()}
@@ -122,9 +118,9 @@ const DataTable = ({ loansData }: DataTableProps) => {
               isTotalFooter={true}
               key={"total"}
               footerData={{
-                installment: totalInstallment.toString(),
-                money: totalMoney,
-                moneyLeft: totalMoneyLeft,
+                installment: reducedTotal.installment.toString(),
+                money: reducedTotal.money,
+                moneyLeft: reducedTotal.moneyLeft,
               }}
             />
           </Table.Tfoot>
