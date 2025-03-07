@@ -26,7 +26,8 @@ function AppLayout({ children }: AppLayoutProps) {
 
   const isLoading =
     navigation.state === "loading" &&
-    navigation.location.pathname !== "/transaction";
+    navigation.location.pathname !== "/transaction" &&
+    !navigation.location.pathname.startsWith("/setting/");
 
   const currentPath =
     location.pathname === "/" ? "/" : location.pathname.split("/")[1];
