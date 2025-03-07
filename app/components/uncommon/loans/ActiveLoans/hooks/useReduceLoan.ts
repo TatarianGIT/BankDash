@@ -7,7 +7,7 @@ const useReduceLoan = (arrayOfElements: LoanTableElementType[]) => {
     return {
       money: reduceNumber(arrayOfElements, "money"),
       moneyLeft: reduceNumber(arrayOfElements, "moneyLeft"),
-      installment: reduceNumber(arrayOfElements, "installment"),
+      installment: reduceNumber(arrayOfElements, "installment").toString(),
     };
   }, [arrayOfElements]);
 };
