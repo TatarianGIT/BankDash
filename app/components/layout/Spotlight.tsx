@@ -1,5 +1,4 @@
 import {
-  Center,
   ScrollArea,
   Text,
   UnstyledButton,
@@ -61,32 +60,42 @@ function Spotlight({ size, className, ...rest }: SpotlightProps) {
       <MantineSpotlight.Root
         query={query}
         onQueryChange={setQuery}
-        radius={"lg"}
+        radius="lg"
         {...rest}
       >
         <MantineSpotlight.Search
           placeholder="Search..."
-          leftSection={<Search className="h-5 w-5" />}
+          leftSection={<Search className="h-5 w-5 text-gray-400" />}
+          className="px-6 py-5 text-lg focus:ring-2 focus:ring-blue-500/50 border-b border-gray-100 dark:border-stone-800 dark:bg-stone-900/60"
         />
+
         <MantineSpotlight.ActionsList>
           {filteredActions.length > 0 ? (
-            <ScrollArea className="h-96">
+            <ScrollArea className="h-96 p-2">
               {filteredActions.map((group) => (
-                <div key={group.group} className="px-4 my-4">
-                  <h2 className="text-xl font-semibold">{group.group}</h2>
-                  <ul>
+                <div key={group.group} className="px-2 my-4">
+                  <h2 className="text-xs font-semibold uppercase tracking-widest text-stone-500 dark:text-stone-400 mb-2 px-4 py-2.5 bg-stone-50 dark:bg-stone-900/35 rounded-md">
+                    {group.group}
+                  </h2>
+                  <ul className="space-y-1">
                     {group.actions.map((action) => (
                       <li
                         key={action.id}
-                        className="px-4 my-1 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md"
+                        className="px-2 hover:bg-stone-50 dark:hover:bg-stone-900/30 rounded-lg"
                       >
-                        <Link to={group.href} onClick={spotlight.close}>
-                          <Text className="font-semibold text-lg">
-                            {action.label}
-                          </Text>
-                          <Text className="font-light">
-                            {action.description}
-                          </Text>
+                        <Link
+                          to={group.href}
+                          onClick={spotlight.close}
+                          className="block p-3 rounded-md"
+                        >
+                          <div className="space-y-1">
+                            <Text className="font-medium text-stone-900 dark:text-stone-100">
+                              {action.label}
+                            </Text>
+                            <Text className="text-sm text-stone-500 dark:text-stone-400 line-clamp-1">
+                              {action.description}
+                            </Text>
+                          </div>
                         </Link>
                       </li>
                     ))}
@@ -96,7 +105,15 @@ function Spotlight({ size, className, ...rest }: SpotlightProps) {
             </ScrollArea>
           ) : (
             <MantineSpotlight.Empty className="h-96">
-              <Center className="h-full">Nothing found...</Center>
+              <div className="flex flex-col items-center justify-center h-full space-y-4">
+                <Search className="h-12 w-12 text-stone-400 dark:text-stone-500" />
+                <Text className="text-stone-500 dark:text-stone-400 text-lg font-medium">
+                  No results found
+                </Text>
+                <Text className="text-stone-400 dark:text-stone-500 text-sm">
+                  Try different search terms
+                </Text>
+              </div>
             </MantineSpotlight.Empty>
           )}
         </MantineSpotlight.ActionsList>
