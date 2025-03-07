@@ -1,9 +1,10 @@
 import { Checkbox, Table } from "@mantine/core";
+import { WithLoading } from "~/types";
 
-type TableHeaderProps = {
+type TableHeaderProps = WithLoading<{
   allRowsChecked: boolean;
   handleSelectAll: (rowsSelected: boolean) => void;
-};
+}>;
 
 const TableHeader = ({ ...props }: TableHeaderProps) => {
   return (
@@ -13,6 +14,7 @@ const TableHeader = ({ ...props }: TableHeaderProps) => {
           className="flex justify-center"
           checked={props.allRowsChecked}
           onChange={(event) =>
+            props.handleSelectAll &&
             props.handleSelectAll(event.currentTarget.checked)
           }
         />

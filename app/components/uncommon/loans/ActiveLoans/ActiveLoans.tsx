@@ -1,16 +1,16 @@
 import { LoanTableElementType } from "~/data/loan/mockedData";
-import DataTable from "./DataTable";
+import { WithLoading } from "~/types";
+import DataTable from "./LoanTable/DataTable";
+import LoadingTable from "./LoanTable/LoadingTable";
 
-type ActiveLoansProps = {
+type ActiveLoansProps = WithLoading<{
   loansData: LoanTableElementType[];
-};
+}>;
 
-const ActiveLoans = ({ loansData }: ActiveLoansProps) => {
-  return (
-    <div className="p-0 w-full">
-      <DataTable loansData={loansData} />
-    </div>
-  );
+const ActiveLoans = ({ loansData, isLoading }: ActiveLoansProps) => {
+  if (isLoading) return <LoadingTable />;
+
+  return <DataTable loansData={loansData} />;
 };
 
 export default ActiveLoans;

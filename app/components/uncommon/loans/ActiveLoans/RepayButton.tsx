@@ -1,16 +1,17 @@
-import { Button } from "@mantine/core";
+import { Button, ButtonProps } from "@mantine/core";
 import { RotateCcw } from "lucide-react";
 
 type RepayButtonProps = {
   isDisabled?: boolean;
   rightSection?: string;
   handleClick: () => void;
-};
+} & ButtonProps;
 
 const RepayButton = ({
   isDisabled = false,
   rightSection,
   handleClick,
+  ...props
 }: RepayButtonProps) => {
   return (
     <>
@@ -20,6 +21,7 @@ const RepayButton = ({
         className="hidden md:inline-block rounded-full md:w-28"
         aria-label="Repay loan"
         onClick={handleClick}
+        {...props}
       >
         Repay {rightSection}
       </Button>
@@ -30,6 +32,7 @@ const RepayButton = ({
         className="md:hidden rounded-full md:w-28 relative"
         aria-label="Repay loan"
         onClick={handleClick}
+        {...props}
       >
         {rightSection ? (
           <>

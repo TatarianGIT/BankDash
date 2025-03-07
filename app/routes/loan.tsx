@@ -21,9 +21,12 @@ const Loan = () => {
   return (
     <>
       <LoanBadgeSection />
-
       <Item leftHeading="Active Loans Overview" size="full">
-        <LoadingItem data={loansData} className="h-[600px]">
+        <LoadingItem
+          data={loansData}
+          className="h-[600px]"
+          fallback={<ActiveLoans isLoading />}
+        >
           {(reponse) => <ActiveLoans loansData={reponse} />}
         </LoadingItem>
       </Item>
