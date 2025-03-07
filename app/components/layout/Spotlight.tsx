@@ -15,16 +15,16 @@ import { Search } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { cn } from "~/utils/cn";
 
-export interface CustomSpotlightActionData extends SpotlightActionData {
+export type CustomSpotlightActionData = {
   label: string;
   description: string;
-}
+} & SpotlightActionData;
 
-export interface CustomSpotlightActionGroupData {
+export type CustomSpotlightActionGroupData = {
   group: string;
   href: string;
   actions: CustomSpotlightActionData[];
-}
+};
 
 type SpotlightProps = {
   className?: string;
