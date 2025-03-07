@@ -30,7 +30,12 @@ const MyInvestmentElement = ({ data }: MyInvestmentElementProps) => {
     sm: "",
   });
   return (
-    <Grid align="center" justify="center" gutter={"lg"}>
+    <Grid
+      align="center"
+      justify="center"
+      gutter={"lg"}
+      className="px-2 md:px-4"
+    >
       <Grid.Col
         span={"content"}
         className={cn(
@@ -41,55 +46,49 @@ const MyInvestmentElement = ({ data }: MyInvestmentElementProps) => {
         {data.icon}
       </Grid.Col>
 
-      <Grid.Col span={"auto"}>
-        <div className="flex flex-col">
-          <Text className="text-sm">{data.companyName}</Text>
-          <Text className={"text-xs"}>{data.companyDesc}</Text>
-        </div>
+      <Grid.Col span={"auto"} className="flex flex-col">
+        <Text className="text-sm">{data.companyName}</Text>
+        <Text className={"text-xs"}>{data.companyDesc}</Text>
       </Grid.Col>
 
-      <Grid.Col span={3} className={isHidden}>
-        <div className="flex flex-col">
-          <Text>
-            <NumberFormatter
-              className="text-sm"
-              value={data.value}
-              thousandSeparator
-              prefix="$"
-            />
-          </Text>
-          <Text className={"text-xs"}>Envestment Value</Text>
-        </div>
+      <Grid.Col span={3} className={"flex flex-col" + isHidden}>
+        <Text>
+          <NumberFormatter
+            className="text-sm"
+            value={data.value}
+            thousandSeparator
+            prefix="$"
+          />
+        </Text>
+        <Text className={"text-xs"}>Envestment Value</Text>
       </Grid.Col>
 
-      <Grid.Col span={"content"}>
-        <div className="flex flex-col">
-          <Text>
-            <NumberFormatter
-              className={cn(
-                data.type === "income"
-                  ? "text-green-400"
-                  : data.type === "expense"
-                  ? "text-red-400"
-                  : undefined,
-                "text-sm"
-              )}
-              value={data.returnValue}
-              allowNegative={false}
-              decimalScale={2}
-              decimalSeparator="."
-              suffix="%"
-              prefix={
-                data.type === "income"
-                  ? "+ "
-                  : data.type === "expense"
-                  ? "- "
-                  : undefined
-              }
-            />
-          </Text>
-          <Text className={"text-xs"}>Return Value</Text>
-        </div>
+      <Grid.Col span={"content"} className="flex flex-col">
+        <Text>
+          <NumberFormatter
+            className={cn(
+              data.type === "income"
+                ? "text-green-400"
+                : data.type === "expense"
+                ? "text-red-400"
+                : undefined,
+              "text-sm"
+            )}
+            value={data.returnValue}
+            allowNegative={false}
+            decimalScale={2}
+            decimalSeparator="."
+            suffix="%"
+            prefix={
+              data.type === "income"
+                ? "+ "
+                : data.type === "expense"
+                ? "- "
+                : undefined
+            }
+          />
+        </Text>
+        <Text className={"text-xs"}>Return Value</Text>
       </Grid.Col>
     </Grid>
   );
