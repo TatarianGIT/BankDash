@@ -1,19 +1,20 @@
-import { useMatches } from "@mantine/core";
-import { defer, useLoaderData } from "@remix-run/react";
-import { CircleDollarSign, PiggyBank } from "lucide-react";
-import { GiExpense, GiReceiveMoney } from "react-icons/gi";
+import {useMatches} from "@mantine/core";
+import {defer, useLoaderData} from "@remix-run/react";
+import {CircleDollarSign, PiggyBank} from "lucide-react";
+import {GiExpense, GiReceiveMoney} from "react-icons/gi";
 import Invoices from "~/components/uncommon/account/InvoicesList";
-import LatestTransation from "~/components/uncommon/account/LatestTransation";
+import LatestTransaction from "~/components/uncommon/account/LatestTransaction";
 import Overview from "~/components/uncommon/account/Overview";
 import CardRouteLinkWrapper from "~/components/common/CardRouteLinkWrapper";
 import CreditCard from "~/components/common/CreditCard";
 import CreditCardContainer from "~/components/common/CreditCardContainer";
 import Item from "~/components/common/Item";
-import ItemBadgeContainer, { ItemBadge } from "~/components/common/ItemBadge";
+import ItemBadgeContainer, {ItemBadge} from "~/components/common/ItemBadge";
 import LoadingItem from "~/components/common/LoadingItem";
-import { getCard } from "~/data/common/creditCard";
-import { requireAuth } from "~/auth/auth";
-import { LoaderFunctionArgs } from "@remix-run/node";
+import {getCard} from "~/data/common/creditCard";
+import {requireAuth} from "~/auth/auth";
+import {LoaderFunctionArgs} from "@remix-run/node";
+import {CardData} from "~/data/card/addNewCard";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requireAuth(request);
@@ -69,7 +70,7 @@ const Account = () => {
       </ItemBadgeContainer>
 
       <Item size="medium" leftHeading="Last Transaction">
-        <LatestTransation />
+        <LatestTransaction  />
       </Item>
 
       <Item
@@ -98,7 +99,7 @@ const Account = () => {
         <Overview />
       </Item>
 
-      <Item leftHeading="Invoces Sent" size="small">
+      <Item leftHeading="Invoces Sent" size="small" withCardContainer={false}>
         <Invoices />
       </Item>
     </>

@@ -4,11 +4,11 @@ import { HandPlatter, ShoppingBasket, UserRound } from "lucide-react";
 import React, { ComponentProps, ReactNode } from "react";
 import { cn } from "~/utils/cn.js";
 
-const LatestTransation = () => {
+const LatestTransaction = () => {
   return (
     <div className="grid grid-cols-[1fr,auto] sm:grid-cols-[1fr,1fr,auto] md:grid-cols-[auto,auto,auto,auto,auto] w-full gap-4">
       {Data ? (
-        Data.map((item: DataType) => <TransationItem key={item.id} {...item} />)
+        Data.map((item: DataType) => <TransactionItem key={item.id} {...item} />)
       ) : (
         <p>You have no recent transactions.</p>
       )}
@@ -16,11 +16,11 @@ const LatestTransation = () => {
   );
 };
 
-type TransationItemProps = {
+type TransactionItemProps = {
   key: number | string;
 } & DataType;
 
-const TransationItem = ({
+const TransactionItem = ({
   icon,
   heading,
   date,
@@ -30,7 +30,7 @@ const TransationItem = ({
   operation,
   balance,
   iconBgColor,
-}: TransationItemProps) => {
+}: TransactionItemProps) => {
   const [containerRef, containerRect] = useResizeObserver();
   const [measureRef, measureRect] = useResizeObserver();
 
@@ -101,7 +101,7 @@ const Column = React.forwardRef<HTMLDivElement, ColumnProps>(
 
 Column.displayName = "Column";
 
-export default LatestTransation;
+export default LatestTransaction;
 
 type DataType = {
   id: number;
