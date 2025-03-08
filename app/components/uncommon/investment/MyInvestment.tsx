@@ -1,4 +1,4 @@
-import { Grid, NumberFormatter, Text, useMatches } from "@mantine/core";
+import { Grid, NumberFormatter, Text } from "@mantine/core";
 import { ReactNode } from "react";
 import { SiApple, SiSamsung, SiTesla } from "react-icons/si";
 import CardContainer from "~/components/common/CardContainer";
