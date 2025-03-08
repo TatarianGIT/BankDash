@@ -27,28 +27,27 @@ type MyInvestmentElementProps = {
 
 const MyInvestmentElement = ({ data }: MyInvestmentElementProps) => {
   return (
-    <CardContainer>
-      <Grid
-        align="center"
-        justify="center"
-        gutter={"lg"}
-        className="px-2 md:px-4"
-      >
-        <Grid.Col
-          span={"content"}
+    <CardContainer className="grid grid-cols-[1fr] sm:grid-cols-[1fr_1fr] gap-4 w-full">
+      <div className="flex gap-2 justify-center sm:justify-start">
+        <div
           className={cn(
             "w-11 h-11 rounded-2xl flex justify-center items-center",
             data.backgroundColor
           )}
         >
           {data.icon}
-        </Grid.Col>
-        <Grid.Col span={"auto"} className="flex flex-col">
-          <Text className="text-sm">{data.companyName}</Text>
-          <Text className={"text-xs"}>{data.companyDesc}</Text>
-        </Grid.Col>
-        <Grid.Col span={3} className={"flex flex-col"}>
-          <Text>
+        </div>
+        <div className="flex flex-col gap-2">
+          <Text className="text-sm font-semibold tracking-wider">
+            {data.companyName}
+          </Text>
+          <Text className="text-xs">{data.companyDesc}</Text>
+        </div>
+      </div>
+
+      <div className="flex flex-row sm:justify-between justify-evenly">
+        <div className="flex flex-col gap-2">
+          <Text className="font-semibold">
             <NumberFormatter
               className="text-sm"
               value={data.value}
@@ -57,9 +56,9 @@ const MyInvestmentElement = ({ data }: MyInvestmentElementProps) => {
             />
           </Text>
           <Text className={"text-xs"}>Envestment Value</Text>
-        </Grid.Col>
-        <Grid.Col span={"content"} className="flex flex-col">
-          <Text>
+        </div>
+        <div className="flex flex-col gap-2">
+          <Text className="font-semibold">
             <NumberFormatter
               className={cn(
                 data.type === "income"
@@ -84,8 +83,8 @@ const MyInvestmentElement = ({ data }: MyInvestmentElementProps) => {
             />
           </Text>
           <Text className={"text-xs"}>Return Value</Text>
-        </Grid.Col>
-      </Grid>
+        </div>
+      </div>
     </CardContainer>
   );
 };
