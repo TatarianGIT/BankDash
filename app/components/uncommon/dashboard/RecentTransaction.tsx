@@ -1,4 +1,4 @@
-import { Grid, NumberFormatter, Text } from "@mantine/core";
+import { NumberFormatter, Text } from "@mantine/core";
 import { BsCashCoin } from "react-icons/bs";
 import { SlPaypal } from "react-icons/sl";
 import { TbCreditCardPay } from "react-icons/tb";
