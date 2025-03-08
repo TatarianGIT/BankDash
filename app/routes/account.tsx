@@ -19,7 +19,7 @@ import {CardData} from "~/data/card/addNewCard";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requireAuth(request);
 
-  const creditCard = getCard(1);
+  const creditCard: Promise<CardData[]> = getCard(1);
 
   return defer({ creditCard });
 };
@@ -86,8 +86,8 @@ const Account = () => {
             fallback={<CreditCard isLoading={true} />}
             data={data.creditCard}
           >
-            {(response) =>
-              response.map((creditCard) => (
+            {(response: CardData[]) =>
+              response.map((creditCard: CardData) => (
                 <CreditCard key={creditCard.id} {...creditCard} />
               ))
             }
