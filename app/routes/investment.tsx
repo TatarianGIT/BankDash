@@ -37,7 +37,7 @@ const Investment = () => {
         </LoadingItem>
       </Item>
 
-      <Item leftHeading="My Investment" size="medium">
+      <Item leftHeading="My Investment" size="medium" withCardContainer={false}>
         <MyInvestment />
       </Item>
 

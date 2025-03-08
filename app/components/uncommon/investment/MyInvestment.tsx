@@ -1,6 +1,7 @@
 import { Grid, NumberFormatter, Text, useMatches } from "@mantine/core";
 import { ReactNode } from "react";
 import { SiApple, SiSamsung, SiTesla } from "react-icons/si";
+import CardContainer from "~/components/common/CardContainer";
 import { cn } from "~/utils/cn";
 
 const MyInvestment = () => {
@@ -25,72 +26,67 @@ type MyInvestmentElementProps = {
 };
 
 const MyInvestmentElement = ({ data }: MyInvestmentElementProps) => {
-  const isHidden = useMatches({
-    base: "hidden",
-    sm: "",
-  });
   return (
-    <Grid
-      align="center"
-      justify="center"
-      gutter={"lg"}
-      className="px-2 md:px-4"
-    >
-      <Grid.Col
-        span={"content"}
-        className={cn(
-          "w-11 h-11 rounded-2xl flex justify-center items-center",
-          data.backgroundColor
-        )}
+    <CardContainer>
+      <Grid
+        align="center"
+        justify="center"
+        gutter={"lg"}
+        className="px-2 md:px-4"
       >
-        {data.icon}
-      </Grid.Col>
-
-      <Grid.Col span={"auto"} className="flex flex-col">
-        <Text className="text-sm">{data.companyName}</Text>
-        <Text className={"text-xs"}>{data.companyDesc}</Text>
-      </Grid.Col>
-
-      <Grid.Col span={3} className={"flex flex-col" + isHidden}>
-        <Text>
-          <NumberFormatter
-            className="text-sm"
-            value={data.value}
-            thousandSeparator
-            prefix="$"
-          />
-        </Text>
-        <Text className={"text-xs"}>Envestment Value</Text>
-      </Grid.Col>
-
-      <Grid.Col span={"content"} className="flex flex-col">
-        <Text>
-          <NumberFormatter
-            className={cn(
-              data.type === "income"
-                ? "text-green-400"
-                : data.type === "expense"
-                ? "text-red-400"
-                : undefined,
-              "text-sm"
-            )}
-            value={data.returnValue}
-            allowNegative={false}
-            decimalScale={2}
-            decimalSeparator="."
-            suffix="%"
-            prefix={
-              data.type === "income"
-                ? "+ "
-                : data.type === "expense"
-                ? "- "
-                : undefined
-            }
-          />
-        </Text>
-        <Text className={"text-xs"}>Return Value</Text>
-      </Grid.Col>
-    </Grid>
+        <Grid.Col
+          span={"content"}
+          className={cn(
+            "w-11 h-11 rounded-2xl flex justify-center items-center",
+            data.backgroundColor
+          )}
+        >
+          {data.icon}
+        </Grid.Col>
+        <Grid.Col span={"auto"} className="flex flex-col">
+          <Text className="text-sm">{data.companyName}</Text>
+          <Text className={"text-xs"}>{data.companyDesc}</Text>
+        </Grid.Col>
+        <Grid.Col span={3} className={"flex flex-col"}>
+          <Text>
+            <NumberFormatter
+              className="text-sm"
+              value={data.value}
+              thousandSeparator
+              prefix="$"
+            />
+          </Text>
+          <Text className={"text-xs"}>Envestment Value</Text>
+        </Grid.Col>
+        <Grid.Col span={"content"} className="flex flex-col">
+          <Text>
+            <NumberFormatter
+              className={cn(
+                data.type === "income"
+                  ? "text-green-400"
+                  : data.type === "expense"
+                  ? "text-red-400"
+                  : undefined,
+                "text-sm"
+              )}
+              value={data.returnValue}
+              allowNegative={false}
+              decimalScale={2}
+              decimalSeparator="."
+              suffix="%"
+              prefix={
+                data.type === "income"
+                  ? "+ "
+                  : data.type === "expense"
+                  ? "- "
+                  : undefined
+              }
+            />
+          </Text>
+          <Text className={"text-xs"}>Return Value</Text>
+        </Grid.Col>
+      </Grid>
+    </CardContainer>
   );
 };
 

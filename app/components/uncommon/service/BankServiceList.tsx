@@ -8,6 +8,7 @@ import {
   User,
 } from "lucide-react";
 import React from "react";
+import CardContainer from "~/components/common/CardContainer";
 import { cn } from "~/utils/cn";
 
 const BankServiceList = () => {
@@ -32,7 +33,7 @@ type ServiceElementProps = {
 
 const ServiceElement = ({ ...props }: ServiceElementProps) => {
   return (
-    <div className="my-4 w-full">
+    <CardContainer className="my-4 w-full" shadow="sm">
       <Grid justify="center" align="center">
         <Grid.Col span={"content"}>
           <div className={cn("rounded-2xl", props.iconBackground)}>
@@ -72,7 +73,7 @@ const ServiceElement = ({ ...props }: ServiceElementProps) => {
           </Button>
         </Grid.Col>
       </Grid>
-    </div>
+    </CardContainer>
   );
 };
 

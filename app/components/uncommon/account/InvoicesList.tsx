@@ -1,13 +1,14 @@
-import { NumberFormatter, Text } from "@mantine/core";
+import { Card, NumberFormatter, Text } from "@mantine/core";
 import { Apple, Gamepad2, UserRound } from "lucide-react";
 import { ReactNode } from "react";
+import CardContainer from "~/components/common/CardContainer";
 import { cn } from "~/utils/cn.js";
 
 const InvoicesList = () => {
   return (
     <>
       {InvoicesData.length > 0 ? (
-        <div className="flex flex-col md:gap-0 gap-4 w-full h-full">
+        <div className="flex flex-col md:gap-2 gap-4 w-full h-full">
           {InvoicesData.map((invoice) => (
             <Invoice key={invoice.id} {...invoice} />
           ))}
@@ -31,7 +32,10 @@ const Invoice = ({
   backgroundColor,
 }: InvoiceProps) => {
   return (
-    <div className="flex flex-row h-full w-full gap-4 items-center">
+    <CardContainer
+      className="flex flex-row h-full w-full gap-4 items-center"
+      shadow="sm"
+    >
       <div
         className={cn(
           "flex justify-center items-center w-11 h-11 rounded-xl",
@@ -49,7 +53,7 @@ const Invoice = ({
           <NumberFormatter value={amount} thousandSeparator prefix="$" />
         </Text>
       </div>
-    </div>
+    </CardContainer>
   );
 };
 

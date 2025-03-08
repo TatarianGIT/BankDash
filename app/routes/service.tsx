@@ -13,7 +13,11 @@ const Service = () => {
     <>
       <ServiceBadgeSection />
 
-      <Item leftHeading="Back Services List" size="full">
+      <Item
+        leftHeading="Back Services List"
+        size="full"
+        withCardContainer={false}
+      >
         <BankServiceList />
       </Item>
     </>
