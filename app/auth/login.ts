@@ -3,7 +3,7 @@ import { z } from "zod";
 import { ProfileType, settings } from "~/data/setting/mockedData";
 
 const secret = process.env.COOKIE_SECRET || "someRandomString123";
-if (secret === "default") {
+if (!process.env.COOKIE_SECRET) {
   console.warn("Set your COOKIE_SECRET in .env file");
 }
 
