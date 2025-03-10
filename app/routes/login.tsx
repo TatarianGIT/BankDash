@@ -1,9 +1,9 @@
 import { Button, Card, Input, Text, Tooltip } from "@mantine/core";
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect, useFetcher, useLoaderData } from "@remix-run/react";
+import { json, useFetcher, useLoaderData } from "@remix-run/react";
 import { SVGProps, useState } from "react";
 import { redirectIfLoggedIn } from "~/auth/auth";
-import { authCookie, LoginResponseType, loginUser } from "~/auth/login";
+import { LoginResponseType, loginUser } from "~/auth/login";
 import AuthFiller from "~/components/common/AuthFiller";
 import { getPassword, getUsername } from "~/data/setting/mockedData";
 
