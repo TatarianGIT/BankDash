@@ -1,41 +1,53 @@
-# Welcome to Remix!
+# BankDash: Banking Dashboard Simulation
 
-- 📖 [Remix docs](https://remix.run/docs)
+A frontend-focused banking dashboard simulation built with **Remix v2** to explore dynamic data handling, responsive design and framework itself. Designed for learning purposes, not real-world banking.
 
-## Development
+| Info: |
+| :--- |
+|All financial data is generated client-side for demonstration.|
+|Only single user avaiable - default credentials are: `mdawson98` / `password1234!`.|
+|Design adapted from [Figma Template](https://www.figma.com/community/file/1323695683687017923) (made by [Seju](https://www.figma.com/@sejal_ui_ux)) with some modifications.|
 
-Run the dev server:
 
-```shellscript
-npm run dev
+Images of few routes:
+
+<img src="images/dashboard_image.png" alt="Dashboard Route Image" width="500"/>
+<img src="images/transactions_image.png" alt="Transactions Route Image" width="500"/>
+<img src="images/credit_card_image.png" alt="Credit Card Route Image" width="500"/>
+<img src="images/settings_image.png" alt="Settings Route Image" width="500"/>
+
+## ✨ Features
+
+- 🔐 Cookie-based authentication (single user without database)
+- 📊 Interactive charts for financial data visualization
+- 🔍 Filterable tables with URL search params
+- 🌓 Light/dark theme toggle
+- 🛠 Server-side form validation with Zod
+- 💀 Loading skeletons and error boundaries
+- 📁 Dynamic modals and notification system
+- 🧩 Mocked API responses for transactions, balances, and user data
+
+## 🛠 Tech Stack
+
+- Language: TypeScript
+- Framework: Remix v2 (Vite)
+- Styling: TailwindCSS with Mantine components
+- Validation: Zod
+
+
+
+
+## Running server
+
+### 1. Clone the repo
+
+### 2. Install dependencies:
+```bash
+pnpm install
 ```
 
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
+### 3. Start the dev server:
+```bash
+pnpm run dev
 ```
 
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
-# RemixApp
