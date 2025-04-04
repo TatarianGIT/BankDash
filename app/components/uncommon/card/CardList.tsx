@@ -1,5 +1,6 @@
-import { Button, Grid, Text, useMatches } from "@mantine/core";
+import { Button, Grid, Text, TextProps, useMatches } from "@mantine/core";
 import { CreditCard } from "lucide-react";
+import { cn } from "~/utils/cn";
 
 const CardList = () => {
   return (
@@ -20,30 +21,29 @@ const CardList = () => {
               </Grid.Col>
 
               <Grid.Col span={"auto"}>
-                <Text>Card Type</Text>
-                <Text className="text-sm">{card.type}</Text>
+                <ListText>Card Type</ListText>
+                <ListText isBottomText>{card.type}</ListText>
               </Grid.Col>
 
               <Grid.Col span={"auto"}>
-                <Text>Bank</Text>
-                <Text className="text-sm">{card.bankName}</Text>
+                <ListText>Bank</ListText>
+                <ListText isBottomText>{card.bankName}</ListText>
               </Grid.Col>
 
               <Grid.Col span={"auto"} className="hidden md:inline-block">
-                <Text>Card Number</Text>
-                <Text className="text-sm">
+                <ListText>Card Number</ListText>
+                <ListText isBottomText>
                   <CardNumber cardNumber={card.number} />
-                </Text>
+                </ListText>
               </Grid.Col>
 
               <Grid.Col span={"auto"} className="hidden md:inline-block">
-                <Text>Namain Card</Text>
-                <Text className="text-sm">{card.namain}</Text>
+                <ListText>Namain Card</ListText>
+                <ListText isBottomText>{card.namain}</ListText>
               </Grid.Col>
 
               <Grid.Col span={"content"}>
                 <Button variant="transparent" className="text-base p-0">
-                  <span className="hidden xs:inline-block pr-1">View</span>
                   Details
                 </Button>
               </Grid.Col>
@@ -54,6 +54,30 @@ const CardList = () => {
         <Text>No cards found</Text>
       )}
     </div>
+  );
+};
+
+type ListTextProps = {
+  children: React.ReactNode;
+  isBottomText?: boolean;
+} & TextProps;
+
+const ListText = ({
+  isBottomText = false,
+  children,
+  ...rest
+}: ListTextProps) => {
+  return (
+    <Text
+      className={cn(
+        "font-medium text-base text-nowrap whitespace-nowrap",
+        isBottomText && "text-sm font-normal text-mantineColorViolet6/70",
+        rest.className
+      )}
+      {...rest}
+    >
+      {children}
+    </Text>
   );
 };
 
