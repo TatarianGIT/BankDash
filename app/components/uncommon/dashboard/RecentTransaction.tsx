@@ -103,15 +103,6 @@ const RecentTransactionData: TransactionType[] = [
     amount: 5400,
     accentColor: "bg-cyan-400/20",
   },
-  {
-    id: 3,
-    icon: <BsCashCoin className="w-full h-full text-cyan-500" />,
-    title: "Jemi Wilson",
-    date: "21 January 2024",
-    operation: "remove",
-    amount: 5,
-    accentColor: "bg-cyan-400/20",
-  },
 ];
 
 export default RecentTransaction;
