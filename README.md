@@ -4,7 +4,7 @@ A frontend-focused banking dashboard simulation built with **Remix v2** to explo
 
 | Info: |
 | :--- |
-|All financial data is generated client-side for demonstration.|
+|Most of the banking data is mocked on the backend.|
 |Only single user avaiable - default credentials are: `mdawson98` / `password1234!`.|
 |Design adapted from [Figma Template](https://www.figma.com/community/file/1323695683687017923) (made by [Seju](https://www.figma.com/@sejal_ui_ux)) with some modifications.|
 
@@ -18,14 +18,15 @@ Images of few routes:
 
 ## ✨ Features
 
-- 🔐 Cookie-based authentication (single user without database)
-- 📊 Interactive charts for financial data visualization
-- 🔍 Filterable tables with URL search params
-- 🌓 Light/dark theme toggle
-- 🛠 Server-side form validation with Zod
-- 💀 Loading skeletons and error boundaries
-- 📁 Dynamic modals and notification system
-- 🧩 Mocked API responses for transactions, balances, and user data
+- Cookie-based authentication (single user without database)
+- Interactive charts for financial data visualization
+- Filterable tables with URL search params
+- Light/dark theme toggle
+- Server-side form validation with Zod
+- Loading skeletons and error boundaries
+- Dynamic modals and notification system
+- Mocked API responses for transactions, balances, and user data
+- And more
 
 ## 🛠 Tech Stack
 
